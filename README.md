@@ -25,3 +25,6 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+[freeCodeCamp.org](https://youtu.be/GbivbPy00FU)
+[Upgrade from Angular 5.2 to 8.0](https://update.angular.io/#5.2:8.0)
