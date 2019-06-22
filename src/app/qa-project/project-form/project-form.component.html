@@ -1,44 +1,55 @@
+<form (ngSubmit)="onSubmit()" #projectForm="ngForm">
 <div class="row">
-  <div class="col-md-6">
+  <div class="form-group col-md-6">
     <label for="name" class="font-weight-bold">Name</label>
-    <input type="text" id="name" class="form-control">
+    <input type="text" id="name" class="form-control" [(ngModel)]="projectForm.name" name="name" #name="ngModel" required>
   </div>
-  <div class="col-md-6">
-    <label for="sysname" class="font-weight-bold">System</label>
-    <select id="sysname" class="form-control">
-      <option value=""></option>
-    </select>
-  </div>
-  <div class="col-md-6">
-    <label for="envname" class="font-weight-bold">Environment Name</label>
-    <select id="envname" class="form-control">
-      <option value=""></option>
-    </select>
-  </div>
-  <div class="col-md-6">
-    <label for="custname" class="font-weight-bold">Customer Name</label>
-    <input type="text" id="custname" class="form-control">
-  </div>
-  <div class="col-md-6">
-    <label for="tsc" class="font-weight-bold">Total Story Count</label>
-    <input type="text" id="tsc" class="form-control">
-  </div>
-  <div class="col-md-6">
-    <label for="tsp" class="font-weight-bold">Total Story Points</label>
-    <input type="number" id="tsp" class="form-control">
-  </div>
-  <div class="col-md-6">
+
+  <div class="form-group col-md-6">
     <label for="relname" class="font-weight-bold">Release Name</label>
-    <input type="text" id="relname" class="form-control">
+    <input type="text" id="relname" class="form-control" [(ngModel)]="projectForm.releaseName"  name="relname" #releaseName="ngModel" required>
   </div>
-  <div class="col-md-6">
+
+  <div class="form-group col-md-6">
     <label for="qaname" class="font-weight-bold">Tested By</label>
-    <input type="text" id="qaname" class="form-control">
+    <input type="text" id="qaname" class="form-control" [(ngModel)]="projectForm.testerName"  name="qaname" #testerName="ngModel" required>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="custname" class="font-weight-bold">Customer Name</label>
+    <input type="text" id="custname" class="form-control" [(ngModel)]="projectForm.customerName"  name="custname" #customerName="ngModel" required>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="sysname" class="font-weight-bold">System</label>
+    <select id="sysname" class="form-control" [(ngModel)]="projectForm.system"  name="sysname" #system="ngModel" required>
+      <option value="">Please Select</option>
+      <option [value]="sysn.id" *ngFor="let sysn of sysnames">{{sysn.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="envname" class="font-weight-bold">Environment Name</label>
+    <select id="envname" class="form-control" [(ngModel)]="projectForm.environment"  name="envname" #environment="ngModel" required>
+      <option value="">Please Select</option>
+      <option [value]="evn.id" *ngFor="let env of envnames">{{env.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="tsc" class="font-weight-bold">Total Story Count</label>
+    <input type="text" id="tsc" class="form-control" [(ngModel)]="projectForm.storyCount"  name="tsc" #storyCount="ngModel" required>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="tsp" class="font-weight-bold">Total Story Points</label>
+    <input type="number" id="tsp" class="form-control" [(ngModel)]="projectForm.totalPoints"  name="tsp" #totalPoints="ngModel" required>
   </div>
 
   <div class="mt-2">
   <div class="col-md-12">
-    <button class="btn btn-outline-success btn-block">Start Project</button>
+    <button class="btn btn-outline-success btn-block" (click)="StartProject()">Start Project</button>
   </div>
   </div>
 </div>
+</form>
