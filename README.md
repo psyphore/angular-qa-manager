@@ -28,3 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 [freeCodeCamp.org](https://youtu.be/GbivbPy00FU)
 [Upgrade from Angular 5.2 to 8.0](https://update.angular.io/#5.2:8.0)
+[Upgrade guide that actually worked](https://dzone.com/articles/upgrade-to-angular-7-in-5-simple-steps-1)
