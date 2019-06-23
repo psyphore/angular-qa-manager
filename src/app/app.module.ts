@@ -1,6 +1,6 @@
-import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/plaform-browser/animations";
 import { NgModule } from "@angular/core";
 
 import { HttpClientModule } from "@angular/common/http";
@@ -11,22 +11,21 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { AppComponent } from "./app.component";
 import { LandingComponent } from "./landing/landing.component";
 import { QaProjectModule } from "./qa-project/qa-project.module";
-
-const routes = [
-  { path: "", component: AppComponent },
-  { path: "**", redirectTo: "" }
-];
+import { AppRoutingModule } from "./app-routing.module";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [AppComponent, LandingComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ApolloModule,
     FormsModule,
     HttpLinkModule,
-    RouterModule.forRoot(routes),
 
+    SharedModule,
+    AppRoutingModule,
     QaProjectModule
   ],
   providers: [

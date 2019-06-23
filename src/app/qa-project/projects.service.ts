@@ -5,9 +5,18 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root"
 })
 export class ProjectsService {
+  baseUrl = "https://jsonplaceholder.typicode.com";
   constructor(public http: HttpClient) {}
 
+  getUser() {
+    return this.http.get("${baseUrl}/users");
+  }
+
   getProjects() {
-    this.http.get("https://api.coinmarketcap.com/v1/ticker");
+    return this.http.get("${baseUrl}/albums");
+  }
+
+  getProjectDetails(taskId: number) {
+    return this.http.get("${baseUrl}/albums/${taskId}");
   }
 }

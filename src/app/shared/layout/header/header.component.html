@@ -1,0 +1,16 @@
+<nav>
+  <ul>
+    <li>
+      <a routerLink="/project" [class.activated]="currentPath == '/project'">Start a new project</a>
+    </li>
+    <li>
+      <a routerLink="/projects" [class.activated]="currentPath == '/projects'">View Projects</a>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <a routerLink="/user" [class.activated]="currentPath == '/user'">User</a>
+    </li>
+  </ul>
+</nav>

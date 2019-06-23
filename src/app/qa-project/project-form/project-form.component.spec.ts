@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ProjectFormComponent } from './project-form.component';
+import { ProjectFormComponent } from "./project-form.component";
 
-describe('ProjectFormComponent', () => {
+describe("ProjectFormComponent", () => {
   let component: ProjectFormComponent;
   let fixture: ComponentFixture<ProjectFormComponent>;
 
@@ -19,7 +19,7 @@ describe('ProjectFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
