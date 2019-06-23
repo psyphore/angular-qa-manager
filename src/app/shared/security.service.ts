@@ -6,6 +6,7 @@ import { Injectable } from "@angular/core";
 })
 export class SecurityService {
   private baseUrl = "https://jsonplaceholder.typicode.com";
+  private baseUrl2 = "https://reqres.in/api/";
   constructor(private http: HttpClient) {}
 
   getUser() {

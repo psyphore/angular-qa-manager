@@ -8,6 +8,7 @@
     "start": "ng serve -o",
     "start-prod": "ng serve --prod -o",
     "build": "ng build --prod",
+    "build-bazel": "ng build --prod --leaveBazelFilesOnDisk",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
