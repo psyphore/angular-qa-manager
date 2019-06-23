@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #projectForm="ngForm">
+<form (ngSubmit)="onSubmit()" #projectForm="ngForm" [formGroup]="projectFormGroup">
 <div class="row">
   <div class="form-group col-md-6">
     <label for="name" class="font-weight-bold">Name</label>
@@ -48,7 +48,7 @@
 
   <div class="mt-2">
   <div class="col-md-12">
-    <button class="btn btn-outline-success btn-block" (click)="StartProject()">Start Project</button>
+    <button type="submit" class="btn btn-outline-success btn-block">Start Project</button>
   </div>
   </div>
 </div>

@@ -1,6 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormBuilder } from "@angular/forms";
-import { Project, Story, System, Environment } from "./project-form";
+import {
+  FormControl,
+  FormBuilder,
+  Validators,
+  FormGroup
+} from "@angular/forms";
+import { Project, Story, System, Environment } from "../project-form";
 
 @Component({
   selector: "app-project-form",
@@ -30,8 +35,6 @@ export class ProjectFormComponent implements OnInit {
     { id: 5, name: "Staging" }
   ];
 
-  fb = new FormBuilder();
-
   private _projectForm = new Project(
     0,
     "New Project",
@@ -50,10 +53,35 @@ export class ProjectFormComponent implements OnInit {
     this._projectForm = value;
   }
 
-  constructor() {}
+  public projectFormGroup: FormGroup;
+  public submitted = false;
+  public success = false;
+
+  constructor(private fb: FormBuilder) {
+    this.projectFormGroup = this.fb.group({
+      name: ["", Validators.required],
+      lead: ["", Validators.required],
+      releaseName: ["", Validators.required],
+      customerName: ["", Validators.required],
+      totalStoryPoints: [0, Validators.required],
+      totalStoryCount: [0, Validators.required],
+      storyItems: ["", Validators.required]
+    });
+  }
 
   ngOnInit() {
     this.doSomeWork();
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.projectFormGroup.invalid) {
+      return;
+    }
+
+    this.success = true;
+    this.projectFormGroup.clearValidators();
   }
 
   doSomeWork() {
