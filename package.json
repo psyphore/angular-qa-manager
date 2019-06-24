@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "postinstall": "ngc -p ./angular-metadata.tsconfig.json",
-    "start": "ng serve -o",
-    "start-prod": "ng serve --prod -o",
+    "start": "ng serve",
+    "start-prod": "ng serve --prod",
     "build": "ng build --prod",
     "build-bazel": "ng build --prod --leaveBazelFilesOnDisk",
     "test": "ng test",

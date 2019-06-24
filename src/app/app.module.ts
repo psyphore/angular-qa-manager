@@ -1,6 +1,7 @@
-import { FormsModule } from "@angular/forms";
+import { HeaderComponent } from "./shared/layout/header/header.component";
+
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/plaform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 
 import { HttpClientModule } from "@angular/common/http";
@@ -9,19 +10,18 @@ import { HttpLinkModule, HttpLink } from "apollo-angular-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 import { AppComponent } from "./app.component";
-import { LandingComponent } from "./landing/landing.component";
 import { QaProjectModule } from "./qa-project/qa-project.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
+import { environment } from "src/environments/environment";
 
 @NgModule({
-  declarations: [AppComponent, LandingComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ApolloModule,
-    FormsModule,
     HttpLinkModule,
 
     SharedModule,
@@ -35,7 +35,7 @@ import { SharedModule } from "./shared/shared.module";
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: "https://o5x5jzoo7z.sse.codesandbox.io/graphql"
+            uri: environment.baseGQL
           })
         };
       },
