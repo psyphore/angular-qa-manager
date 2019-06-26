@@ -14,8 +14,5 @@
     "lib": ["es2017", "dom", "esnext.asynciterable"],
     "module": "esnext",
     "baseUrl": "./"
-  },
-  "angularCompilerOptions": {
-    "enableIvy": true
   }
 }
