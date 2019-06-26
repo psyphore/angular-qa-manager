@@ -2,9 +2,18 @@
   "name": "cardinal-qa-poc",
   "version": "0.0.0",
   "license": "MIT",
+  "author": {
+    "name": "Sipho Hlophe",
+    "email": "psyphore@gmail.com",
+    "url": "https://psyphore.github.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/psyphore/angular-qa-manager.git"
+  },
   "scripts": {
     "ng": "ng",
-    "postinstall": "ngc -p ./angular-metadata.tsconfig.json",
+    "postinstallx": "ngc -p ./angular-metadata.tsconfig.json",
     "start": "ng serve",
     "start-prod": "ng serve --prod",
     "build": "ng build --prod",
@@ -26,11 +35,13 @@
     "@angular/platform-browser": "^8.0.2",
     "@angular/platform-browser-dynamic": "^8.0.2",
     "@angular/router": "^8.0.2",
+    "angular-jwt": "^0.1.11",
     "apollo-angular": "^1.6.0",
     "apollo-angular-link-http": "^1.8.0",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link": "^1.2.12",
+    "auth0-js": "^9.11.0",
     "bootstrap": "^4.3.1",
     "core-js": "^3.1.4",
     "graphql": "^14.3.1",
@@ -53,6 +64,8 @@
     "@bazel/karma": "0.31.1",
     "@bazel/typescript": "0.31.1",
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@types/angular-jwt": "0.0.29",
+    "@types/graphql": "^14.2.2",
     "@types/jasmine": "^3.3.13",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "^12.0.10",

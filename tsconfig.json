@@ -14,5 +14,6 @@
     "lib": ["es2017", "dom", "esnext.asynciterable"],
     "module": "esnext",
     "baseUrl": "./"
-  }
+  },
+  "include": ["./src/main.ts", "./src/polyfills.ts"]
 }

@@ -59,18 +59,18 @@ export class ProjectFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.projectFormGroup = this.fb.group({
-      name: ["", Validators.required],
-      lead: ["", Validators.required],
-      releaseName: ["", Validators.required],
-      customerName: ["", Validators.required],
-      totalStoryPoints: [0, Validators.required],
-      totalStoryCount: [0, Validators.required],
-      storyItems: ["", Validators.required]
+      name: [null, Validators.required],
+      lead: [null, Validators.required],
+      releaseName: [null, Validators.required],
+      customerName: [null, Validators.required],
+      totalStoryPoints: [null, Validators.required],
+      totalStoryCount: [null, Validators.required],
+      storyItems: [null, Validators.required]
     });
   }
 
   ngOnInit() {
-    this.doSomeWork();
+    // this.doSomeWork();
   }
 
   onSubmit() {

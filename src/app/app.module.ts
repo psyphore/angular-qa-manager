@@ -13,7 +13,7 @@ import { AppComponent } from "./app.component";
 import { QaProjectModule } from "./qa-project/qa-project.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
-import { environment } from "src/environments/environment";
+import { environment } from "environments/environment";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],

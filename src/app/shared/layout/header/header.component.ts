@@ -9,9 +9,7 @@ import { Router, NavigationEnd } from "@angular/router";
 export class HeaderComponent implements OnInit {
   currentPath: string;
   constructor(private router: Router) {
-    router.events.subscribe(
-      (_: NavigationEnd) => (this.currentPath = __dirname.url)
-    );
+    router.events.subscribe((_: NavigationEnd) => (this.currentPath = _.url));
   }
 
   ngOnInit() {}

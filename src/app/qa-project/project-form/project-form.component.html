@@ -1,28 +1,28 @@
-<form (ngSubmit)="onSubmit()" #projectForm="ngForm" [formGroup]="projectFormGroup">
+<form (ngSubmit)="onSubmit()" [formGroup]="projectFormGroup">
 <div class="row">
   <div class="form-group col-md-6">
     <label for="name" class="font-weight-bold">Name</label>
-    <input type="text" id="name" class="form-control" [(ngModel)]="projectForm.name" name="name" #name="ngModel" required>
+    <input type="text" id="name" class="form-control" formControlName="name">
   </div>
 
   <div class="form-group col-md-6">
     <label for="relname" class="font-weight-bold">Release Name</label>
-    <input type="text" id="relname" class="form-control" [(ngModel)]="projectForm.releaseName"  name="relname" #releaseName="ngModel" required>
+    <input type="text" id="relname" class="form-control" formControlName="releaseName">
   </div>
 
   <div class="form-group col-md-6">
     <label for="qaname" class="font-weight-bold">Tested By</label>
-    <input type="text" id="qaname" class="form-control" [(ngModel)]="projectForm.testerName"  name="qaname" #testerName="ngModel" required>
+    <input type="text" id="qaname" class="form-control" formControlName="lead">
   </div>
 
   <div class="form-group col-md-6">
     <label for="custname" class="font-weight-bold">Customer Name</label>
-    <input type="text" id="custname" class="form-control" [(ngModel)]="projectForm.customerName"  name="custname" #customerName="ngModel" required>
+    <input type="text" id="custname" class="form-control" formControlName="customerName">
   </div>
 
   <div class="form-group col-md-6">
     <label for="sysname" class="font-weight-bold">System</label>
-    <select id="sysname" class="form-control" [(ngModel)]="projectForm.system"  name="sysname" #system="ngModel" required>
+    <select id="sysname" class="form-control" formControlName="system">
       <option value="">Please Select</option>
       <option [value]="sysn.id" *ngFor="let sysn of sysnames">{{sysn.name}}</option>
     </select>
@@ -30,7 +30,7 @@
 
   <div class="form-group col-md-6">
     <label for="envname" class="font-weight-bold">Environment Name</label>
-    <select id="envname" class="form-control" [(ngModel)]="projectForm.environment"  name="envname" #environment="ngModel" required>
+    <select id="envname" class="form-control" formControlName="environment">
       <option value="">Please Select</option>
       <option [value]="evn.id" *ngFor="let env of envnames">{{env.name}}</option>
     </select>
@@ -38,12 +38,12 @@
 
   <div class="form-group col-md-6">
     <label for="tsc" class="font-weight-bold">Total Story Count</label>
-    <input type="text" id="tsc" class="form-control" [(ngModel)]="projectForm.storyCount"  name="tsc" #storyCount="ngModel" required>
+    <input type="text" id="tsc" class="form-control" formControlName="totalStoryCount">
   </div>
 
   <div class="form-group col-md-6">
     <label for="tsp" class="font-weight-bold">Total Story Points</label>
-    <input type="number" id="tsp" class="form-control" [(ngModel)]="projectForm.totalPoints"  name="tsp" #totalPoints="ngModel" required>
+    <input type="number" id="tsp" class="form-control" formControlName="totalStoryPoints">
   </div>
 
   <div class="mt-2">

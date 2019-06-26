@@ -7,5 +7,7 @@ export const environment = {
   production: false,
   baseUrl: "https://jsonplaceholder.typicode.com",
   baseUrl2: "https://reqres.in/api/",
-  baseGQL: "https://o5x5jzoo7z.sse.codesandbox.io/graphql"
+  baseGQL: "https://o5x5jzoo7z.sse.codesandbox.io/graphql",
+  graphQL_URI: "http://sipholpt:3081",
+  graphQL_SUBS_URI: "ws://sipholpt:3081/graphql"
 };
