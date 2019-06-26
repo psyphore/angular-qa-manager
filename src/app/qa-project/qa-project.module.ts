@@ -2,18 +2,14 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 
+import { HostComponent } from "./host/host.component";
 import { ProjectFormComponent } from "./project-form/project-form.component";
 import { TaskFormComponent } from "./task-form/task-form.component";
 import { ListingFormComponent } from "./listing-form/listing-form.component";
-import { ProjectsService } from "./projects.service";
+import { QaProjectRoutingModule } from "./qa-project-routing.module";
 
-const projectRoutes = [
-  { path: "projects", component: ListingFormComponent },
-  { path: "projects/task/:taskId", component: TaskFormComponent },
-  { path: "projects/project/:projectId", component: ProjectFormComponent }
-];
+import { ProjectsService } from "./projects.service";
 
 @NgModule({
   imports: [
@@ -21,9 +17,14 @@ const projectRoutes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forChild(projectRoutes)
+    QaProjectRoutingModule
   ],
-  declarations: [ProjectFormComponent, TaskFormComponent, ListingFormComponent],
+  declarations: [
+    ProjectFormComponent,
+    TaskFormComponent,
+    ListingFormComponent,
+    HostComponent
+  ],
   providers: [ProjectsService]
 })
 export class QaProjectModule {}

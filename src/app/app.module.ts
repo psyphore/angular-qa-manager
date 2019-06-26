@@ -16,7 +16,7 @@ import { SharedModule } from "./shared/shared.module";
 import { environment } from "environments/environment";
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

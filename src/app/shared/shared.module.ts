@@ -1,12 +1,17 @@
-import { SecurityService } from "./security.service";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "./layout/header/header.component";
 import { HttpClientModule } from "@angular/common/http";
+import { RouterModule } from "@angular/router";
+
+import { HeaderComponent } from "./layout/header/header.component";
+import { FooterComponent } from "./layout/footer/footer.component";
+
+import { SecurityService } from "./security.service";
 
 @NgModule({
-  declarations: [HeaderComponent],
-  imports: [CommonModule, HttpClientModule],
-  providers: [SecurityService]
+  declarations: [HeaderComponent, FooterComponent],
+  imports: [CommonModule, HttpClientModule, RouterModule],
+  providers: [SecurityService],
+  exports: [HeaderComponent, FooterComponent]
 })
 export class SharedModule {}
