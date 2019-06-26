@@ -21,12 +21,22 @@ export class TaskFormComponent implements OnInit {
     this.route.params.subscribe(p => (this.taskId = p.id));
 
     this.taskFormGroup = this.fb.group({
-      JIRA: ["", Validators.required],
-      author: ["", Validators.required],
-      status: ["", Validators.required],
-      dateCompleted: ["", Validators.required],
-      points: [0, Validators.required],
-      attachments: [[], Validators.required]
+      JIRA: [null, Validators.required],
+      author: [null, Validators.required],
+      status: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(5)
+        ])
+      ],
+      dateCompleted: [null, Validators.required],
+      points: [null, Validators.required],
+      attachments: [
+        null,
+        Validators.compose([Validators.required, Validators.minLength(1)])
+      ]
     });
   }
 
