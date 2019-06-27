@@ -1,3 +1,4 @@
+import { PersonModule } from "./person/person.module";
 import { HeaderComponent } from "./shared/layout/header/header.component";
 
 import { BrowserModule } from "@angular/platform-browser";
@@ -26,7 +27,8 @@ import { environment } from "environments/environment";
 
     SharedModule,
     AppRoutingModule,
-    QaProjectModule
+    QaProjectModule,
+    PersonModule
   ],
   providers: [
     {
@@ -35,7 +37,7 @@ import { environment } from "environments/environment";
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: environment.baseGQL
+            uri: environment.graphQL_URI
           })
         };
       },
