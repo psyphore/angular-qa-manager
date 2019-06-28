@@ -1,3 +1,4 @@
+import { AuthGuard } from "./../shared/auth.guard";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
@@ -8,6 +9,7 @@ const routes: Routes = [
   {
     path: "me",
     component: HostComponent,
+    canActivate: [AuthGuard],
     children: [{ path: "", component: ProfileComponent }]
   }
 ];

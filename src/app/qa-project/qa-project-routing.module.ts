@@ -5,11 +5,13 @@ import { HostComponent } from "./host/host.component";
 import { ProjectFormComponent } from "./project-form/project-form.component";
 import { TaskFormComponent } from "./task-form/task-form.component";
 import { ListingFormComponent } from "./listing-form/listing-form.component";
+import { AuthGuard } from "../shared/auth.guard";
 
 const routes: Routes = [
   {
     path: "projects",
     component: HostComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: "", component: ListingFormComponent },
       { path: "archived", component: ListingFormComponent },
