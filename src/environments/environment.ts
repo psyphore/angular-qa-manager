@@ -5,15 +5,17 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://jsonplaceholder.typicode.com",
-  baseUrl2: "https://reqres.in/api/",
-  baseGQL: "https://o5x5jzoo7z.sse.codesandbox.io/graphql",
-  graphQL_URI: "http://sipholpt:3081/graphql",
-  graphQL_SUBS_URI: "ws://sipholpt:3081/graphql",
+  baseUrl: 'https://jsonplaceholder.typicode.com',
+  baseUrl2: 'https://reqres.in/api/',
+  baseGQL: 'https://o5x5jzoo7z.sse.codesandbox.io/graphql',
+  graphQL_URI1: 'http://sipholpt:3081/graphql',
+  graphQL_WS_URI: 'ws://sipholpt:3081/graphql',
+  graphQL_URI: 'http://graphql.nodaljs.com/graph',
   // Auth0 application configuration
   auth0config: {
-    domain: "isivumelwano",
-    client_id: "b86Cd_cnOqBA4ti9wk3HPqOmplKkkRQz",
-    redirect_uri: `${window.location.origin}/callback`
+    domain: 'isivumelwano.eu.auth0.com',
+    client_id: 'LoqTta1aYK4pMoHNv287evwQ1IHUEW4R',
+    redirect_uri: `${window.location.origin}/callback`,
+    leeway: 120000
   }
 };

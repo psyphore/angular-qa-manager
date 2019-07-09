@@ -1,12 +1,12 @@
-import { Routes, RouterModule } from "@angular/router";
-import { NgModule } from "@angular/core";
-import { LandingComponent } from "./landing/landing.component";
-import { CallbackComponent } from "./shared/callback/callback.component";
+import { LandingComponent } from './shared/landing/landing.component';
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CallbackComponent } from './shared/callback/callback.component';
 
 const routes: Routes = [
-  { path: "", component: LandingComponent },
-  { path: "callback", component: CallbackComponent },
-  { path: "**", redirectTo: "" }
+  { path: '', component: LandingComponent },
+  { path: 'callback', component: CallbackComponent }
+  // { path: "**", redirectTo: "" }
 ];
 
 @NgModule({

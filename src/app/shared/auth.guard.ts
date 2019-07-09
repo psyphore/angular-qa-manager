@@ -1,15 +1,16 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
   Router
-} from "@angular/router";
-import { AuthService } from "./security.service";
+} from '@angular/router';
+import { AuthService } from './security.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
@@ -18,6 +19,10 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
+    if (this.authService.hasToken()) {
+      return true;
+    }
+
     const client = await this.authService.getAuth0Client();
     const isAuthenticated = await client.isAuthenticated();
 
@@ -26,7 +31,7 @@ export class AuthGuard implements CanActivate {
     }
 
     client.loginWithRedirect({
-      redirect_uri: `${window.location.origin}/callback`,
+      redirect_uri: environment.auth0config.redirect_uri,
       appState: { target: state.url }
     });
 

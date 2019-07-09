@@ -26,6 +26,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Resources
+
 [freeCodeCamp.org](https://youtu.be/GbivbPy00FU)
 [Upgrade from Angular 5.2 to 8.0](https://update.angular.io/#5.2:8.0)
 [Upgrade guide that actually worked](https://dzone.com/articles/upgrade-to-angular-7-in-5-simple-steps-1)
+
+[angular-apollo-graphql](https://g00glen00b.be/apollo-graphql-angular/)
+[apollographql-angular-docs](https://www.apollographql.com/docs/angular/)
+[auth0-angular-sample](https://github.com/auth0-samples/auth0-angular-samples/tree/master/01-Login/src/app)

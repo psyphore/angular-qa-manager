@@ -51,8 +51,8 @@
     "popper.js": "^1.14.7",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
-    "tslib": "^1.9.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "graphql-tag": "^2.10.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.800.0",
@@ -82,6 +82,7 @@
     "protractor": "^5.4.2",
     "rxjs-tslint": "^0.1.7",
     "ts-node": "~4.1.0",
+    "tslib": "^1.10.0",
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
     "webpack": "^4.35.0"

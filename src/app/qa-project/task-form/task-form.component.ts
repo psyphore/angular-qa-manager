@@ -1,13 +1,13 @@
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ProjectsService } from "./../projects.service";
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Story } from "../project-form";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProjectsService } from './../projects.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Story } from '../project.type';
 
 @Component({
-  selector: "app-task-form",
-  templateUrl: "./task-form.component.html",
-  styleUrls: ["./task-form.component.css"]
+  selector: 'app-task-form',
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent implements OnInit {
   taskId: number;

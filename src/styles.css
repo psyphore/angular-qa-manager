@@ -11,3 +11,57 @@ body {
   grid-template-rows: 60px auto;
   height: 100%;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.item {
+  display: block;
+  padding: 32px;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row Gap */
+.cardList > *:not(:last-child) {
+  margin-bottom: 32px;
+}
+
+.item-a {
+  grid-area: icon;
+}
+
+.item-b {
+  grid-area: title;
+}
+
+.item-c {
+  grid-area: message;
+}
+
+.notification-card {
+  display: grid;
+  grid-row: 1 / 1;
+  grid-column: 1/2;
+
+  grid-template-columns: 50px auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'icon title'
+    'icon message';
+
+  padding: 32px;
+  border: 1px solid black;
+  border-radius: 8px;
+}

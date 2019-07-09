@@ -1,16 +1,16 @@
-import { AuthGuard } from "./../shared/auth.guard";
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from './../shared/auth.guard';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { ProfileComponent } from "./profile/profile.component";
-import { HostComponent } from "./host/host.component";
+import { ProfileComponent } from './profile/profile.component';
+import { HostComponent } from './host/host.component';
 
 const routes: Routes = [
   {
-    path: "me",
+    path: 'me',
     component: HostComponent,
     canActivate: [AuthGuard],
-    children: [{ path: "", component: ProfileComponent }]
+    children: [{ path: '', component: ProfileComponent }]
   }
 ];
 

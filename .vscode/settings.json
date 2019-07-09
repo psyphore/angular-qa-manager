@@ -1,3 +1,39 @@
 {
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "npm-scripts.showStartNotification": false,
+  "window.zoomLevel": 1,
+  "editor.fontSize": 12,
+  "terminal.integrated.fontSize": 12,
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "[javascript]": {
+    "editor.tabSize": 2
+  },
+  "[typescriptreact]": {
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
+  },
+  "[graphql]": {
+    "editor.tabSize": 2
+  },
+  "editor.minimap.enabled": false,
+  "explorer.confirmDragAndDrop": true,
+  "workbench.statusBar.feedback.visible": false,
+  "workbench.editor.labelFormat": "short",
+  "terminal.integrated.rendererType": "dom",
+  "emmet.excludeLanguages": ["typescript", "typescriptreact", "javascript"],
+  "workbench.editor.showTabs": true,
+  "breadcrumbs.enabled": true,
+  "editor.fontFamily": "Fira Code",
+  "terminal.integrated.fontFamily": "Fira Code",
+  "terminal.integrated.fontWeightBold": "normal"
 }

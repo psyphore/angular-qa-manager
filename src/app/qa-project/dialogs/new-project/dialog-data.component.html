@@ -1,0 +1,96 @@
+<h1 mat-dialog-title>New Project</h1>
+<div mat-dialog-content>
+  <form (ngSubmit)="onSubmit()" [formGroup]="projectFormGroup">
+    <div class="form-container">
+      <mat-form-field>
+        <input
+          type="text"
+          id="name"
+          matInput
+          placeholder="Name"
+          formControlName="name"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="text"
+          id="relname"
+          matInput
+          placeholder="Release Name"
+          formControlName="releaseName"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="text"
+          id="qaname"
+          matInput
+          placeholder="Lead Name"
+          formControlName="lead"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="text"
+          id="custname"
+          matInput
+          placeholder="Customer Name"
+          formControlName="customerName"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="System" id="sysname" formControlName="system">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option [value]="sysn.id" *ngFor="let sysn of sysnames">{{
+            sysn.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Environment"
+          id="envname"
+          formControlName="environment"
+        >
+          <mat-option value="">Please Select</mat-option>
+          <mat-option [value]="env.id" *ngFor="let env of envnames">{{
+            env.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="text"
+          id="tsc"
+          matInput
+          placeholder="Total Stories"
+          formControlName="totalStoryCount"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="number"
+          id="tsp"
+          matInput
+          placeholder="Total Story Points"
+          formControlName="totalStoryPoints"
+        />
+      </mat-form-field>
+
+      <div class="mt-2">
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-outline-success btn-block">
+            Start Project
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
