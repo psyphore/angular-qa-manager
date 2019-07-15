@@ -4,6 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  appName: 'Cardinal Quality Manager',
   production: false,
   baseUrl: 'https://jsonplaceholder.typicode.com',
   baseUrl2: 'https://reqres.in/api/',

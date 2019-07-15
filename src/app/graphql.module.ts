@@ -3,9 +3,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { environment } from './../environments/environment';
-import { AuthService } from './shared/security.service';
+
+import { AuthService } from './shared/services/security.service';
 import { ApolloLink } from 'apollo-link';
+import { environment } from '@environments/environment';
 // import { ApolloLink } from "apollo-link";
 
 const uri = environment.graphQL_URI1; // <-- add the URL of the GraphQL server here

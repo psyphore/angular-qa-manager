@@ -1,0 +1,99 @@
+<mat-card>
+  <form [formGroup]="taskFormGroup">
+    <div
+      class="form-element"
+      fxLayout
+      fxLayout.xs="column"
+      fxLayoutAlign="center"
+      fxLayoutGap="10px"
+    >
+      <mat-form-field>
+        <mat-label>JIRA</mat-label>
+        <input
+          required
+          formControlName="JIRA"
+          class="form-control"
+          placeholder="IPL-XXXX"
+          type="text"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Assigned To</mat-label>
+        <input
+          required
+          formControlName="author"
+          class="form-control"
+          placeholder="Sipho H."
+          type="text"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>System</mat-label>
+        <mat-select required formControlName="status" class="form-control">
+          <mat-option *ngFor="let s of status" [value]="s.id">{{
+            s.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Completed On</mat-label>
+        <input
+          required
+          formControlName="dateCompleted"
+          class="form-control"
+          type="date"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Effort Points</mat-label>
+        <input
+          required
+          formControlName="points"
+          class="form-control"
+          type="number"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Attachments</mat-label>
+        <input
+          required
+          formControlName="attachments"
+          class="form-control"
+          placeholder="Supporting Documents"
+          type="file"
+          matInput
+        />
+      </mat-form-field>
+
+      <div class="example-button-row">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="addTask()"
+          [disabled]="!taskFormGroup.valid"
+        >
+          Add Task!
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          color="accent"
+          (click)="updateTask()"
+          [disabled]="!taskFormGroup.valid"
+        >
+          Update Task!
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-card>

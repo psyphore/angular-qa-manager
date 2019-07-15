@@ -1,4 +1,5 @@
 export const environment = {
+  appName: 'Cardinal Quality Manager',
   production: true,
   baseUrl: "https://jsonplaceholder.typicode.com",
   baseUrl2: "https://reqres.in/api/",

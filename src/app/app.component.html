@@ -1,9 +1,9 @@
 <div>
-  <app-header></app-header>
+  <app-header [(title)]="title" (changeName)="onChangeName()"></app-header>
   <div class="container">
     <div id="content">
       <router-outlet></router-outlet>
     </div>
   </div>
-  <app-footer></app-footer>
+  <app-footer [(title)]="footerTitle"></app-footer>
 </div>

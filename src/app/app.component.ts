@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Cardinal QA';
+  title = environment.appName;
+  footerTitle = 'CQM';
+
+  onChangeName() {
+    this.title = environment.appName;
+  }
 }

@@ -35,3 +35,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [angular-apollo-graphql](https://g00glen00b.be/apollo-graphql-angular/)
 [apollographql-angular-docs](https://www.apollographql.com/docs/angular/)
 [auth0-angular-sample](https://github.com/auth0-samples/auth0-angular-samples/tree/master/01-Login/src/app)
+[angular-architecture-best-practices](https://angular-academy.com/angular-architecture-best-practices/)

@@ -1,0 +1,120 @@
+<mat-card class="container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="projectFormGroup">
+    <div
+      class="form-element"
+      fxLayout
+      fxLayout.xs="column"
+      fxLayoutAlign="center"
+      fxLayoutGap="10px"
+    >
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input
+          required
+          formControlName="name"
+          class="form-control"
+          placeholder="Proposal UX updates"
+          type="text"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Release Name</mat-label>
+        <input
+          required
+          formControlName="relname"
+          class="form-control"
+          placeholder="Sprint 15"
+          type="text"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>QA Lead</mat-label>
+        <input
+          required
+          formControlName="lead"
+          class="form-control"
+          placeholder="Elzane G."
+          type="text"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Customer Name</mat-label>
+        <input
+          required
+          formControlName="customerName"
+          class="form-control"
+          placeholder="AIG"
+          type="text"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>System</mat-label>
+        <mat-select required formControlName="system" class="form-control">
+          <mat-option *ngFor="let sysn of sysnames" [value]="sysn.id">{{
+            sysn.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Environment</mat-label>
+        <mat-select required formControlName="environment" class="form-control">
+          <mat-option *ngFor="let env of envnames" [value]="env.id">{{
+            env.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Total Story Count</mat-label>
+        <input
+          required
+          formControlName="totalStoryCount"
+          class="form-control"
+          type="number"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Total Story Points</mat-label>
+        <input
+          required
+          formControlName="totalStoryPoints"
+          class="form-control"
+          type="number"
+          matInput
+        />
+      </mat-form-field>
+
+      <div class="example-button-row">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="addProject()"
+          [disabled]="!projectFormGroup.valid"
+        >
+          Add Project!
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          color="accent"
+          (click)="updateProject()"
+          [disabled]="!projectFormGroup.valid"
+        >
+          Update Project!
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-card>
