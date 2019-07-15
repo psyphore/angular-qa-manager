@@ -1,9 +1,6 @@
-import {
-  PersonService,
-  PersonQuery
-} from './../../../shared/services/person.service';
-import { AuthService } from './../../../shared/services/security.service';
-import { Person } from './../../../shared/enums/person.enum';
+import { PersonService, PersonQuery } from '@services/person.service';
+import { AuthService } from '@services/security.service';
+import { Person } from '@models/person.interface';
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
@@ -13,10 +10,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile: any;
+  profile: Person;
   profileJson: string;
-
-  profileGQL: Person;
 
   constructor(
     private authService: AuthService,
@@ -25,19 +20,7 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (typeof Worker !== 'undefined') {
-      // Create a new
-      const worker = new Worker('../person.worker', { type: 'module' });
-      worker.onmessage = ({ data }) => {
-        console.log(`page got message: ${data}`);
-      };
-      worker.postMessage('hello');
-    } else {
-      // Web Workers are not supported in this environment.
-      // You should add a fallback so that your program still executes correctly.
-    }
     this.dummyProfileGraphQL();
-    // this.dummyProfile();
   }
 
   private dummyProfile() {
@@ -55,7 +38,7 @@ export class ProfileComponent implements OnInit {
     this.personQuery
       .watch()
       .valueChanges.pipe(map(result => result.data))
-      .subscribe(data => (this.profileGQL = data));
+      .subscribe((data: Person) => (this.profile = data));
   }
 
   private fetchProfile() {
@@ -68,5 +51,19 @@ export class ProfileComponent implements OnInit {
       this.profile = null;
       this.profileJson = null;
     });
+  }
+
+  private invokeWorker() {
+    if (typeof Worker !== 'undefined') {
+      // Create a new
+      const worker = new Worker('../person.worker', { type: 'module' });
+      worker.onmessage = ({ data }) => {
+        console.log(`page got message: ${data}`);
+      };
+      worker.postMessage('hello');
+    } else {
+      // Web Workers are not supported in this environment.
+      // You should add a fallback so that your program still executes correctly.
+    }
   }
 }

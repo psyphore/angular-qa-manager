@@ -1,6 +1,6 @@
 <nav class="site-header sticky-top py-1">
   <div class="container d-flex flex-column flex-md-row justify-content-between">
-    <a class="py-2" [routerLink]="['/']" routerLinkActive="router-link-active">
+    <a class="py-2" routerLink="/" routerLinkActive="router-link-active">
       <svg
         width="34"
         height="34"
@@ -25,32 +25,32 @@
           ></path>
         </g>
       </svg>
-      {{title}}
+      {{ title }}
     </a>
     <a
       class="py-2 d-none d-md-inline-block"
-      [routerLink]="['/projects/detail/0']"
+      routerLink="/projects/detail/0"
       routerLinkActive="router-link-active"
     >
       Start
     </a>
     <a
       class="py-2 d-none d-md-inline-block"
-      [routerLink]="['/projects']"
+      routerLink="/projects"
       routerLinkActive="router-link-active"
     >
       Current
     </a>
     <a
       class="py-2 d-none d-md-inline-block"
-      [routerLink]="['/projects/archived']"
+      routerLink="/projects/archived"
       routerLinkActive="router-link-active"
     >
       Archives
     </a>
     <a
       class="py-2 d-none d-md-inline-block"
-      [routerLink]="['/me']"
+      routerLink="/me"
       routerLinkActive="router-link-active"
     >
       Me

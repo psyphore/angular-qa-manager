@@ -11,21 +11,17 @@ import { LoadingComponent } from './loading/loading.component';
 import { LandingComponent } from './landing/landing.component';
 import { CallbackComponent } from './callback/callback.component';
 
+const COMPONENTS = [
+  CallbackComponent,
+  LandingComponent,
+  LoadingComponent,
+  FooterComponent,
+  HeaderComponent
+];
+
 @NgModule({
-  declarations: [
-    CallbackComponent,
-    LandingComponent,
-    LoadingComponent,
-    FooterComponent,
-    HeaderComponent
-  ],
+  declarations: COMPONENTS,
   imports: [QaProjectModule, PersonModule, SharedMaterialModule, SharedModule],
-  exports: [
-    CallbackComponent,
-    LandingComponent,
-    LoadingComponent,
-    FooterComponent,
-    HeaderComponent
-  ]
+  exports: COMPONENTS
 })
 export class ViewsModule {}

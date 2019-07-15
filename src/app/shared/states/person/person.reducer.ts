@@ -1,8 +1,9 @@
-import { PersonActionTypes, PersonActions } from './person.actions';
+import { PersonActionTypes } from './../../enums/person.enum';
+import { PersonActions } from './person.actions';
 
 import { PersonState } from './person.state';
 
-export function pokemonInitialState(): PersonState {
+export function personInitialState(): PersonState {
   return {
     ids: [],
     entities: {}
@@ -16,27 +17,27 @@ function arrayToObject(array) {
   }, {});
 }
 
-export function pokemonReducer(
-  state: PokemonState = pokemonInitialState(),
-  action: PokemonActions
-): PokemonState {
+export function personReducer(
+  state: PersonState = personInitialState(),
+  action: PersonActions
+): PersonState {
   switch (action.type) {
-    case PokemonActionTypes.LOAD_POKEMONS_SUCCESS:
+    case PersonActionTypes.LOAD_PERSONS_SUCCESS:
       return {
         ...state,
         entities: arrayToObject(action.payload)
       };
 
-    case PokemonActionTypes.ADD_SUCCESS:
+    case PersonActionTypes.ADD_SUCCESS:
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.pokemon.id]: action.pokemon
+          [action.person.id]: action.person
         }
       };
 
-    case PokemonActionTypes.DELETE_SUCCESS:
+    case PersonActionTypes.DELETE_SUCCESS:
       const entities = { ...state.entities };
       delete entities[action.id];
       return {
@@ -44,12 +45,12 @@ export function pokemonReducer(
         entities
       };
 
-    case PokemonActionTypes.UPDATE_SUCCESS:
+    case PersonActionTypes.UPDATE_SUCCESS:
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.pokemon.id]: action.pokemon
+          [action.person.id]: action.person
         }
       };
 

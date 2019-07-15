@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Pokemon } from '@models/pokemon';
+import { Pokemon } from '@models/pokemon.interface';
 import { PokemonActionTypes } from '@shared/enums/pokemon-action-types.enum';
 
 export class LoadPokemon implements Action {

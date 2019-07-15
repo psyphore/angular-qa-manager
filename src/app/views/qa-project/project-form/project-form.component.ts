@@ -8,7 +8,7 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Project } from '@shared/interfaces/project.type';
+import { Project } from '@shared/interfaces/project.interface';
 
 @Component({
   selector: 'app-project-form',

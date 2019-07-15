@@ -1,12 +1,11 @@
-import * as PokemonActions from '@states/pokemon/pokemon.actions';
-import * as PokemonSelectors from '@states/pokemon/pokemon.selector';
+import * as ProjectActions from '@states/project/project.actions';
+import * as ProjectSelectors from '@states/project/project.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { Project } from '@models/project.type';
-import { Pokemon } from '@models/pokemon';
+import { Project } from '@models/project.interface';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -16,28 +15,27 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectComponent {
-  public pokemon: Pokemon = {} as Pokemon;
   public project: Project = {} as Project;
 
   public projects$: Observable<any> = this.store$.select(
-    PokemonSelectors.selectAll
+    ProjectSelectors.selectAll
   );
 
-  public onDelete(pokemon: Pokemon) {
-    this.store$.dispatch(new PokemonActions.Delete(pokemon.id));
+  public onDelete(project: Project) {
+    this.store$.dispatch(new ProjectActions.Delete(project.id));
   }
-  public onSelect(pokemon: Pokemon) {
-    this.pokemon = pokemon;
+  public onSelect(project: Project) {
+    this.project = project;
   }
 
-  public onUpdate(pokemon: Pokemon) {
-    this.store$.dispatch(new PokemonActions.Update(pokemon));
+  public onUpdate(project: Project) {
+    this.store$.dispatch(new ProjectActions.Update(project));
   }
-  public onAdd(pokemon: Pokemon) {
-    this.store$.dispatch(new PokemonActions.Add(pokemon));
+  public onAdd(project: Project) {
+    this.store$.dispatch(new ProjectActions.Add(project));
   }
 
   constructor(private store$: Store<AppStore>) {
-    this.store$.dispatch(new PokemonActions.LoadPokemon());
+    this.store$.dispatch(new ProjectActions.LoadProject());
   }
 }

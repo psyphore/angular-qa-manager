@@ -1,6 +1,7 @@
-import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
+import { PokemonActions } from './pokemon.actions';
 
 import { PokemonState } from './pokemon.state';
+import { PokemonActionTypes } from '@shared/enums/pokemon-action-types.enum';
 
 export function pokemonInitialState(): PokemonState {
   return {

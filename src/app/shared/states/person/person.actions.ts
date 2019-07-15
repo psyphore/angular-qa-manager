@@ -1,75 +1,75 @@
 import { Action } from '@ngrx/store';
-import { Pokemon } from '@models/pokemon';
-import { PokemonActionTypes } from '@shared/enums/pokemon-action-types.enum';
+import { PersonActionTypes } from '../../enums/person.enum';
+import { Person } from '../../interfaces/person.interface';
 
-export class LoadPokemon implements Action {
-  readonly type = PokemonActionTypes.LOAD_POKEMONS;
+export class LoadPerson implements Action {
+  readonly type = PersonActionTypes.LOAD_PERSONS;
 
   constructor() {}
 }
 
-export class LoadPokemonSuccess implements Action {
-  readonly type = PokemonActionTypes.LOAD_POKEMONS_SUCCESS;
+export class LoadPersonSuccess implements Action {
+  readonly type = PersonActionTypes.LOAD_PERSONS_SUCCESS;
 
-  constructor(public payload: Array<Pokemon>) {}
+  constructor(public payload: Array<Person>) {}
 }
-export class LoadPokemonFailed implements Action {
-  readonly type = PokemonActionTypes.LOAD_POKEMONS_FAILED;
+export class LoadPersonFailed implements Action {
+  readonly type = PersonActionTypes.LOAD_PERSONS_FAILED;
 
   constructor(public message: string) {}
 }
 
 export class Add implements Action {
-  readonly type = PokemonActionTypes.ADD;
+  readonly type = PersonActionTypes.ADD;
 
-  constructor(public pokemon: Pokemon) {}
+  constructor(public person: Person) {}
 }
 
 export class AddSuccess implements Action {
-  readonly type = PokemonActionTypes.ADD_SUCCESS;
+  readonly type = PersonActionTypes.ADD_SUCCESS;
 
-  constructor(public pokemon: Pokemon) {}
+  constructor(public person: Person) {}
 }
 export class AddFailed implements Action {
-  readonly type = PokemonActionTypes.ADD_FAILED;
+  readonly type = PersonActionTypes.ADD_FAILED;
 
   constructor(public message: string) {}
 }
 
 export class Delete implements Action {
-  readonly type = PokemonActionTypes.DELETE;
+  readonly type = PersonActionTypes.DELETE;
 
   constructor(public id: number) {}
 }
 export class DeleteSuccess implements Action {
-  readonly type = PokemonActionTypes.DELETE_SUCCESS;
+  readonly type = PersonActionTypes.DELETE_SUCCESS;
 
   constructor(public id: number) {}
 }
 export class DeleteFailed implements Action {
-  readonly type = PokemonActionTypes.DELETE_FAILED;
+  readonly type = PersonActionTypes.DELETE_FAILED;
 
   constructor(public message: string) {}
 }
 
 export class Update implements Action {
-  readonly type = PokemonActionTypes.UPDATE;
+  readonly type = PersonActionTypes.UPDATE;
 
-  constructor(public pokemon: Pokemon) {}
+  constructor(public person: Person) {}
 }
 export class UpdateSuccess implements Action {
-  readonly type = PokemonActionTypes.UPDATE_SUCCESS;
+  readonly type = PersonActionTypes.UPDATE_SUCCESS;
 
-  constructor(public pokemon: Pokemon) {}
+  constructor(public person: Person) {}
 }
 export class UpdateFailed implements Action {
-  readonly type = PokemonActionTypes.UPDATE_FAILED;
+  readonly type = PersonActionTypes.UPDATE_FAILED;
 
   constructor(public message: string) {}
 }
 
-export type PokemonActions =
-  | LoadPokemonSuccess
+export type PersonActions =
+  | LoadPersonSuccess
   | Add
   | AddSuccess
   | AddFailed

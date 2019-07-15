@@ -9,8 +9,8 @@ import {
   Output
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Story } from '@shared/interfaces/project.type';
-import { ProjectsService } from '@shared/services/projects.service';
+import { Story } from '@models/project.interface';
+import { ProjectsService } from '@services/projects.service';
 
 @Component({
   selector: 'app-task-form',
@@ -48,7 +48,7 @@ export class TaskFormComponent implements OnInit, OnChanges {
     this.initForm(this.task);
     if (this.taskId !== 0) {
       this.svc
-        .getProjectDetails(this.taskId)
+        .getProject(this.taskId)
         .subscribe((data: any) => (this.taskDetails.id = data.id));
     }
   }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from 'apollo-angular';
-
-import { BasicQuery, BasicQueryResponse } from './basic.graphql';
+import { BasicQueryResponse, BasicQuery } from '../graphql';
 
 @Injectable({
   providedIn: 'root'

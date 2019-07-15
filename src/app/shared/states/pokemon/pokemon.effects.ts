@@ -6,7 +6,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Pokemon } from '@shared/interfaces/pokemon';
+import { Pokemon } from '@shared/interfaces/pokemon.interface';
 import { PokemonService } from '@services/pokemon.service';
 import { PokemonActionTypes } from '@shared/enums/pokemon-action-types.enum';
 

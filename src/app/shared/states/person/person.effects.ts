@@ -1,84 +1,86 @@
-import * as PokemonActions from '@states/pokemon/pokemon.actions';
-
+import * as PersonActions from '@states/person/person.actions';
+import { PersonService } from '@services/person.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Pokemon } from '@shared/interfaces/pokemon';
-import { PokemonService } from '@services/pokemon.service';
-import { PokemonActionTypes } from '@shared/enums/pokemon-action-types.enum';
+import { PersonActionTypes } from '@shared/enums/person.enum';
+import { Person } from '@models/person.interface';
 
 @Injectable()
-export class PokemonEffects {
+export class PersonEffects {
   constructor(
     private actions$: Actions,
-    private pokemonService: PokemonService,
+    private personService: PersonService,
     public snackBar: MatSnackBar
   ) {}
 
-  POKEMON_ACTIONS_SUCCESS = [
-    PokemonActionTypes.ADD_SUCCESS,
-    PokemonActionTypes.UPDATE_SUCCESS,
-    PokemonActionTypes.DELETE_SUCCESS,
-    PokemonActionTypes.LOAD_POKEMONS_SUCCESS
+  PERSON_ACTIONS_SUCCESS = [
+    PersonActionTypes.ADD_SUCCESS,
+    PersonActionTypes.UPDATE_SUCCESS,
+    PersonActionTypes.DELETE_SUCCESS,
+    PersonActionTypes.LOAD_PERSONS_SUCCESS
   ];
 
-  POKEMON_ACTIONS_FAILED = [
-    PokemonActionTypes.ADD_FAILED,
-    PokemonActionTypes.UPDATE_FAILED,
-    PokemonActionTypes.DELETE_FAILED,
-    PokemonActionTypes.LOAD_POKEMONS_FAILED
+  PERSON_ACTIONS_FAILED = [
+    PersonActionTypes.ADD_FAILED,
+    PersonActionTypes.UPDATE_FAILED,
+    PersonActionTypes.DELETE_FAILED,
+    PersonActionTypes.LOAD_PERSONS_FAILED
   ];
 
   @Effect()
-  loadAllPokemon$: Observable<any> = this.actions$.pipe(
-    ofType(PokemonActionTypes.LOAD_POKEMONS),
+  loadAllPerson$: Observable<any> = this.actions$.pipe(
+    ofType(PersonActionTypes.LOAD_PERSONS),
     switchMap(() =>
-      this.pokemonService.getAll().pipe(
-        map(response => new PokemonActions.LoadPokemonSuccess(response)),
-        catchError(error => of(new PokemonActions.LoadPokemonFailed(error)))
+      this.personService.getUsers().pipe(
+        map(
+          (response: Array<Person>) =>
+            new PersonActions.LoadPersonSuccess(response)
+        ),
+        catchError(error => of(new PersonActions.LoadPersonFailed(error)))
       )
     )
   );
 
   @Effect()
-  addPokemon$: Observable<any> = this.actions$.pipe(
-    ofType(PokemonActionTypes.ADD),
+  addPerson$: Observable<any> = this.actions$.pipe(
+    ofType(PersonActionTypes.ADD),
     switchMap((action: any) =>
-      this.pokemonService.add(action.pokemon).pipe(
-        map((pokemon: Pokemon) => new PokemonActions.AddSuccess(pokemon)),
-        catchError(error => of(new PokemonActions.AddFailed(error)))
+      this.personService.addUser(action.person).pipe(
+        map((person: Person) => new PersonActions.AddSuccess(person)),
+        catchError(error => of(new PersonActions.AddFailed(error)))
       )
     )
   );
 
   @Effect()
-  deletePokemon$: Observable<any> = this.actions$.pipe(
-    ofType(PokemonActionTypes.DELETE),
+  deletePerson$: Observable<any> = this.actions$.pipe(
+    ofType(PersonActionTypes.DELETE),
     switchMap(({ id }) =>
-      this.pokemonService.delete(id).pipe(
-        map(() => new PokemonActions.DeleteSuccess(id)),
-        catchError(error => of(new PokemonActions.DeleteFailed(error)))
+      this.personService.deleteUser(id).pipe(
+        map(() => new PersonActions.DeleteSuccess(id)),
+        catchError(error => of(new PersonActions.DeleteFailed(error)))
       )
     )
   );
 
   @Effect()
-  updatePokemon$: Observable<any> = this.actions$.pipe(
-    ofType(PokemonActionTypes.UPDATE),
-    switchMap(({ pokemon }) =>
-      this.pokemonService.update(pokemon).pipe(
-        map(() => new PokemonActions.UpdateSuccess(pokemon)),
-        catchError(error => of(new PokemonActions.UpdateFailed(error)))
+  updatePerson$: Observable<any> = this.actions$.pipe(
+    ofType(PersonActionTypes.UPDATE),
+    switchMap(({ person }) =>
+      this.personService.updateUser(person).pipe(
+        map(() => new PersonActions.UpdateSuccess(person)),
+        catchError(error => of(new PersonActions.UpdateFailed(error)))
       )
     )
   );
 
   @Effect({ dispatch: false })
   successNotification$ = this.actions$.pipe(
-    ofType(...this.POKEMON_ACTIONS_SUCCESS),
+    ofType(...this.PERSON_ACTIONS_SUCCESS),
     tap(() =>
       this.snackBar.open('SUCCESS', 'Operation success', {
         duration: 2000
@@ -87,7 +89,7 @@ export class PokemonEffects {
   );
   @Effect({ dispatch: false })
   failedNotification$ = this.actions$.pipe(
-    ofType(...this.POKEMON_ACTIONS_FAILED),
+    ofType(...this.PERSON_ACTIONS_FAILED),
     tap(() =>
       this.snackBar.open('FAILED', 'Operation failed', {
         duration: 2000

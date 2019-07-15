@@ -1,14 +1,18 @@
-import { SharedMaterialModule } from './shared-material.module';
-import { HeaderInterceptor } from './interceptors/auth.interceptor';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { AuthService } from './services/security.service';
+import { SharedMaterialModule } from './shared-material.module';
+import { HeaderInterceptor } from './interceptors/auth.interceptor';
 import { EmojiDirective } from './directives/emoji.directive';
-import { ProjectsService } from './services/projects.service';
-import { PersonService, PersonQuery } from './services/person.service';
+import {
+  ProjectsService,
+  PersonService,
+  PersonQuery,
+  AuthService,
+  BasicService
+} from './services';
 import { AuthGuard } from './guards/auth.guard';
 
 const COMPONENTS = [EmojiDirective];
@@ -22,6 +26,7 @@ const COMPONENTS = [EmojiDirective];
     ProjectsService,
     PersonService,
     PersonQuery,
+    BasicService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,

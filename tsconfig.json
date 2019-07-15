@@ -30,5 +30,12 @@
       "@workers/*": ["app/shared/workers/*"]
     }
   },
-  "include": ["./src/main.ts", "./src/polyfills.ts"]
+  "include": ["src/main.ts", "src/polyfills.ts"],
+  "project": {
+    "architecture": {
+      "options": {
+        "tsConfig": "tsconfig.app.json"
+      }
+    }
+  }
 }

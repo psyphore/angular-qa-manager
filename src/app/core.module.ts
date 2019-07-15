@@ -2,14 +2,19 @@ import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { PokemonEffects } from '@states/pokemon/pokemon.effects';
-import { PokemonService } from '@services/pokemon.service';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from '@shared/states/root.reducer';
-import { environment } from '@environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ProjectsService } from '@shared/services/projects.service';
-import { ProjectEffects } from '@shared/states/project';
+
+import { environment } from '@environments/environment';
+import { reducers } from '@states/root.reducer';
+import { PokemonEffects } from '@states/pokemon';
+import { ProjectEffects } from '@states/project';
+import { PersonEffects } from '@states/person';
+import {
+  PersonService,
+  ProjectsService,
+  PokemonService
+} from '@shared/services';
 
 @NgModule({
   declarations: [],
@@ -21,9 +26,9 @@ import { ProjectEffects } from '@shared/states/project';
       maxAge: 25,
       logOnly: environment.production
     }),
-    EffectsModule.forRoot([PokemonEffects, ProjectEffects])
+    EffectsModule.forRoot([PokemonEffects, ProjectEffects, PersonEffects])
   ],
-  providers: [PokemonService, ProjectsService],
+  providers: [PokemonService, ProjectsService, PersonService],
   exports: []
 })
 export class CoreModule {}

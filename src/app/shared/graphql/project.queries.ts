@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { Project, Story } from '../../project.type';
+import { Project } from '@models/project.interface';
 
 export const GetProjects = gql`
   query getAllProjects {

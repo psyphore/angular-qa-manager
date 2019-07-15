@@ -1,5 +1,5 @@
 import { ProjectsService } from '@shared/services/projects.service';
-import { Project } from '@shared/interfaces/project.type';
+import { Project } from '@shared/interfaces/project.interface';
 import {
   Component,
   OnInit,
