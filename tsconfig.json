@@ -1,9 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "downlevelIteration": true,
     "importHelpers": true,
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
+    "baseUrl": "./",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -11,31 +13,21 @@
     "experimentalDecorators": true,
     "target": "es2015",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom", "esnext.asynciterable"],
-    "module": "esnext",
-    "baseUrl": "src",
-    "resolveJsonModule": true,
+    "lib": ["es2015", "dom", "esnext.asynciterable"],
     "paths": {
-      "@shared/*": ["app/shared/*"],
-      "@services/*": ["app/shared/services/*"],
-      "@states/*": ["app/shared/states/*"],
-      "@views/*": ["app/views/*"],
-      "@models/*": ["app/shared/interfaces/*"],
-      "@enums/*": ["app/shared/enums/*"],
-      "@environments/*": ["environments/*"],
-      "@graphql/*": ["app/shared/graphql/*"],
-      "@directives/*": ["app/shared/directives/*"],
-      "@guards/*": ["app/shared/guards/*"],
-      "@interceptors/*": ["app/shared/interceptors/*"],
-      "@workers/*": ["app/shared/workers/*"]
+      "@shared/*": ["src/app/shared/*"],
+      "@services/*": ["src/app/shared/services/*"],
+      "@states/*": ["src/app/shared/states/*"],
+      "@views/*": ["src/app/views/*"],
+      "@models/*": ["src/app/shared/interfaces/*"],
+      "@enums/*": ["src/app/shared/enums/*"],
+      "@environments/*": ["src/environments/*"],
+      "@graphql/*": ["src/app/shared/graphql/*"],
+      "@directives/*": ["src/app/shared/directives/*"],
+      "@guards/*": ["src/app/shared/guards/*"],
+      "@interceptors/*": ["src/app/shared/interceptors/*"],
+      "@workers/*": ["src/app/shared/workers/*"]
     }
   },
-  "include": ["src/main.ts", "src/polyfills.ts"],
-  "project": {
-    "architecture": {
-      "options": {
-        "tsConfig": "tsconfig.app.json"
-      }
-    }
-  }
+  "include": ["src/main.ts", "src/polyfills.ts"]
 }
