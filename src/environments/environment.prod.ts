@@ -13,5 +13,9 @@ export const environment = {
     client_id: 'LoqTta1aYK4pMoHNv287evwQ1IHUEW4R',
     redirect_uri: `${window.location.origin}/callback`,
     leeway: 120000
+  },
+  jira: {
+    token: '254faBR9TsIhDtFLeCC17A3B',
+    baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/',
   }
 };

@@ -1,5 +1,5 @@
-import { ProjectsService } from '@shared/services/projects.service';
-import { Project } from '@shared/interfaces/project.interface';
+import { ProjectsService } from '@services/projects.service';
+import { Project } from '@models/project.interface';
 import {
   Component,
   OnInit,
@@ -9,9 +9,11 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-listing-form',
@@ -36,13 +38,19 @@ export class ListingFormComponent implements OnInit {
   ];
   dataSource: MatTableDataSource<Project>;
 
-  constructor(private serviceOne: ProjectsService) {}
+  constructor(private serviceOne: ProjectsService, private router: Router) {}
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   async ngOnInit() {
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationStart))
+      .subscribe(e => {
+        const navigation = this.router.getCurrentNavigation();
+      });
+
     this.list = new Array<Project>();
     const collection = await this.serviceOne.getProjects();
     collection.subscribe((items: any[]) => {

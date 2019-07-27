@@ -11,7 +11,8 @@ import {
   PersonService,
   PersonQuery,
   AuthService,
-  BasicService
+  BasicService,
+  JiraService
 } from './services';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -32,7 +33,8 @@ const COMPONENTS = [EmojiDirective];
       useClass: HeaderInterceptor,
       multi: true,
       deps: [AuthService]
-    }
+    },
+    JiraService
   ],
   exports: COMPONENTS
 })

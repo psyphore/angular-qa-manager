@@ -9,8 +9,4 @@ import { environment } from '@environments/environment';
 export class AppComponent {
   title = environment.appName;
   footerTitle = 'CQM';
-
-  onChangeName() {
-    this.title = environment.appName;
-  }
 }

@@ -14,7 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: ProjectComponent },
-      { path: 'archived', component: ListingFormComponent },
+      { path: 'list/:archived', component: ListingFormComponent },
       { path: 'detail/:projectId', component: ProjectComponent },
       { path: 'detail/:projectId/task/:taskId', component: TaskFormComponent }
     ]

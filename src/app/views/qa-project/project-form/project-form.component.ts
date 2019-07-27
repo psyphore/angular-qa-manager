@@ -8,7 +8,11 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Project } from '@shared/interfaces/project.interface';
+import {
+  Project,
+  systemNames,
+  environmentNames
+} from '@models/project.interface';
 
 @Component({
   selector: 'app-project-form',
@@ -21,27 +25,8 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   @Output() add: EventEmitter<Project> = new EventEmitter<Project>();
   @Output() update: EventEmitter<Project> = new EventEmitter<Project>();
 
-  sysnames = [
-    { id: 1, name: 'iPlatform' },
-    { id: 2, name: 'Flexi' },
-    { id: 3, name: 'iAdmin' },
-    { id: 4, name: 'CIMS360' },
-    { id: 5, name: 'iPlatform Configurable' },
-    { id: 6, name: 'iGuide' },
-    { id: 7, name: 'Digital' },
-    { id: 8, name: 'Connect' },
-    { id: 9, name: 'QRater' },
-    { id: 10, name: 'Configuration' },
-    { id: 99, name: 'Other' }
-  ];
-
-  envnames = [
-    { id: 1, name: 'Production' },
-    { id: 2, name: 'UAT' },
-    { id: 3, name: 'Pre Production' },
-    { id: 4, name: 'Demo' },
-    { id: 5, name: 'Staging' }
-  ];
+  sysnames = systemNames;
+  envnames = environmentNames;
 
   public projectFormGroup: FormGroup;
   public submitted = false;
@@ -74,6 +59,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
 
   private initForm(project: Partial<Project> = {}) {
     this.projectFormGroup = this.fb.group({
+      id: [project.id],
       name: [project.name, Validators.required],
       lead: [project.leadName, Validators.required],
       releaseName: [project.releaseName, Validators.required],

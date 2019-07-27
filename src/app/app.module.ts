@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { ViewsModule } from './views/views.module';
+import { LayoutModule } from './views/layout/layout.module';
 import { GraphQLModule } from './graphql.module';
 import { CoreModule } from './core.module';
 
@@ -26,6 +27,7 @@ import { CoreModule } from './core.module';
 
     SharedModule,
     ViewsModule,
+    LayoutModule,
     AppRoutingModule,
     GraphQLModule,
     CoreModule
