@@ -1,10 +1,16 @@
-<app-project-form
-  [project]="project"
-  (update)="onUpdate($event)"
-  (add)="onAdd($event)"
-></app-project-form>
-<app-listing-form
-  [projects]="projects$ | async"
-  (delete)="onDelete($event)"
-  (select)="onSelect($event)"
-></app-listing-form>
+<div class="row">
+  <div class="col-md-12">
+    <app-project-form
+      [project]="project"
+      (update)="onUpdate($event)"
+      (add)="onAdd($event)"
+    ></app-project-form>
+  </div>
+  <div class="col-md-12">
+    <app-listing-form
+      [projects]="projects$ | async"
+      (delete)="onDelete($event)"
+      (select)="onSelect($event)"
+    ></app-listing-form>
+  </div>
+</div>

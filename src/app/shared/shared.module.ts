@@ -33,8 +33,8 @@ const COMPONENTS = [EmojiDirective];
       useClass: HeaderInterceptor,
       multi: true,
       deps: [AuthService]
-    },
-    JiraService
+    }
+    // JiraService
   ],
   exports: COMPONENTS
 })

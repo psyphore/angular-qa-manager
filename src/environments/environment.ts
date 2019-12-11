@@ -4,13 +4,14 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  appName: 'Cardinal Quality Manager',
+  appName: 'Quality Manager',
   production: false,
   baseUrl: 'https://jsonplaceholder.typicode.com',
   baseUrl2: 'https://reqres.in/api/',
   baseGQL: 'https://o5x5jzoo7z.sse.codesandbox.io/graphql',
   graphQL_URI1: 'http://sipholpt:3081/graphql',
-  graphQL_WS_URI: 'ws://sipholpt:3081/graphql',
+  graphQL_URI2: 'http://localhost:1337/graphql',
+  // graphQL_WS_URI: 'ws://sipholpt:3081/graphql',
   graphQL_URI: 'http://graphql.nodaljs.com/graph',
   // Auth0 application configuration
   auth0config: {
@@ -21,6 +22,6 @@ export const environment = {
   },
   jira: {
     token: '254faBR9TsIhDtFLeCC17A3B',
-    baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/',
+    baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/'
   }
 };

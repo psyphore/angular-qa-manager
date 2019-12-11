@@ -3,8 +3,7 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree,
-  Router
+  UrlTree
 } from '@angular/router';
 import { AuthService } from '@shared/services/security.service';
 import { environment } from '@environments/environment';
@@ -13,7 +12,7 @@ import { environment } from '@environments/environment';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   async canActivate(
     next: ActivatedRouteSnapshot,

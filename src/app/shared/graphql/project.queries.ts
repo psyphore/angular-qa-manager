@@ -1,24 +1,51 @@
+import { personFields } from './person.queries';
 import gql from 'graphql-tag';
 import { Project } from '@models/project.interface';
 
-export const GetProjects = gql`
-  query getAllProjects {
-    products {
-      id
-      name
-      description
+export const IssueFields = gql`
+  fragment basicIssueFields on Issue {
+    id
+    summary
+    description
+    points
+    person {
+      ...basicPersonFields
     }
   }
+
+  ${personFields}
+`;
+
+export const ReleaseFields = gql`
+  fragment basicReleaseFields on Release {
+    id
+    projectName
+    releaseName
+  }
+`;
+
+export const GetProjects = gql`
+  query getAllProjects {
+    releases {
+      ...basicReleaseFields
+    }
+  }
+  ${ReleaseFields}
 `;
 
 export const GetProjectById = gql`
   query getProjectById {
-    product {
+    release(id: "X") {
       id
-      name
-      description
+      projectName
+      releaseName
+      person {
+        ...basicPersonFields
+      }
     }
   }
+
+  ${personFields}
 `;
 
 export interface ProjectsResponse {

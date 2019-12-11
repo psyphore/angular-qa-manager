@@ -16,10 +16,16 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ProjectComponent {
   public project: Project = {} as Project;
+  public projects$: Observable<any>;
 
-  public projects$: Observable<any> = this.store$.select(
-    ProjectSelectors.selectAll
-  );
+  constructor(private store$: Store<AppStore>) {
+    this.initialize();
+  }
+
+  initialize(): void {
+    this.store$.dispatch(new ProjectActions.LoadProject());
+    this.projects$ = this.store$.select(ProjectSelectors.selectAll);
+  }
 
   public onDelete(project: Project) {
     this.store$.dispatch(new ProjectActions.Delete(project.id));
@@ -33,9 +39,5 @@ export class ProjectComponent {
   }
   public onAdd(project: Project) {
     this.store$.dispatch(new ProjectActions.Add(project));
-  }
-
-  constructor(private store$: Store<AppStore>) {
-    this.store$.dispatch(new ProjectActions.LoadProject());
   }
 }

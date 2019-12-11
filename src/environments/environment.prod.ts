@@ -4,8 +4,9 @@ export const environment = {
   baseUrl: 'https://jsonplaceholder.typicode.com',
   baseUrl2: 'https://reqres.in/api/',
   baseGQL: 'https://o5x5jzoo7z.sse.codesandbox.io/graphql',
-  graphQL_URI1: 'http://sipholpt:3081/graphql',
-  graphQL_WS_URI: 'ws://sipholpt:3081/graphql',
+  graphQL_URI2: 'http://sipholpt:3081/graphql',
+  graphQL_URI1: 'http://localhost:1337/graphql',
+  // graphQL_WS_URI: 'ws://sipholpt:3081/graphql',
   graphQL_URI: 'http://graphql.nodaljs.com/graph',
   // Auth0 application configuration
   auth0config: {
@@ -16,6 +17,6 @@ export const environment = {
   },
   jira: {
     token: '254faBR9TsIhDtFLeCC17A3B',
-    baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/',
+    baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/'
   }
 };

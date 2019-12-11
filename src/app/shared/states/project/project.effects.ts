@@ -38,7 +38,7 @@ export class ProjectEffects {
     switchMap(() =>
       this.projectsService.getProjects().pipe(
         map(
-          (response: Array<Project>) =>
+          (response: Array<Project | any>) =>
             new ProjectActions.LoadProjectSuccess(response)
         ),
         catchError(error => of(new ProjectActions.LoadProjectFailed(error)))

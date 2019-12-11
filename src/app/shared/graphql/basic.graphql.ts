@@ -17,16 +17,14 @@ export interface BasicQueryResponse {
 
 export const BasicQuery = gql`
   query allPosts {
-    products {
+    releases {
       id
-      name
-      description
-      champions {
-        id
-        firstname
-        lastname
-        title
-        avatar
+      projectName
+      releaseName
+      issues {
+        summary
+        description
+        points
       }
     }
   }

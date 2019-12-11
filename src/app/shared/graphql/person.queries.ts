@@ -1,32 +1,38 @@
 import gql from 'graphql-tag';
 
-export const GetProfileQuery = gql`
-  query person {
-    me {
-      ...basicFields
-    }
+export const avatarFields = gql`
+  fragment basicAvatarFields on UploadFile {
+    sha256
+    url
+    mime
+    ext
   }
+`;
 
-  fragment basicFields on Person {
+export const personFields = gql`
+  fragment basicPersonFields on Person {
     id
     title
     firstname
     lastname
     email
     mobile
-    avatar
+    avatar {
+      ...basicAvatarFields
+    }
     knownAs
     bio
-    subscriptions
-    manager {
-      id
-      firstname
-      lastname
-    }
-    team {
-      id
-      firstname
-      lastname
+  }
+
+  ${avatarFields}
+`;
+
+export const GetProfileQuery = gql`
+  query person {
+    person(id: "X") {
+      ...basicPersonFields
     }
   }
+
+  ${personFields}
 `;
