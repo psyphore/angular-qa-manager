@@ -1,6 +1,5 @@
 import { personFields } from './person.queries';
 import gql from 'graphql-tag';
-import { Project } from '@models/project.interface';
 
 export const IssueFields = gql`
   fragment basicIssueFields on Issue {
@@ -21,62 +20,29 @@ export const ReleaseFields = gql`
     id
     projectName
     releaseName
-    system {
-      name
-    }
-    environment {
-      name
-    }
-    status {
-      name
-    }
-    attachments {
-      summary
-    }
-    person {
-      ...basicPersonFields
-    }
-    issues {
-      id
-      summary
-      points
-    }
   }
 `;
 
 export const GetProjects = gql`
-  query getReleases($limit: Int, $start: Int) {
-    releases(limit: $limit, start: $start) {
+  query getAllProjects {
+    releases {
       ...basicReleaseFields
     }
   }
-
   ${ReleaseFields}
 `;
 
 export const GetProjectById = gql`
-  query getProjectById($releaseId: ID!) {
-    release(id: $releaseId) {
+  query getProjectById {
+    release(id: "X") {
       id
       projectName
       releaseName
       person {
         ...basicPersonFields
       }
-      issues {
-        ...basicIssueFields
-      }
     }
   }
 
   ${personFields}
-  ${IssueFields}
 `;
-
-export interface ProjectsResponse {
-  projects: [Project];
-}
-
-export interface ProjectResponse {
-  project: Project;
-}

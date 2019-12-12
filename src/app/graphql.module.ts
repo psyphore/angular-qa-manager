@@ -9,7 +9,7 @@ import { ApolloLink } from 'apollo-link';
 import { environment } from '@environments/environment';
 // import { ApolloLink } from "apollo-link";
 
-const uri = environment.graphQL_URI1; // <-- add the URL of the GraphQL server here
+const uri = environment.graphQL_URI2; // <-- add the URL of the GraphQL server here
 const auth = new AuthService();
 
 const authMiddleware = new ApolloLink((operation, forward) => {

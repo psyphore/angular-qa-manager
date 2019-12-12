@@ -1,5 +1,5 @@
-import { ProjectsService } from '@services/projects.service';
-import { Project } from '@models/project.interface';
+import { ProjectsService, ProjectServiceGQL } from '@services/projects.service';
+import { Project, ProjectGQL } from '@models/project.interface';
 import {
   Component,
   OnInit,
@@ -7,13 +7,15 @@ import {
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
-  Input
+  Input,
+  OnDestroy
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-listing-form',
@@ -27,6 +29,7 @@ export class ListingFormComponent implements OnInit {
   @Output() select: EventEmitter<any> = new EventEmitter();
   public limit = 5;
   list: Array<Project>;
+  gqlList: Observable<ProjectGQL[]>;
   displayedColumns: Array<string> = [
     'id',
     'name',
@@ -38,7 +41,11 @@ export class ListingFormComponent implements OnInit {
   ];
   dataSource: MatTableDataSource<Project>;
 
-  constructor(private serviceOne: ProjectsService, private router: Router) {}
+  constructor(
+    private serviceOne: ProjectsService,
+    private projectGQL: ProjectServiceGQL,
+    private router: Router
+  ) {}
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -70,6 +77,14 @@ export class ListingFormComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+
+    this.gqlList = await this.projectGQL
+      .fetch({ limit: 10, start: 0 })
+      .pipe(map(result => result.data.releases));
+    // .watch()
+    // .valueChanges.pipe(map(result => result.data.releases));
+
+    // this.gqlList.subscribe(r => r.map(v => console.log(v.projectName)));
   }
 
   applyFilter(filterValue: string) {

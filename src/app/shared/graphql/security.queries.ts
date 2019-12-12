@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { personFields } from './person.queries';
 
 export const userFields = gql`
   fragment basicUserFields on UsersPermissionsMe {
@@ -11,6 +12,8 @@ export const userFields = gql`
       name
     }
   }
+
+  ${personFields}
 `;
 
 export const GetProfileQuery = gql`

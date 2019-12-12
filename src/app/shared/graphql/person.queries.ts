@@ -28,8 +28,8 @@ export const personFields = gql`
 `;
 
 export const GetProfileQuery = gql`
-  query person {
-    person(id: "X") {
+  query getPerson($id: ID!) {
+    person(id: $id) {
       ...basicPersonFields
     }
   }

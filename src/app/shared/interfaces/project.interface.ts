@@ -41,3 +41,12 @@ export const environmentNames = [
   { id: 4, name: 'Demo' },
   { id: 5, name: 'Staging' }
 ];
+
+export interface ProjectGQL {
+  id: string;
+  projectName: string;
+  releaseName: string;
+}
+export interface ProjectResponse {
+  releases: ProjectGQL[];
+}
