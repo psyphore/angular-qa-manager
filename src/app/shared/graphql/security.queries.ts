@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const userFields = gql`
   fragment basicUserFields on UsersPermissionsMe {
-    iid
+    id
     username
     email
     confirmed
