@@ -29,26 +29,26 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Steps to update angular
 
 ```sh
-1. > npm install @angular/cli@latest
-1. > git add -A && git commit -m "chore: add latest angular cli"
-1. > ng update @angular/cli
-1. > git add -A && git commit -m "chore: update angular cli"
-1. > ng update @angular/core
-1. > git add -A && git commit -m "chore: update angular core"
-1. > npm install --save @angular/animations@latest @angular/cdk@latest @angular/common@latest @angular/compiler@latest @angular/core@latest @angular/flex-layout@latest @angular/forms@latest @angular/http@latest @angular/material@latest @angular/platform-browser@latest @angular/platform-browser-dynamic@latest @angular/router@latest core-js@latest zone.js@latest rxjs@latest rxjs-compat@latest
-1. > npm install --save-dev @angular-devkit/build-angular@latest @angular/compiler-cli@latest @angular/language-service @types/jasmine@latest @types/node@latest codelyzer@latest karma@latest karma-chrome-launcher@latest karma-cli@latest karma-jasmine@latest karma-jasmine-html-reporter@latest jasmine-core@latest jasmine-spec-reporter@latest protractor@latest tslint@latest rxjs-tslint@latest webpack@latest
-1. > ng serve
+npm install @angular/cli@latest
+git add -A && git commit -m "chore: add latest angular cli"
+ng update @angular/cli
+git add -A && git commit -m "chore: update angular cli"
+ng update @angular/core
+git add -A && git commit -m "chore: update angular core"
+npm install --save @angular/animations@latest @angular/cdk@latest @angular/common@latest @angular/compiler@latest @angular/core@latest @angular/flex-layout@latest @angular/forms@latest @angular/http@latest @angular/material@latest @angular/platform-browser@latest @angular/platform-browser-dynamic@latest @angular/router@latest core-js@latest zone.js@latest rxjs@latest rxjs-compat@latest
+npm install --save-dev @angular-devkit/build-angular@latest @angular/compiler-cli@latest @angular/language-service @types/jasmine@latest @types/node@latest codelyzer@latest karma@latest karma-chrome-launcher@latest karma-cli@latest karma-jasmine@latest karma-jasmine-html-reporter@latest jasmine-core@latest jasmine-spec-reporter@latest protractor@latest tslint@latest rxjs-tslint@latest webpack@latest
+ng serve
 ```
 
 ## Resources
 
-[freeCodeCamp.org](https://youtu.be/GbivbPy00FU)
-[Upgrade from Angular 5.2 to 8.0](https://update.angular.io/#5.2:8.0)
-[Upgrade guide that actually worked](https://dzone.com/articles/upgrade-to-angular-7-in-5-simple-steps-1)
-[angular-apollo-graphql](https://g00glen00b.be/apollo-graphql-angular/)
-[apollographql-angular-docs](https://www.apollographql.com/docs/angular/)
-[auth0-angular-sample](https://github.com/auth0-samples/auth0-angular-samples/tree/master/01-Login/src/app)
-[angular-architecture-best-practices](https://angular-academy.com/angular-architecture-best-practices/)
+1. [freeCodeCamp.org](https://youtu.be/GbivbPy00FU)
+1. [Upgrade from Angular 5.2 to 8.0](https://update.angular.io/#5.2:8.0)
+1. [Upgrade guide that actually worked](https://dzone.com/articles/upgrade-to-angular-7-in-5-simple-steps-1)
+1. [angular-apollo-graphql](https://g00glen00b.be/apollo-graphql-angular/)
+1. [apollographql-angular-docs](https://www.apollographql.com/docs/angular/)
+1. [auth0-angular-sample](https://github.com/auth0-samples/auth0-angular-samples/tree/master/01-Login/src/app)
+1. [angular-architecture-best-practices](https://angular-academy.com/angular-architecture-best-practices/)
 
 ## Environment
 
