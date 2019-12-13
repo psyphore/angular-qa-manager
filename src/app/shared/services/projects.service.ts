@@ -1,8 +1,13 @@
-import { Project, ProjectResponse } from './../interfaces/project.interface';
+import {
+  Project,
+  ProjectsResponse,
+  ProjectResponse
+} from './../interfaces/project.interface';
 import { GetProjects, GetProjectById } from './../graphql/project.queries';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Query } from 'apollo-angular';
+import { Query, Mutation } from 'apollo-angular';
 
 import { environment } from '@environments/environment';
 
@@ -37,6 +42,13 @@ export class ProjectsService {
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectServiceGQL extends Query<ProjectResponse> {
+export class ProjectsServiceGQL extends Query<ProjectsResponse> {
   document = GetProjects;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProjectServiceGQL extends Query<ProjectResponse> {
+  document = GetProjectById;
 }

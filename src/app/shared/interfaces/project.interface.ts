@@ -42,11 +42,34 @@ export const environmentNames = [
   { id: 5, name: 'Staging' }
 ];
 
-export interface ProjectGQL {
+export interface Issue {
+  id: number;
+  summary: string;
+  description: string;
+  link: string;
+  person: string;
+  status: string;
+  points: number;
+}
+
+export interface ProjectSummaryGQL {
   id: string;
   projectName: string;
   releaseName: string;
 }
+
+export interface ProjectGQL {
+  id: string;
+  projectName: string;
+  releaseName: string;
+  customer: string;
+  issues: Issue[];
+}
+
 export interface ProjectResponse {
-  releases: ProjectGQL[];
+  releases: ProjectGQL;
+}
+
+export interface ProjectsResponse {
+  releases: ProjectSummaryGQL[];
 }

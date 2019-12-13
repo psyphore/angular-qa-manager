@@ -13,9 +13,6 @@ export const SignIn = gql`
   mutation signIn($creds: UsersPermissionsLoginInput!) {
     login(input: $creds) {
       jwt
-      user {
-        ...basicUserFields
-      }
     }
   }
   ${userFields}

@@ -1,4 +1,4 @@
-# CardinalQaPoc
+# Quality Assurance Manager
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
 
@@ -28,6 +28,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Steps to update angular
 
+```sh
 1. > npm install @angular/cli@latest
 1. > git add -A && git commit -m "chore: add latest angular cli"
 1. > ng update @angular/cli
@@ -37,6 +38,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 1. > npm install --save @angular/animations@latest @angular/cdk@latest @angular/common@latest @angular/compiler@latest @angular/core@latest @angular/flex-layout@latest @angular/forms@latest @angular/http@latest @angular/material@latest @angular/platform-browser@latest @angular/platform-browser-dynamic@latest @angular/router@latest core-js@latest zone.js@latest rxjs@latest rxjs-compat@latest
 1. > npm install --save-dev @angular-devkit/build-angular@latest @angular/compiler-cli@latest @angular/language-service @types/jasmine@latest @types/node@latest codelyzer@latest karma@latest karma-chrome-launcher@latest karma-cli@latest karma-jasmine@latest karma-jasmine-html-reporter@latest jasmine-core@latest jasmine-spec-reporter@latest protractor@latest tslint@latest rxjs-tslint@latest webpack@latest
 1. > ng serve
+```
 
 ## Resources
 
@@ -47,3 +49,31 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [apollographql-angular-docs](https://www.apollographql.com/docs/angular/)
 [auth0-angular-sample](https://github.com/auth0-samples/auth0-angular-samples/tree/master/01-Login/src/app)
 [angular-architecture-best-practices](https://angular-academy.com/angular-architecture-best-practices/)
+
+## Environment
+
+```javascript
+{
+  appName: 'Quality Manager',
+  production: false,
+  baseUrl: 'https://jsonplaceholder.typicode.com',
+  baseUrl2: 'https://reqres.in/api/',
+  baseGQL: 'https://o5x5jzoo7z.sse.codesandbox.io/graphql',
+  graphQL_URI1: 'http://sipholpt:3081/graphql',
+  graphQL_URI2: 'http://localhost:1337/graphql',
+  // graphQL_WS_URI: 'ws://sipholpt:3081/graphql',
+  graphQL_URI: 'http://graphql.nodaljs.com/graph',
+  // Auth0 application configuration
+  auth0config: {
+    domain: 'domain',
+    client_id: 'cliendId',
+    redirect_uri: `${window.location.origin}/callback`,
+    leeway: 120000
+  },
+  jira: {
+    token: 'token',
+    baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/'
+  }
+}
+
+```
