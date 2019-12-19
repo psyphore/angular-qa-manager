@@ -7,7 +7,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AuthService } from './shared/services/security.service';
 import { ApolloLink } from 'apollo-link';
 import { environment } from '@environments/environment';
-// import { ApolloLink } from "apollo-link";
 
 const uri = environment.graphQL_URI2; // <-- add the URL of the GraphQL server here
 const auth = new AuthService();
@@ -26,8 +25,9 @@ export function createApollo(httpLink: HttpLink) {
   const hl = httpLink
     .create({
       uri,
-      includeExtensions: true,
-      useMultipart: true
+      includeExtensions: false,
+      useMultipart: true,
+      withCredentials: true
     })
     .concat(authMiddleware);
 

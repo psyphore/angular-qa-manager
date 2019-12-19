@@ -5,14 +5,20 @@ import {
   RouterStateSnapshot,
   UrlTree
 } from '@angular/router';
-import { AuthService } from '@shared/services/security.service';
+import {
+  AuthService,
+  StrapiAuthService
+} from '@shared/services/security.service';
 import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private sauth: StrapiAuthService
+  ) {}
 
   async canActivate(
     next: ActivatedRouteSnapshot,

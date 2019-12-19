@@ -1,7 +1,6 @@
 import gql from 'graphql-tag';
-import { personFields } from './person.queries';
 
-export const userFields = gql`
+export const basicUserFields = gql`
   fragment basicUserFields on UsersPermissionsMe {
     id
     username
@@ -9,11 +8,10 @@ export const userFields = gql`
     confirmed
     blocked
     role {
+      id
       name
     }
   }
-
-  ${personFields}
 `;
 
 export const GetProfileQuery = gql`
@@ -22,5 +20,5 @@ export const GetProfileQuery = gql`
       ...basicUserFields
     }
   }
-  ${userFields}
+  ${basicUserFields}
 `;

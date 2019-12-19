@@ -11,6 +11,8 @@ import { LoadingComponent } from './loading/loading.component';
 import { LandingComponent } from './landing/landing.component';
 import { CallbackComponent } from './callback/callback.component';
 
+import { SecurityModule } from './security/security.module';
+
 const COMPONENTS = [CallbackComponent, LandingComponent, LoadingComponent];
 
 @NgModule({
@@ -21,7 +23,8 @@ const COMPONENTS = [CallbackComponent, LandingComponent, LoadingComponent];
     SharedModule,
     QaProjectModule,
     PersonModule,
-    LayoutModule
+    LayoutModule,
+    SecurityModule
   ],
   exports: COMPONENTS
 })

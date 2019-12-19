@@ -4,6 +4,13 @@ import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+import { Mutation, Query } from 'apollo-angular';
+import { SignIn, GetProfileQuery } from '../graphql';
+import {
+  SignIn as SignInResponse,
+  Me as MeResponse
+} from '@models/security.interface';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -95,4 +102,18 @@ export class AuthService {
   getSession(key: string): any {
     return localStorage.getItem(key);
   }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StrapiAuthService extends Mutation<SignInResponse> {
+  document = SignIn;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StrapiMeService extends Query<MeResponse> {
+  document = GetProfileQuery;
 }

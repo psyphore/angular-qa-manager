@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { userFields } from './security.queries';
+import { basicUserFields } from './security.queries';
 
 /** Sign in
  * @example {
@@ -15,5 +15,5 @@ export const SignIn = gql`
       jwt
     }
   }
-  ${userFields}
+  ${basicUserFields}
 `;
