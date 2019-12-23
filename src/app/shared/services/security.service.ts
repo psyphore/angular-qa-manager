@@ -8,7 +8,8 @@ import { Mutation, Query } from 'apollo-angular';
 import { SignIn, GetProfileQuery } from '../graphql';
 import {
   SignIn as SignInResponse,
-  Me as MeResponse
+  Me as MeResponse,
+  SignInCredentials
 } from '@models/security.interface';
 
 @Injectable({
@@ -107,7 +108,10 @@ export class AuthService {
 @Injectable({
   providedIn: 'root'
 })
-export class StrapiAuthService extends Mutation<SignInResponse> {
+export class StrapiAuthService extends Mutation<
+  SignInResponse,
+  SignInCredentials
+> {
   document = SignIn;
 }
 

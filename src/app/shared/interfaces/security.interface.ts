@@ -1,3 +1,11 @@
+export interface SignInCredentials {
+  creds: {
+    identifier: string;
+    password: string;
+    provider: string;
+  };
+}
+
 export interface SignIn {
   login: {
     jwt: string;

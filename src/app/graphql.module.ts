@@ -26,8 +26,7 @@ export function createApollo(httpLink: HttpLink) {
     .create({
       uri,
       includeExtensions: false,
-      useMultipart: true,
-      withCredentials: true
+      useMultipart: true
     })
     .concat(authMiddleware);
 

@@ -1,6 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService, StrapiAuthService } from '@shared/services';
+import { SignInCredentials } from '@shared/interfaces/security.interface';
 
 @Component({
   selector: 'app-signin',
@@ -28,13 +29,18 @@ export class SigninComponent implements OnInit {
 
     try {
       const credentials: any = { ...this.signInFormGroup.value };
-      const creds = { creds: credentials };
+      const creds: SignInCredentials = {
+        creds: {
+          identifier: credentials.identifier,
+          password: credentials.password,
+          provider: 'local'
+        }
+      };
       console.log(creds);
       this.service.mutate(creds).subscribe(
         res => {
           const { jwt } = res.data.login;
           console.log(jwt);
-
           this.auth.addSessionItem('id_token', jwt);
         },
         err => {
