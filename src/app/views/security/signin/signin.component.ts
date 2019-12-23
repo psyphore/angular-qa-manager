@@ -1,5 +1,6 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService, StrapiAuthService } from '@shared/services';
 import { SignInCredentials } from '@shared/interfaces/security.interface';
 
@@ -11,11 +12,12 @@ import { SignInCredentials } from '@shared/interfaces/security.interface';
 })
 export class SigninComponent implements OnInit {
   public signInFormGroup: FormGroup;
+  public errorMessage: string = null;
 
   constructor(
     private service: StrapiAuthService,
     private auth: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder, private router: Router
   ) {}
 
   ngOnInit() {
@@ -28,6 +30,7 @@ export class SigninComponent implements OnInit {
     }
 
     try {
+      this.errorMessage = null;
       const credentials: any = { ...this.signInFormGroup.value };
       const creds: SignInCredentials = {
         creds: {
@@ -42,16 +45,19 @@ export class SigninComponent implements OnInit {
           const { jwt } = res.data.login;
           console.log(jwt);
           this.auth.addSessionItem('id_token', jwt);
+          this.router.navigate(["security/me"]);
         },
         err => {
           console.error(err);
           this.auth.addSessionItem('id_token', null);
+          this.errorMessage = err.Message;
         }
       );
 
       this.initializeForm();
     } catch (error) {
       console.log(error);
+      this.errorMessage = error.Message;
     }
   }
 

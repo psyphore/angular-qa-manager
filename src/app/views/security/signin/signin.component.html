@@ -18,6 +18,9 @@
         type="password"
       />
     </mat-form-field>
+    <mat-form-field class="signin-full-width" *ngIf="errorMessage">
+      <label matLabel class="form-control">{{errorMessage}}</label>
+    </mat-form-field>
 
     <div class="signin-full-width">
       <button
