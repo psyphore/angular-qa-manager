@@ -1,4 +1,4 @@
-const url = 'http://localhost:1337/graphql';
+const url = 'http://sipholpt:1337/graphql';
 module.exports = {
   client: {
     service: {
