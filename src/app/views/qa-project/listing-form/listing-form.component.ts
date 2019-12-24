@@ -29,7 +29,7 @@ export class ListingFormComponent implements OnInit {
   @Input() projects: Array<any> = [];
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() select: EventEmitter<any> = new EventEmitter();
-  public limit = 5;
+  public limit: number = 5;
   list: Array<Project>;
   gqlList: Observable<ProjectSummaryGQL[]>;
   displayedColumns: Array<string> = [
