@@ -11,6 +11,13 @@ import { environment } from '@environments/environment';
 const uri = environment.graphQL_URI2; // <-- add the URL of the GraphQL server here
 const auth = new AuthService();
 
+
+export function createApollo(httpLink: HttpLink, apollo: ApolloLink) {
+const http = httpLink.create({
+  uri,
+  useMultipart: true
+});
+
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: new HttpHeaders().set(
@@ -21,19 +28,17 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-export function createApollo(httpLink: HttpLink) {
-  const hl = httpLink
-    .create({
-      uri,
-      includeExtensions: false,
-      useMultipart: true
-    })
-    .concat(authMiddleware);
-
-  return {
-    link: hl,
+  apollo.create({
+    link: concat(authMiddleware, http),
     cache: new InMemoryCache()
-  };
+  });
+
+  return apollo;
+
+  // return {
+  //   link: concat(authMiddleware, http),
+  //   cache: new InMemoryCache()
+  // };
 }
 
 @NgModule({
@@ -42,7 +47,7 @@ export function createApollo(httpLink: HttpLink) {
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
-      deps: [HttpLink]
+      deps: [HttpLink, ApolloLink]
     }
   ]
 })
