@@ -81,7 +81,7 @@ export class ListingFormComponent implements OnInit {
     });
 
     this.gqlList = await this.projectGQL
-      .watch()
+      .watch(null,{fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(result => result.data.releases));
   }
 
