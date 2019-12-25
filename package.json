@@ -50,7 +50,7 @@
     "apollo-link": "^1.2.13",
     "auth0-js": "^9.12.1",
     "bootstrap": "^4.4.1",
-    "core-js": "^3.6.0",
+    "core-js": "^3.6.1",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.0",
     "hammerjs": "^2.0.8",
@@ -61,7 +61,7 @@
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.21",
+    "@angular-devkit/build-angular": "^0.803.21",
     "@angular/bazel": "^8.2.14",
     "@angular/cli": "^8.3.21",
     "@angular/compiler-cli": "^8.2.14",
@@ -91,6 +91,6 @@
     "tslib": "^1.10.0",
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
-    "webpack": "^4.35.0"
+    "webpack": "^4.38.2"
   }
 }
