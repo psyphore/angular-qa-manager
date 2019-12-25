@@ -29,7 +29,7 @@ export class ListingFormComponent implements OnInit {
   @Input() projects: Array<any> = [];
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() select: EventEmitter<any> = new EventEmitter();
-  public limit: number = 5;
+  public limit = 5;
   list: Array<Project>;
   gqlList: Observable<ProjectSummaryGQL[]>;
   displayedColumns: Array<string> = [
@@ -81,7 +81,7 @@ export class ListingFormComponent implements OnInit {
     });
 
     this.gqlList = await this.projectGQL
-      .watch(null,{fetchPolicy: 'network-only'})
+      .watch(null, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(result => result.data.releases));
   }
 

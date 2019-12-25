@@ -45,7 +45,7 @@ export class SigninComponent implements OnInit {
           const { jwt } = res.data.login;
           console.log(jwt);
           this.auth.addSessionItem('id_token', jwt);
-          this.router.navigate(["security/me"]);
+          this.router.navigate(['security/me']);
         },
         err => {
           console.error(err);

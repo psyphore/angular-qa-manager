@@ -2,8 +2,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService, StrapiAuthService, StrapiMeService } from '@shared/services';
-import { SignInCredentials } from '@shared/interfaces/security.interface';
+import { AuthService, StrapiAuthService, StrapiMeService } from '@services/security.service';
+import { SignInCredentials } from '@models/security.interface';
 
 @Component({
   selector: 'app-me',
@@ -19,8 +19,8 @@ export class MeComponent implements OnInit {
 
   async ngOnInit() {
     this.errorMessage = null;
-    try{
-      if(this.authSvc.hasToken()) {
+    try {
+      if (this.authSvc.hasToken()) {
 
       }
       this.profile = await this.meSvc.watch(null, {
@@ -31,7 +31,7 @@ export class MeComponent implements OnInit {
         map(result => result.data.me)
       );
 
-    }catch(err) {
+    } catch (err) {
       console.error(err);
       this.errorMessage = err.message;
     }

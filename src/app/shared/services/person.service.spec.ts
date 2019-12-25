@@ -22,7 +22,7 @@ describe('PersonService', () => {
 
   it('should be able to get all users', async () => {
     const service: PersonService = TestBed.get(PersonService);
-    let payload = await service.getUser(userId);
+    const payload = await service.getUser(userId);
     payload.subscribe(o => expect(o).toBeTruthy());
   });
 });
