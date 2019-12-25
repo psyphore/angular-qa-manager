@@ -2,8 +2,8 @@ import {
   Project,
   ProjectsResponse,
   ProjectResponse
-} from './../interfaces/project.interface';
-import { GetProjects, GetProjectById } from './../graphql/project.queries';
+} from '@models/project.interface';
+import { GetProjects, GetProjectById } from '@shared/graphql';
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

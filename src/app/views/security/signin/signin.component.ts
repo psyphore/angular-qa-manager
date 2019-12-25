@@ -1,8 +1,8 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, StrapiAuthService } from '@shared/services';
-import { SignInCredentials } from '@shared/interfaces/security.interface';
+import { AuthService, StrapiAuthService } from '@services/security.service';
+import { SignInCredentials } from '@models/security.interface';
 
 @Component({
   selector: 'app-signin',

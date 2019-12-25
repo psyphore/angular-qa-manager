@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '@environments/environment';
 
 import { Mutation, Query } from 'apollo-angular';
-import { SignIn, GetProfileQuery } from '../graphql';
+import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
   Me as MeResponse,
