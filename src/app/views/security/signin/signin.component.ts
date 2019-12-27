@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, StrapiAuthService } from '@services/security.service';
 import { SignInCredentials } from '@models/security.interface';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signin',
@@ -17,14 +18,15 @@ export class SigninComponent implements OnInit {
   constructor(
     private service: StrapiAuthService,
     private auth: AuthService,
-    private fb: FormBuilder, private router: Router
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.initializeForm();
   }
 
-  public signIn() {
+  public async signIn() {
     if (this.signInFormGroup.invalid) {
       return;
     }
@@ -39,20 +41,16 @@ export class SigninComponent implements OnInit {
           provider: 'local'
         }
       };
-      console.log(creds);
-      this.service.mutate(creds).subscribe(
-        res => {
-          const { jwt } = res.data.login;
-          console.log(jwt);
-          this.auth.addSessionItem('id_token', jwt);
-          this.router.navigate(['security/me']);
-        },
-        err => {
-          console.error(err);
-          this.auth.addSessionItem('id_token', null);
-          this.errorMessage = err.Message;
-        }
-      );
+      const jwt = await this.service
+        .signIn(creds)
+        .pipe(map(res => res.login.jwt));
+
+      if (jwt) {
+        console.log(jwt);
+        this.auth.addSessionItem('id_token', jwt);
+        this.router.navigate(['security/me']);
+        return;
+      }
 
       this.initializeForm();
     } catch (error) {

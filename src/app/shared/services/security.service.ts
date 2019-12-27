@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 
-import { Mutation, Query } from 'apollo-angular';
+import { Mutation, Query, Apollo } from 'apollo-angular';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
   Me as MeResponse,
   SignInCredentials
 } from '@models/security.interface';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +91,10 @@ export class AuthService {
     localStorage.setItem(key, value);
   }
 
+  removeSessionItem(key: string): void {
+    localStorage.removeItem(key);
+  }
+
   setSession(authResult: any): void {
     // Set the time that the Access Token will expire at
     const expiresAt = JSON.stringify(
@@ -105,19 +110,24 @@ export class AuthService {
   }
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StrapiAuthService extends Mutation<
-  SignInResponse,
-  SignInCredentials
-> {
-  document = SignIn;
-}
+@Injectable({ providedIn: 'root' })
+export class StrapiAuthService {
+  constructor(private apollo: Apollo) {}
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StrapiMeService extends Query<MeResponse> {
-  document = GetProfileQuery;
+  public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
+    return this.apollo
+      .mutate<SignInResponse, SignInCredentials>({
+        mutation: SignIn,
+        variables: { creds: credentials.creds }
+      })
+      .pipe(map(result => result.data));
+  }
+
+  public me(): Observable<MeResponse> {
+    return this.apollo
+      .watchQuery<null, MeResponse>({
+        query: GetProfileQuery
+      })
+      .valueChanges.pipe(map(result => result.data));
+  }
 }
