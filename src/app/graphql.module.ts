@@ -18,19 +18,23 @@ export function createApollo(httpLink: HttpLink) {
   });
 
   const authMiddleware = new ApolloLink((operation, forward) => {
-    operation.setContext({
-      headers: new HttpHeaders().set(
-        'Authorization',
-        auth.getAuthorizationHeader() || null
-      )
-    });
+    if (auth.hasToken()) {
+      operation.setContext({
+        headers: new HttpHeaders().set(
+          'Authorization',
+          auth.getAuthorizationHeader()
+        )
+      });
+    }
     return forward(operation);
   });
 
   const cache = new InMemoryCache();
 
+  const link = concat(authMiddleware, http);
+
   return {
-    link: concat(authMiddleware, http),
+    link,
     cache
   };
 }

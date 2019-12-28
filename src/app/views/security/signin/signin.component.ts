@@ -3,7 +3,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, StrapiAuthService } from '@services/security.service';
 import { SignInCredentials } from '@models/security.interface';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signin',
@@ -41,19 +40,34 @@ export class SigninComponent implements OnInit {
           provider: 'local'
         }
       };
-      this.service.signIn(creds).subscribe(
-        res => {
-          if (res.login.jwt) {
-            console.log(res.login.jwt);
-            this.auth.addSessionItem('id_token', res.login.jwt);
-            this.router.navigate(['security/me']);
-          }
+
+      debugger;
+
+      this.service.signIn2(creds).subscribe(
+        d => {
+          debugger;
+          console.log(d);
         },
-        error => {
-          console.error(error);
-          this.errorMessage = error;
-        }
+        err => {
+          debugger;
+          console.log(err);
+        },
+        () => console.log('done')
       );
+
+      // this.service.signIn(creds).subscribe(
+      //   res => {
+      //     if (res.login.jwt) {
+      //       console.log(res.login.jwt);
+      //       this.auth.addSessionItem('id_token', res.login.jwt);
+      //       this.router.navigate(['security/me']);
+      //     }
+      //   },
+      //   error => {
+      //     console.error(error);
+      //     this.errorMessage = error;
+      //   }
+      // );
 
       this.initializeForm();
     } catch (error) {

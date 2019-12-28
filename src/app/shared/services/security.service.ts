@@ -114,6 +114,13 @@ export class AuthService {
 export class StrapiAuthService {
   constructor(private apollo: Apollo) {}
 
+  public signIn2(credentials: SignInCredentials): any {
+    return this.apollo.mutate<SignInResponse, SignInCredentials>({
+      mutation: SignIn,
+      variables: { creds: credentials.creds }
+    });
+  }
+
   public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
     return this.apollo
       .mutate<SignInResponse, SignInCredentials>({
