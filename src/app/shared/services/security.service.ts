@@ -4,7 +4,7 @@ import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 
-import { Mutation, Query, Apollo } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,

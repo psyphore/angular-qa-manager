@@ -41,21 +41,27 @@ export class SigninComponent implements OnInit {
           provider: 'local'
         }
       };
-      const jwt = await this.service
+      await this.service
         .signIn(creds)
-        .pipe(map(res => res.login.jwt));
-
-      if (jwt) {
-        console.log(jwt);
-        this.auth.addSessionItem('id_token', jwt);
-        this.router.navigate(['security/me']);
-        return;
-      }
+        .pipe(map(res => res.login.jwt))
+        .subscribe(
+          jwt => {
+            if (jwt) {
+              console.log(jwt);
+              this.auth.addSessionItem('id_token', jwt);
+              this.router.navigate(['security/me']);
+            }
+          },
+          error => {
+            console.error(error);
+            this.errorMessage = error;
+          }
+        );
 
       this.initializeForm();
     } catch (error) {
-      console.log(error);
-      this.errorMessage = error.Message;
+      console.error(error);
+      this.errorMessage = error.message;
     }
   }
 
