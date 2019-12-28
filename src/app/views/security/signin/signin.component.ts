@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit {
     this.initializeForm();
   }
 
-  public async signIn() {
+  public signIn() {
     if (this.signInFormGroup.invalid) {
       return;
     }
@@ -41,22 +41,19 @@ export class SigninComponent implements OnInit {
           provider: 'local'
         }
       };
-      await this.service
-        .signIn(creds)
-        .pipe(map(res => res.login.jwt))
-        .subscribe(
-          jwt => {
-            if (jwt) {
-              console.log(jwt);
-              this.auth.addSessionItem('id_token', jwt);
-              this.router.navigate(['security/me']);
-            }
-          },
-          error => {
-            console.error(error);
-            this.errorMessage = error;
+      this.service.signIn(creds).subscribe(
+        res => {
+          if (res.login.jwt) {
+            console.log(res.login.jwt);
+            this.auth.addSessionItem('id_token', res.login.jwt);
+            this.router.navigate(['security/me']);
           }
-        );
+        },
+        error => {
+          console.error(error);
+          this.errorMessage = error;
+        }
+      );
 
       this.initializeForm();
     } catch (error) {

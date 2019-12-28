@@ -1,7 +1,5 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AuthService, StrapiAuthService } from '@services/security.service';
 import { Router } from '@angular/router';
 
@@ -13,7 +11,7 @@ import { Router } from '@angular/router';
 export class MeComponent implements OnInit {
   public signInFormGroup: FormGroup;
   public errorMessage: string = null;
-  public profile: Observable<any>;
+  public profile: any;
 
   constructor(
     private router: Router,
@@ -21,19 +19,27 @@ export class MeComponent implements OnInit {
     private authSvc: AuthService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.errorMessage = null;
     try {
       if (this.authSvc.hasToken()) {
-        this.profile = await this.service.me().pipe(map(res => res.me));
-        return;
+        this.service.me().subscribe(
+          res => {
+            this.profile = res.me;
+          },
+          error => {
+            console.error(error);
+            this.errorMessage = error;
+            this.authSvc.removeSessionItem('id_token');
+            this.router.navigate(['security/signin']);
+          }
+        );
       }
-
-      this.authSvc.removeSessionItem('id_token');
-      this.router.navigate(['security/signin']);
     } catch (err) {
       console.error(err);
-      this.errorMessage = err.message;
+      this.errorMessage = err;
+      this.authSvc.removeSessionItem('id_token');
+      this.router.navigate(['security/signin']);
     }
   }
 }
