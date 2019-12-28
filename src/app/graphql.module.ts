@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, concat } from 'apollo-link';
+import { ApolloLink, concat, from } from 'apollo-link';
 
 import { AuthService } from '@services/security.service';
 import { environment } from '@environments/environment';
@@ -31,7 +31,7 @@ export function createApollo(httpLink: HttpLink) {
 
   const cache = new InMemoryCache();
 
-  const link = concat(authMiddleware, http);
+  const link = from([authMiddleware, http]); // concat(authMiddleware, http);
 
   return {
     link,

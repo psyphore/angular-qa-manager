@@ -18,7 +18,11 @@ export class HeaderInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const headers = req.headers
       .set('Content-Type', 'application/json')
-      .set('Authorization', this.auth.getAuthorizationHeader() || null);
+      .set('Authorization', this.auth.getAuthorizationHeader());
+
+    if (!this.auth.hasToken()) {
+      headers.delete('Authorization');
+    }
 
     const authReq = req.clone({ headers });
     return next.handle(authReq);

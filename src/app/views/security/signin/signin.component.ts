@@ -41,17 +41,9 @@ export class SigninComponent implements OnInit {
         }
       };
 
-      debugger;
-
       this.service.signIn2(creds).subscribe(
-        d => {
-          debugger;
-          console.log(d);
-        },
-        err => {
-          debugger;
-          console.log(err);
-        },
+        d => console.log(d),
+        err => console.error(err),
         () => console.log('done')
       );
 
