@@ -1,37 +1,49 @@
 import { NgModule } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, concat, from } from 'apollo-link';
+import { from } from 'apollo-link';
+import { setContext } from 'apollo-link-context';
 
 import { AuthService } from '@services/security.service';
 import { environment } from '@environments/environment';
 
-export function createApollo(httpLink: HttpLink) {
+export function provideApollo(httpLink: HttpLink) {
   const uri = environment.graphQL_URI2; // <-- add the URL of the GraphQL server here
   const auth = new AuthService();
 
+  const basic = setContext((operation, context) => ({
+    headers: {
+      Accept: 'charset=utf-8'
+    }
+  }));
+
   const http = httpLink.create({
-    uri,
-    useMultipart: true
+    uri
   });
 
-  const authMiddleware = new ApolloLink((operation, forward) => {
-    if (auth.hasToken()) {
-      operation.setContext({
-        headers: new HttpHeaders().set(
-          'Authorization',
-          auth.getAuthorizationHeader()
-        )
-      });
+  const authCtx = setContext((operation, context) => ({
+    headers: {
+      Authorization: auth.getAuthorizationHeader()
     }
-    return forward(operation);
-  });
+  }));
+
+  // const authMiddleware = new ApolloLink((operation, forward) => {
+  //   if (auth.hasToken()) {
+  //     operation.setContext({
+  //       headers: new HttpHeaders().set(
+  //         'Authorization',
+  //         auth.getAuthorizationHeader()
+  //       )
+  //     });
+  //   }
+  //   return forward(operation);
+  // });
 
   const cache = new InMemoryCache();
 
-  const link = from([authMiddleware, http]); // concat(authMiddleware, http);
+  const link = from([basic, authCtx, http]); // concat(authMiddleware, http);
 
   return {
     link,
@@ -40,11 +52,11 @@ export function createApollo(httpLink: HttpLink) {
 }
 
 @NgModule({
-  exports: [ApolloModule, HttpLinkModule],
+  exports: [HttpClientModule, ApolloModule, HttpLinkModule],
   providers: [
     {
       provide: APOLLO_OPTIONS,
-      useFactory: createApollo,
+      useFactory: provideApollo,
       deps: [HttpLink]
     }
   ]
