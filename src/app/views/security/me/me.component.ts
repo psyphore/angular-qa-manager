@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, StrapiAuthService } from '@services/security.service';
 import { Router } from '@angular/router';
+import { Me } from '@models/security.interface';
 
 @Component({
   selector: 'app-me',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class MeComponent implements OnInit {
   public errorMessage: string = null;
-  public profile: any;
+  public profile: Me = null;
 
   constructor(
     private router: Router,
@@ -20,33 +21,25 @@ export class MeComponent implements OnInit {
   ngOnInit() {
     this.errorMessage = null;
     try {
-      this.service.me().subscribe(
-        res => console.log(res),
-        error => console.error(error),
-        () => console.log('done')
-      );
-
-      // if (this.authSvc.hasToken()) {
-      //   this.service.me().subscribe(
-      //     res => {
-      //       this.profile = res.me;
-      //     },
-      //     error => {
-      //       console.error(error);
-      //       this.errorMessage = error;
-      //       this.clearSessionStore();
-      //     }
-      //   );
-      // }
+      if (this.authSvc.hasToken()) {
+        this.service.me().subscribe(
+          res => (this.profile = res),
+          error => this.handleError(error)
+        );
+      }
     } catch (err) {
-      console.error(err);
-      this.errorMessage = err;
-      this.clearSessionStore();
+      this.handleError(err);
     }
   }
 
   private clearSessionStore(): void {
     this.authSvc.removeSessionItem('id_token');
     this.router.navigate(['security/signin']);
+  }
+
+  private handleError(err: any): void {
+    console.error(err);
+    this.errorMessage = err;
+    this.clearSessionStore();
   }
 }

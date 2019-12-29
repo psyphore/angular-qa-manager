@@ -57,7 +57,7 @@ export class AuthService {
 
   getAuthorizationHeader(): string {
     const token = this.getSession('id_token');
-    const authHeader = token ? `Bearer ${token}` : null;
+    const authHeader = token ? `Bearer ${token}` : '';
     return authHeader;
   }
 

@@ -1,1 +1,10 @@
-<p>me works!</p>
+<mat-card *ngIf="profile && profile.me">
+  <mat-card-header>
+    <mat-card-title> Username: {{ profile.me.username }} </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Role: {{ profile.me.role.name }}</p>
+    <p>Email: {{ profile.me.email }}</p>
+  </mat-card-content>
+  <mat-card-footer> </mat-card-footer>
+</mat-card>

@@ -42,24 +42,18 @@ export class SigninComponent implements OnInit {
       };
 
       this.service.signIn(creds).subscribe(
-        d => console.log(d),
-        err => console.error(err),
-        () => console.log('done')
+        res => {
+          if (res.login.jwt) {
+            console.log(res.login.jwt);
+            this.auth.addSessionItem('id_token', res.login.jwt);
+            this.router.navigate(['security/me']);
+          }
+        },
+        error => {
+          console.error(error);
+          this.errorMessage = error;
+        }
       );
-
-      // this.service.signIn(creds).subscribe(
-      //   res => {
-      //     if (res.login.jwt) {
-      //       console.log(res.login.jwt);
-      //       this.auth.addSessionItem('id_token', res.login.jwt);
-      //       this.router.navigate(['security/me']);
-      //     }
-      //   },
-      //   error => {
-      //     console.error(error);
-      //     this.errorMessage = error;
-      //   }
-      // );
 
       this.initializeForm();
     } catch (error) {

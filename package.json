@@ -48,6 +48,7 @@
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
     "apollo-link-context": "^1.0.19",
+    "apollo-link-error": "^1.1.12",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.1",
     "graphql": "^14.5.8",
