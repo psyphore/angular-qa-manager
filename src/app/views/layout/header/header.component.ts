@@ -8,17 +8,15 @@ import { AuthService } from '@services/security.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  currentPath: string;
-  hasToken = false;
+  public currentPath: string;
+  public hasToken: boolean;
   @Input() title: string;
-  constructor(private router: Router, private auth: AuthService) {
+  constructor(private router: Router, private auth: AuthService) {}
+
+  ngOnInit() {
     this.router.events.subscribe(
       (_: NavigationEnd) => (this.currentPath = _.url)
     );
-    this.hasToken = this.auth.hasToken();
-  }
-
-  ngOnInit() {
     this.hasToken = this.auth.hasToken();
   }
 }
