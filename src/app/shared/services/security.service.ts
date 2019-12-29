@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import createAuth0Client from '@auth0/auth0-spa-js';
-import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+// import createAuth0Client from '@auth0/auth0-spa-js';
+// import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '@environments/environment';
 
 import { Apollo } from 'apollo-angular';
@@ -20,14 +20,14 @@ export class AuthService {
   isAuthenticated = new BehaviorSubject(false);
   profile = new BehaviorSubject<any>(null);
 
-  private auth0Client: Auth0Client;
+  private auth0Client: any; // Auth0Client;
 
   /**
    * Gets the Auth0Client instance.
    */
-  async getAuth0Client(): Promise<Auth0Client> {
+  async getAuth0Client(): Promise<any> {
     if (!this.auth0Client) {
-      this.auth0Client = await createAuth0Client(environment.auth0config);
+      // this.auth0Client = await createAuth0Client(environment.auth0config);
 
       // Provide the current value of isAuthenticated
       this.isAuthenticated.next(await this.auth0Client.isAuthenticated());
@@ -48,7 +48,7 @@ export class AuthService {
     return this.auth0Client;
   }
 
-  async fetchAuth0Client(): Promise<Auth0Client> {
+  async fetchAuth0Client(): Promise<any> {
     if (!this.auth0Client) {
       this.profile.next(await this.auth0Client.getUser());
     }
@@ -113,15 +113,6 @@ export class AuthService {
 @Injectable({ providedIn: 'root' })
 export class StrapiAuthService {
   constructor(private apollo: Apollo) {}
-
-  public signIn2(credentials: SignInCredentials): Observable<SignInResponse> {
-    return this.apollo
-      .mutate<SignInResponse, SignInCredentials>({
-        mutation: SignIn,
-        variables: { creds: credentials.creds }
-      })
-      .pipe(map(res => res.data));
-  }
 
   public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
     return this.apollo

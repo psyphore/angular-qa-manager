@@ -20,18 +20,24 @@ export class MeComponent implements OnInit {
   ngOnInit() {
     this.errorMessage = null;
     try {
-      if (this.authSvc.hasToken()) {
-        this.service.me().subscribe(
-          res => {
-            this.profile = res.me;
-          },
-          error => {
-            console.error(error);
-            this.errorMessage = error;
-            this.clearSessionStore();
-          }
-        );
-      }
+      this.service.me().subscribe(
+        res => console.log(res),
+        error => console.error(error),
+        () => console.log('done')
+      );
+
+      // if (this.authSvc.hasToken()) {
+      //   this.service.me().subscribe(
+      //     res => {
+      //       this.profile = res.me;
+      //     },
+      //     error => {
+      //       console.error(error);
+      //       this.errorMessage = error;
+      //       this.clearSessionStore();
+      //     }
+      //   );
+      // }
     } catch (err) {
       console.error(err);
       this.errorMessage = err;

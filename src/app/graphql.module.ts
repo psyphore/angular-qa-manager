@@ -10,40 +10,25 @@ import { AuthService } from '@services/security.service';
 import { environment } from '@environments/environment';
 
 export function provideApollo(httpLink: HttpLink) {
-  const uri = environment.graphQL_URI2; // <-- add the URL of the GraphQL server here
+  const uri = environment.graphQL_URI2;
   const auth = new AuthService();
+
+  const http = httpLink.create({
+    uri,
+    useMultipart: true
+  });
 
   const basic = setContext((operation, context) => ({
     headers: {
-      Accept: 'charset=utf-8'
+      Accept: 'charset=utf-8',
+      ContentType: 'application/json',
+      Authorization: auth.hasToken() ? auth.getAuthorizationHeader() : ''
     }
   }));
-
-  const http = httpLink.create({
-    uri
-  });
-
-  const authCtx = setContext((operation, context) => ({
-    headers: {
-      Authorization: auth.getAuthorizationHeader()
-    }
-  }));
-
-  // const authMiddleware = new ApolloLink((operation, forward) => {
-  //   if (auth.hasToken()) {
-  //     operation.setContext({
-  //       headers: new HttpHeaders().set(
-  //         'Authorization',
-  //         auth.getAuthorizationHeader()
-  //       )
-  //     });
-  //   }
-  //   return forward(operation);
-  // });
 
   const cache = new InMemoryCache();
 
-  const link = from([basic, authCtx, http]); // concat(authMiddleware, http);
+  const link = from([basic, http]);
 
   return {
     link,
