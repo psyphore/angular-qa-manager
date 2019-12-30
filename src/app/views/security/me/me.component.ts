@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { AuthService, StrapiAuthService } from '@services/security.service';
-import * as SecurityActions from '@states/security/security.actions';
-import * as SecuritySelectors from '@states/security/security.selector';
+import { AuthService } from '@services/security.service';
+import { LoadSecurity } from '@states/security/security.actions';
+import { selectMe } from '@states/security/security.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Me } from '@models/security.interface';
@@ -18,11 +17,9 @@ import { Me } from '@models/security.interface';
 export class MeComponent implements OnInit {
   public errorMessage: string = null;
   public profile: Me = null;
-  public profile$: Observable<Me | any>;
 
   constructor(
     private router: Router,
-    private service: StrapiAuthService,
     private authSvc: AuthService,
     private store$: Store<AppStore>
   ) {}
@@ -30,21 +27,8 @@ export class MeComponent implements OnInit {
   ngOnInit() {
     this.errorMessage = null;
     try {
-      if (this.authSvc.hasToken()) {
-        this.store$.dispatch(new SecurityActions.LoadSecurity(null));
-        this.profile$ = this.store$.select(SecuritySelectors.selectAll);
-        this.profile$.subscribe(
-          d => console.log(d),
-          e => console.error(e),
-          () => console.log('done')
-        );
-        /*
-        this.service.me().subscribe(
-          res => (this.profile = res),
-          error => this.handleError(error)
-        );
-        */
-      }
+      this.store$.dispatch(new LoadSecurity());
+      this.store$.select(selectMe).subscribe(d => (this.profile = d));
     } catch (err) {
       this.handleError(err);
     }

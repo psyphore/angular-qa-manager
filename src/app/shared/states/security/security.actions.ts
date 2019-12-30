@@ -17,6 +17,21 @@ export class LogInFailed implements Action {
   constructor(public message: string) {}
 }
 
+export class LogOut implements Action {
+  readonly type = SecurityActionTypes.SIGN_OUT;
+  constructor() {}
+}
+
+export class LogOutSuccess implements Action {
+  readonly type = SecurityActionTypes.SIGN_OUT_SUCCESS;
+  constructor() {}
+}
+
+export class LogOutFailed implements Action {
+  readonly type = SecurityActionTypes.SIGN_OUT_FAILED;
+  constructor(public message: string) {}
+}
+
 export class LoadSecurity implements Action {
   readonly type = SecurityActionTypes.LOAD_SECURITY;
 
@@ -60,4 +75,7 @@ export type SecurityActions =
   | LogInFailed
   | Update
   | UpdateSuccess
-  | UpdateFailed;
+  | UpdateFailed
+  | LogOut
+  | LogOutSuccess
+  | LogOutFailed;

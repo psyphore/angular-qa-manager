@@ -43,6 +43,12 @@ export function securityReducer(
         }
       };
 
+    case SecurityActionTypes.SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        auth: null
+      };
+
     default:
       return state;
   }

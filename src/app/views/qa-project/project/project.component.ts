@@ -1,5 +1,10 @@
-import * as ProjectActions from '@states/project/project.actions';
-import * as ProjectSelectors from '@states/project/project.selector';
+import {
+  LoadProject,
+  Delete,
+  Update,
+  Add
+} from '@states/project/project.actions';
+import { selectAll } from '@states/project/project.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Store } from '@ngrx/store';
@@ -23,21 +28,21 @@ export class ProjectComponent {
   }
 
   initialize(): void {
-    this.store$.dispatch(new ProjectActions.LoadProject());
-    this.projects$ = this.store$.select(ProjectSelectors.selectAll);
+    this.store$.dispatch(new LoadProject());
+    this.projects$ = this.store$.select(selectAll);
   }
 
   public onDelete(project: Project) {
-    this.store$.dispatch(new ProjectActions.Delete(project.id));
+    this.store$.dispatch(new Delete(project.id));
   }
   public onSelect(project: Project) {
     this.project = project;
   }
 
   public onUpdate(project: Project) {
-    this.store$.dispatch(new ProjectActions.Update(project));
+    this.store$.dispatch(new Update(project));
   }
   public onAdd(project: Project) {
-    this.store$.dispatch(new ProjectActions.Add(project));
+    this.store$.dispatch(new Add(project));
   }
 }
