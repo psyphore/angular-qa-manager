@@ -44,7 +44,7 @@ export const ReleaseFields = gql`
   }
 `;
 
-export const GetProjects = gql`
+export const GetReleases = gql`
   query getReleases($limit: Int, $start: Int) {
     releases(limit: $limit, start: $start) {
       ...basicReleaseFields
@@ -54,7 +54,7 @@ export const GetProjects = gql`
   ${ReleaseFields}
 `;
 
-export const GetProjectById = gql`
+export const GetReleaseById = gql`
   query getProjectById($releaseId: ID!) {
     release(id: $releaseId) {
       id
@@ -72,11 +72,3 @@ export const GetProjectById = gql`
   ${personFields}
   ${IssueFields}
 `;
-
-export interface ProjectsResponse {
-  projects: [Project];
-}
-
-export interface ProjectResponse {
-  project: Project;
-}

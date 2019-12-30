@@ -66,10 +66,30 @@ export interface Release {
   issues: Issue[];
 }
 
-export interface ProjectResponse {
+export interface ReleaseUpdate {
+  id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IssueUpdate {
+  id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReleaseResponse {
   release: Release;
 }
 
-export interface ProjectsResponse {
+export interface ReleasesResponse {
   releases: ReleaseSummary[];
+}
+
+export interface ReleaseUpdateResponse {
+  release: ReleaseUpdate;
+}
+
+export interface IssueUpdateResponse {
+  issue: IssueUpdate;
 }

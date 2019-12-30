@@ -1,5 +1,3 @@
-import { ProjectsService } from '@services/projects.service';
-import { Project, ReleaseSummary } from '@models/project.interface';
 import {
   Component,
   OnInit,
@@ -9,12 +7,12 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+// import { NavigationStart, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+
+import { Project, ReleaseSummary } from '@models/project.interface';
 
 @Component({
   selector: 'app-listing-form',
@@ -23,12 +21,11 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListingFormComponent implements OnInit {
-  @Input() projects: Array<any> = [];
+  @Input() releases: Array<ReleaseSummary> = [];
+  @Input() limit = 5;
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() select: EventEmitter<any> = new EventEmitter();
-  public limit = 5;
-  list: Array<Project>;
-  gqlList: Array<ReleaseSummary>;
+
   displayedColumns: Array<string> = [
     'id',
     'name',
@@ -38,41 +35,18 @@ export class ListingFormComponent implements OnInit {
     'points',
     'count'
   ];
-  dataSource: MatTableDataSource<Project>;
+  dataSource: MatTableDataSource<ReleaseSummary>;
 
-  constructor(private serviceOne: ProjectsService, private router: Router) {}
+  constructor() {}
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   async ngOnInit() {
-    this.router.events
-      .pipe(filter(e => e instanceof NavigationStart))
-      .subscribe(e => {
-        const navigation = this.router.getCurrentNavigation();
-      });
-
-    this.list = new Array<Project>();
-    // this.gqlList = new Array<ReleaseSummary>();
-    const collection = await this.serviceOne.getProjects();
-    collection.subscribe((items: any[]) => {
-      items.map((v, ix) =>
-        this.list.push(<Project>{
-          id: v.id,
-          name: v.title,
-          leadName: v.userId,
-          totalStoryCount: 5,
-          releaseName: `${ix + 1}.0.0`,
-          totalStoryPoints: 20,
-          customerName: 'Cardinal Group'
-        })
-      );
-
-      this.dataSource = new MatTableDataSource<Project>(this.list);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.dataSource = new MatTableDataSource<ReleaseSummary>(this.releases);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {

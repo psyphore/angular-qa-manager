@@ -8,7 +8,7 @@
   </div>
   <div class="col-md-12">
     <app-listing-form
-      [projects]="projects$ | async"
+      [releases]="projects$ | async"
       (delete)="onDelete($event)"
       (select)="onSelect($event)"
     ></app-listing-form>

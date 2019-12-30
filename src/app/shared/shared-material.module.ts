@@ -22,6 +22,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const MaterialModules = [
   MatInputModule,
@@ -52,7 +53,8 @@ const MaterialModules = [
     StoreModule,
     FlexLayoutModule,
     ...MaterialModules,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FontAwesomeModule
   ]
 })
 export class SharedMaterialModule {}

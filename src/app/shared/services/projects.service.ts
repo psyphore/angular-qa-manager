@@ -1,15 +1,20 @@
+import { Injectable } from '@angular/core';
+import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {
-  Project,
-  ProjectsResponse,
-  ProjectResponse
+  ReleasesResponse,
+  ReleaseResponse,
+  ReleaseUpdateResponse,
+  Release
 } from '@models/project.interface';
-import { GetProjects, GetProjectById } from '@shared/graphql';
-
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Apollo } from 'apollo-angular';
+import {
+  GetReleases,
+  GetReleaseById,
+  AddRelease,
+  DeleteRelease,
+  UpdateRelease
+} from '@shared/graphql';
 
 import { environment } from '@environments/environment';
 
@@ -18,44 +23,51 @@ import { environment } from '@environments/environment';
 })
 export class ProjectsService {
   baseUrl = environment.baseUrl;
-  constructor(private http: HttpClient, private apollo: Apollo) {}
+  constructor(private apollo: Apollo) {}
 
-  public getProjects() {
-    return this.http.get<Array<Project>>(`${this.baseUrl}/albums`);
+  public addRelase(release: Release): Observable<ReleaseUpdateResponse> {
+    return this.apollo
+      .mutate<ReleaseUpdateResponse, any>({
+        mutation: AddRelease,
+        variables: { release }
+      })
+      .pipe(map(result => result.data));
   }
 
-  public getProject(projectId: number) {
-    return this.http.get<Project>(`${this.baseUrl}/albums/${projectId}`);
+  public deleteRelase(release: Release): Observable<ReleaseUpdateResponse> {
+    return this.apollo
+      .mutate<ReleaseUpdateResponse, any>({
+        mutation: DeleteRelease,
+        variables: { release }
+      })
+      .pipe(map(result => result.data));
   }
 
-  public add(project: Project) {
-    return this.http.post<Project>(`${this.baseUrl}/albums`, project);
+  public updateRelase(release: Release): Observable<ReleaseUpdateResponse> {
+    return this.apollo
+      .mutate<ReleaseUpdateResponse, any>({
+        mutation: UpdateRelease,
+        variables: { release }
+      })
+      .pipe(map(result => result.data));
   }
 
-  public delete(projectId: number) {
-    return this.http.delete<Project>(`${this.baseUrl}/albums/${projectId}`);
-  }
-
-  public update(project: Project) {
-    return this.http.put<Project>(`${this.baseUrl}/albums`, project);
-  }
-
-  public getAllProjectsGQL(
+  public getAllReleases(
     limit: number,
     start: number
-  ): Observable<ProjectsResponse> {
+  ): Observable<ReleasesResponse> {
     return this.apollo
-      .watchQuery<ProjectsResponse, any>({
-        query: GetProjects,
+      .watchQuery<ReleasesResponse, any>({
+        query: GetReleases,
         variables: { limit, start }
       })
       .valueChanges.pipe(map(result => result.data));
   }
 
-  public getAProjectByIdGQL(projectId: number): Observable<ProjectResponse> {
+  public getReleaseById(projectId: number): Observable<ReleaseResponse> {
     return this.apollo
-      .watchQuery<ProjectResponse, any>({
-        query: GetProjectById,
+      .watchQuery<ReleaseResponse, any>({
+        query: GetReleaseById,
         variables: { releaseId: projectId }
       })
       .valueChanges.pipe(map(result => result.data));

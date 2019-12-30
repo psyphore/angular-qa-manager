@@ -5,7 +5,20 @@ export const selectProjectState = createFeatureSelector<ProjectState>(
   'project'
 );
 
-export const selectAll = createSelector(
+export const fetchAllReleases = createSelector(selectProjectState, state =>
+  Object.values(state.releases)
+);
+
+export const fetchARelease = createSelector(
   selectProjectState,
-  state => Object.values(state.entities)
+  state => state.release
+);
+
+export const fetchAllIssues = createSelector(selectProjectState, state =>
+  Object.values(state.issues)
+);
+
+export const fetchAnIssue = createSelector(
+  selectProjectState,
+  state => state.issue
 );

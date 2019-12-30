@@ -5,7 +5,10 @@ import { ProjectState } from './project.state';
 export function projectInitialState(): ProjectState {
   return {
     ids: [],
-    entities: {}
+    releases: {},
+    release: null,
+    issues: {},
+    issue: null
   };
 }
 
@@ -24,32 +27,38 @@ export function projectReducer(
     case ProjectActionTypes.LOAD_PROJECTS_SUCCESS:
       return {
         ...state,
-        entities: arrayToObject(action.payload)
+        releases: arrayToObject(action.payload)
       };
 
     case ProjectActionTypes.ADD_SUCCESS:
+      const _releases = { ...state.releases };
+      _releases[action.project.id].id = action.project.id;
+
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.project.id]: action.project
+        releases: {
+          ...state.releases,
+          ..._releases
         }
       };
 
     case ProjectActionTypes.DELETE_SUCCESS:
-      const entities = { ...state.entities };
-      delete entities[action.id];
+      const releases = { ...state.releases };
+      delete releases[action.release.id];
       return {
         ...state,
-        entities
+        releases
       };
 
     case ProjectActionTypes.UPDATE_SUCCESS:
+      const releases_ = { ...state.releases };
+      releases_[action.project.id].id = action.project.id;
+
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.project.id]: action.project
+        releases: {
+          ...state.releases,
+          ...releases_
         }
       };
 

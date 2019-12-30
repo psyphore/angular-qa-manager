@@ -1,5 +1,8 @@
-import { Project } from '@models/project.interface';
+import { ReleaseSummary, Release, Issue } from '@models/project.interface';
 export interface ProjectState {
   ids: number[];
-  entities: { [key: string]: Project };
+  releases: { [key: string]: ReleaseSummary };
+  release: Release;
+  issues: { [key: string]: Issue };
+  issue: Issue;
 }

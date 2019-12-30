@@ -1,3 +1,9 @@
+import {
+  ReleasesResponse,
+  ReleaseUpdateResponse,
+  ReleaseResponse,
+  ReleaseUpdate
+} from '@models/project.interface';
 import * as ProjectActions from '@states/project/project.actions';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -6,7 +12,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Project } from '@models/project.interface';
+import { Project, ReleaseSummary, Release } from '@models/project.interface';
 import { ProjectsService } from '@services/projects.service';
 import { ProjectActionTypes } from '@enums/project.enum';
 
@@ -33,13 +39,13 @@ export class ProjectEffects {
   ];
 
   @Effect()
-  loadAllProject$: Observable<any> = this.actions$.pipe(
+  loadAllProject$: Observable<ReleaseSummary | any> = this.actions$.pipe(
     ofType(ProjectActionTypes.LOAD_PROJECTS),
     switchMap(() =>
-      this.projectsService.getProjects().pipe(
+      this.projectsService.getAllReleases(999, 0).pipe(
         map(
-          (response: Array<Project | any>) =>
-            new ProjectActions.LoadProjectSuccess(response)
+          (response: ReleasesResponse) =>
+            new ProjectActions.LoadProjectSuccess(response.releases)
         ),
         catchError(error => of(new ProjectActions.LoadProjectFailed(error)))
       )
@@ -47,44 +53,53 @@ export class ProjectEffects {
   );
 
   @Effect()
-  addProject$: Observable<any> = this.actions$.pipe(
+  addProject$: Observable<ReleaseUpdate | any> = this.actions$.pipe(
     ofType(ProjectActionTypes.ADD),
-    switchMap((action: any) =>
-      this.projectsService.add(action.project).pipe(
-        map((project: Project) => new ProjectActions.AddSuccess(project)),
+    switchMap((action: Release) =>
+      this.projectsService.addRelase(action).pipe(
+        map(
+          (res: ReleaseUpdateResponse) =>
+            new ProjectActions.AddSuccess(res.release)
+        ),
         catchError(error => of(new ProjectActions.AddFailed(error)))
       )
     )
   );
 
   @Effect()
-  deleteProject$: Observable<any> = this.actions$.pipe(
+  deleteProject$: Observable<ReleaseUpdate | any> = this.actions$.pipe(
     ofType(ProjectActionTypes.DELETE),
-    switchMap(({ id }) =>
-      this.projectsService.delete(id).pipe(
-        map(() => new ProjectActions.DeleteSuccess(id)),
+    switchMap((release: Release) =>
+      this.projectsService.deleteRelase(release).pipe(
+        map(
+          (res: ReleaseUpdateResponse) =>
+            new ProjectActions.DeleteSuccess(res.release)
+        ),
         catchError(error => of(new ProjectActions.DeleteFailed(error)))
       )
     )
   );
 
   @Effect()
-  getProject$: Observable<any> = this.actions$.pipe(
+  getProject$: Observable<Release | any> = this.actions$.pipe(
     ofType(ProjectActionTypes.DELETE),
     switchMap(({ id }) =>
-      this.projectsService.getProject(id).pipe(
-        map((project: Project) => new ProjectActions.LoadProject()),
+      this.projectsService.getReleaseById(id).pipe(
+        map((res: ReleaseResponse) => new ProjectActions.LoadProject()),
         catchError(error => of(new ProjectActions.LoadProjectFailed(error)))
       )
     )
   );
 
   @Effect()
-  updateProject$: Observable<any> = this.actions$.pipe(
+  updateProject$: Observable<ReleaseUpdate | any> = this.actions$.pipe(
     ofType(ProjectActionTypes.UPDATE),
-    switchMap(({ project }) =>
-      this.projectsService.update(project).pipe(
-        map(() => new ProjectActions.UpdateSuccess(project)),
+    switchMap((release: Release) =>
+      this.projectsService.updateRelase(release).pipe(
+        map(
+          (res: ReleaseUpdateResponse) =>
+            new ProjectActions.UpdateSuccess(res.release)
+        ),
         catchError(error => of(new ProjectActions.UpdateFailed(error)))
       )
     )
