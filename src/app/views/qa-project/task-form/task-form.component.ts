@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Story } from '@models/project.interface';
-import { ProjectsService } from '@services/projects.service';
+// import { ProjectsService } from '@services/projects.service';
 
 @Component({
   selector: 'app-task-form',
@@ -37,7 +37,7 @@ export class TaskFormComponent implements OnInit, OnChanges {
   ];
 
   constructor(
-    private svc: ProjectsService,
+    // private svc: ProjectsService,
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) {
@@ -47,9 +47,9 @@ export class TaskFormComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.initForm(this.task);
     if (this.taskId !== 0) {
-      this.svc
-        .getProject(this.taskId)
-        .subscribe((data: any) => (this.taskDetails.id = data.id));
+      // this.svc
+      //   .getProject(this.taskId)
+      //   .subscribe((data: any) => (this.taskDetails.id = data.id));
     }
   }
 
