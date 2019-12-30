@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 // import createAuth0Client from '@auth0/auth0-spa-js';
 // import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from '@environments/environment';
+// import { environment } from '@environments/environment';
 
 import { Apollo } from 'apollo-angular';
 import { SignIn, GetProfileQuery } from '@shared/graphql';

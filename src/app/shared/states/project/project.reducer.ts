@@ -1,5 +1,5 @@
 import { ProjectActions } from './project.actions';
-import { ProjectActionTypes } from '@shared/enums/project.enum';
+import { ProjectActionTypes } from '@enums/project.enum';
 import { ProjectState } from './project.state';
 
 export function projectInitialState(): ProjectState {

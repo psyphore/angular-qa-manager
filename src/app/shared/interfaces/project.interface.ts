@@ -52,13 +52,13 @@ export interface Issue {
   points: number;
 }
 
-export interface ProjectSummaryGQL {
+export interface ReleaseSummary {
   id: string;
   projectName: string;
   releaseName: string;
 }
 
-export interface ProjectGQL {
+export interface Release {
   id: string;
   projectName: string;
   releaseName: string;
@@ -67,9 +67,9 @@ export interface ProjectGQL {
 }
 
 export interface ProjectResponse {
-  releases: ProjectGQL;
+  release: Release;
 }
 
 export interface ProjectsResponse {
-  releases: ProjectSummaryGQL[];
+  releases: ReleaseSummary[];
 }

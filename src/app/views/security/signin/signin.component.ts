@@ -1,8 +1,12 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService, StrapiAuthService } from '@services/security.service';
-import { SignInCredentials } from '@models/security.interface';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import * as SecurityActions from '@states/security/security.actions';
+import { AppStore } from '@models/store.interface';
+
+import { SignInCredentials, SignIn } from '@models/security.interface';
 
 @Component({
   selector: 'app-signin',
@@ -13,13 +17,10 @@ import { SignInCredentials } from '@models/security.interface';
 export class SigninComponent implements OnInit {
   public signInFormGroup: FormGroup;
   public errorMessage: string = null;
+  public credentials: SignInCredentials = {} as SignInCredentials;
+  public authorization$: Observable<SignIn | any>;
 
-  constructor(
-    private service: StrapiAuthService,
-    private auth: AuthService,
-    private fb: FormBuilder,
-    private router: Router
-  ) {}
+  constructor(private fb: FormBuilder, private store$: Store<AppStore>) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -32,29 +33,9 @@ export class SigninComponent implements OnInit {
 
     try {
       this.errorMessage = null;
-      const credentials: any = { ...this.signInFormGroup.value };
-      const creds: SignInCredentials = {
-        creds: {
-          identifier: credentials.identifier,
-          password: credentials.password,
-          provider: 'local'
-        }
-      };
-
-      this.service.signIn(creds).subscribe(
-        res => {
-          if (res.login.jwt) {
-            console.log(res.login.jwt);
-            this.auth.addSessionItem('id_token', res.login.jwt);
-            this.router.navigate(['security/me']);
-          }
-        },
-        error => {
-          console.error(error);
-          this.errorMessage = error;
-        }
-      );
-
+      this.credentials = { ...this.signInFormGroup.value };
+      console.log('> creds', this.credentials);
+      this.store$.dispatch(new SecurityActions.LogIn(this.credentials));
       this.initializeForm();
     } catch (error) {
       console.error(error);
@@ -65,7 +46,8 @@ export class SigninComponent implements OnInit {
   initializeForm() {
     this.signInFormGroup = this.fb.group({
       identifier: [null, Validators.required],
-      password: [null, Validators.required]
+      password: [null, Validators.required],
+      provider: ['local', Validators.required]
     });
   }
 }

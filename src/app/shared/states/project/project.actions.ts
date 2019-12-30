@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Project } from '@models/project.interface';
-import { ProjectActionTypes } from '@shared/enums/project.enum';
+import { ProjectActionTypes } from '@enums/project.enum';
 
 export class LoadProject implements Action {
   readonly type = ProjectActionTypes.LOAD_PROJECTS;

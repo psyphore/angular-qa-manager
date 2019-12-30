@@ -1,8 +1,5 @@
-import {
-  ProjectsService,
-  ProjectsServiceGQL
-} from '@services/projects.service';
-import { Project, ProjectSummaryGQL } from '@models/project.interface';
+import { ProjectsService } from '@services/projects.service';
+import { Project, ReleaseSummary } from '@models/project.interface';
 import {
   Component,
   OnInit,
@@ -16,7 +13,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -31,7 +28,7 @@ export class ListingFormComponent implements OnInit {
   @Output() select: EventEmitter<any> = new EventEmitter();
   public limit = 5;
   list: Array<Project>;
-  gqlList: Observable<ProjectSummaryGQL[]>;
+  gqlList: Array<ReleaseSummary>;
   displayedColumns: Array<string> = [
     'id',
     'name',
@@ -43,11 +40,7 @@ export class ListingFormComponent implements OnInit {
   ];
   dataSource: MatTableDataSource<Project>;
 
-  constructor(
-    private serviceOne: ProjectsService,
-    private projectGQL: ProjectsServiceGQL,
-    private router: Router
-  ) {}
+  constructor(private serviceOne: ProjectsService, private router: Router) {}
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -61,6 +54,7 @@ export class ListingFormComponent implements OnInit {
       });
 
     this.list = new Array<Project>();
+    // this.gqlList = new Array<ReleaseSummary>();
     const collection = await this.serviceOne.getProjects();
     collection.subscribe((items: any[]) => {
       items.map((v, ix) =>
@@ -79,10 +73,6 @@ export class ListingFormComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-
-    this.gqlList = await this.projectGQL
-      .watch(null, {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(result => result.data.releases));
   }
 
   applyFilter(filterValue: string) {

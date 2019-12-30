@@ -1,4 +1,4 @@
-import { Person } from '../../interfaces/person.interface';
+import { Person } from '@models/person.interface';
 
 export interface PersonState {
   ids: number[];

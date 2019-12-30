@@ -1,3 +1,5 @@
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import {
   Project,
   ProjectsResponse,
@@ -7,7 +9,7 @@ import { GetProjects, GetProjectById } from '@shared/graphql';
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Query, Mutation } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 
 import { environment } from '@environments/environment';
 
@@ -16,7 +18,7 @@ import { environment } from '@environments/environment';
 })
 export class ProjectsService {
   baseUrl = environment.baseUrl;
-  constructor(public http: HttpClient) {}
+  constructor(private http: HttpClient, private apollo: Apollo) {}
 
   public getProjects() {
     return this.http.get<Array<Project>>(`${this.baseUrl}/albums`);
@@ -37,18 +39,25 @@ export class ProjectsService {
   public update(project: Project) {
     return this.http.put<Project>(`${this.baseUrl}/albums`, project);
   }
-}
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ProjectsServiceGQL extends Query<ProjectsResponse> {
-  document = GetProjects;
-}
+  public getAllProjectsGQL(
+    limit: number,
+    start: number
+  ): Observable<ProjectsResponse> {
+    return this.apollo
+      .watchQuery<ProjectsResponse, any>({
+        query: GetProjects,
+        variables: { limit, start }
+      })
+      .valueChanges.pipe(map(result => result.data));
+  }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ProjectServiceGQL extends Query<ProjectResponse> {
-  document = GetProjectById;
+  public getAProjectByIdGQL(projectId: number): Observable<ProjectResponse> {
+    return this.apollo
+      .watchQuery<ProjectResponse, any>({
+        query: GetProjectById,
+        variables: { releaseId: projectId }
+      })
+      .valueChanges.pipe(map(result => result.data));
+  }
 }

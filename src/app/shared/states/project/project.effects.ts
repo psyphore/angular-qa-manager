@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Project } from '@models/project.interface';
 import { ProjectsService } from '@services/projects.service';
-import { ProjectActionTypes } from '@shared/enums/project.enum';
+import { ProjectActionTypes } from '@enums/project.enum';
 
 @Injectable()
 export class ProjectEffects {
