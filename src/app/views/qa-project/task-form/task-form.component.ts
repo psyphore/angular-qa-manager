@@ -9,8 +9,7 @@ import {
   Output
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Story } from '@models/project.interface';
-// import { ProjectsService } from '@services/projects.service';
+import { Issue } from '@models/project.interface';
 
 @Component({
   selector: 'app-task-form',
@@ -19,12 +18,12 @@ import { Story } from '@models/project.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskFormComponent implements OnInit, OnChanges {
-  @Input() task: Story = {} as Story;
-  @Output() add: EventEmitter<Story> = new EventEmitter<Story>();
-  @Output() update: EventEmitter<Story> = new EventEmitter<Story>();
+  @Input() task: Issue = {} as Issue;
+  @Output() add: EventEmitter<Issue> = new EventEmitter<Issue>();
+  @Output() update: EventEmitter<Issue> = new EventEmitter<Issue>();
 
   taskId: number;
-  taskDetails: Story;
+  taskDetails: Issue;
   taskFormGroup: FormGroup;
 
   status = [
@@ -36,21 +35,12 @@ export class TaskFormComponent implements OnInit, OnChanges {
     { id: 6, name: 'Failed' }
   ];
 
-  constructor(
-    // private svc: ProjectsService,
-    private route: ActivatedRoute,
-    private fb: FormBuilder
-  ) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder) {
     this.route.params.subscribe(p => (this.taskId = p.id));
   }
 
   ngOnInit() {
     this.initForm(this.task);
-    if (this.taskId !== 0) {
-      // this.svc
-      //   .getProject(this.taskId)
-      //   .subscribe((data: any) => (this.taskDetails.id = data.id));
-    }
   }
 
   ngOnChanges() {
@@ -58,7 +48,7 @@ export class TaskFormComponent implements OnInit, OnChanges {
   }
 
   public addTask() {
-    const task: Story = { ...this.taskFormGroup.value };
+    const task: Issue = { ...this.taskFormGroup.value };
     this.add.emit(task);
     this.initForm();
   }
@@ -72,10 +62,10 @@ export class TaskFormComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
-  initForm(task: Partial<Story> = {}) {
+  initForm(task: Partial<Issue> = {}) {
     this.taskFormGroup = this.fb.group({
-      JIRA: [task.JIRA, Validators.required],
-      author: [task.developer, Validators.required],
+      link: [task.link, Validators.required],
+      person: [task.person, Validators.required],
       status: [
         task.status,
         Validators.compose([
@@ -84,7 +74,7 @@ export class TaskFormComponent implements OnInit, OnChanges {
           Validators.maxLength(5)
         ])
       ],
-      dateCompleted: [task.dateCompleted, Validators.required],
+      description: [task.description, Validators.required],
       points: [task.points, Validators.required],
       attachments: [
         null,

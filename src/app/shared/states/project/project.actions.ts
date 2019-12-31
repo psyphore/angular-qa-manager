@@ -1,9 +1,6 @@
+import { EnumsReponse } from '@models/enums.interface';
 import { Action } from '@ngrx/store';
-import {
-  ReleaseSummary,
-  Release,
-  ReleaseUpdate
-} from '@models/project.interface';
+import { Release, ReleaseUpdate } from '@models/project.interface';
 import { ProjectActionTypes } from '@enums/project.enum';
 
 export class LoadProject implements Action {
@@ -15,7 +12,7 @@ export class LoadProject implements Action {
 export class LoadProjectSuccess implements Action {
   readonly type = ProjectActionTypes.LOAD_PROJECTS_SUCCESS;
 
-  constructor(public payload: Array<ReleaseSummary>) {}
+  constructor(public payload: Array<Release>) {}
 }
 
 export class LoadProjectFailed implements Action {
@@ -78,6 +75,24 @@ export class UpdateFailed implements Action {
   constructor(public message: string) {}
 }
 
+export class LoadOptions implements Action {
+  readonly type = ProjectActionTypes.LOAD_OPTIONS;
+
+  constructor() {}
+}
+
+export class LoadOptionsSuccess implements Action {
+  readonly type = ProjectActionTypes.LOAD_OPTIONS_SUCCESS;
+
+  constructor(public payload: EnumsReponse) {}
+}
+
+export class LoadOptionsFailed implements Action {
+  readonly type = ProjectActionTypes.LOAD_OPTIONS_FAILED;
+
+  constructor(public message: string) {}
+}
+
 export type ProjectActions =
   | LoadProjectSuccess
   | Add
@@ -88,4 +103,7 @@ export type ProjectActions =
   | DeleteFailed
   | Update
   | UpdateSuccess
-  | UpdateFailed;
+  | UpdateFailed
+  | LoadOptions
+  | LoadOptionsSuccess
+  | LoadOptionsFailed;

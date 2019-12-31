@@ -7,12 +7,11 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-// import { NavigationStart, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { Project, ReleaseSummary } from '@models/project.interface';
+import { Project, Release } from '@models/project.interface';
 
 @Component({
   selector: 'app-listing-form',
@@ -21,21 +20,18 @@ import { Project, ReleaseSummary } from '@models/project.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListingFormComponent implements OnInit {
-  @Input() releases: Array<ReleaseSummary> = [];
+  @Input() releases: Array<Release> = [];
   @Input() limit = 5;
-  @Output() delete: EventEmitter<any> = new EventEmitter();
-  @Output() select: EventEmitter<any> = new EventEmitter();
+  @Output() delete: EventEmitter<Release> = new EventEmitter();
+  @Output() select: EventEmitter<Release> = new EventEmitter();
 
   displayedColumns: Array<string> = [
     'id',
-    'name',
-    'lead',
-    'release',
-    'customer',
-    'points',
-    'count'
+    'projectName',
+    'releaseName',
+    'person'
   ];
-  dataSource: MatTableDataSource<ReleaseSummary>;
+  dataSource: MatTableDataSource<Release>;
 
   constructor() {}
 
@@ -44,7 +40,7 @@ export class ListingFormComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   async ngOnInit() {
-    this.dataSource = new MatTableDataSource<ReleaseSummary>(this.releases);
+    this.dataSource = new MatTableDataSource<Release>(this.releases);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -53,11 +49,11 @@ export class ListingFormComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public deleteProject(project: Project) {
+  public deleteProject(project: Release) {
     this.delete.emit(project);
   }
 
-  public selectProject(project: Project) {
+  public selectProject(project: Release) {
     this.select.emit(project);
   }
 

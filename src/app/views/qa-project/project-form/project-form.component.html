@@ -4,11 +4,23 @@
     (ngSubmit)="onSubmit()"
     [formGroup]="projectFormGroup"
   >
-    <mat-form-field>
-      <mat-label>Name</mat-label>
+    <mat-form-field hidden>
+      <mat-label>Number</mat-label>
       <input
         required
-        formControlName="name"
+        formControlName="id"
+        class="form-control"
+        type="text"
+        matInput
+        readonly
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Project Name</mat-label>
+      <input
+        required
+        formControlName="projectName"
         class="form-control"
         placeholder="Proposal UX updates"
         type="text"
@@ -69,7 +81,7 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-
+    <!--
     <mat-form-field>
       <mat-label>Total Story Count</mat-label>
       <input
@@ -90,7 +102,7 @@
         type="number"
         matInput
       />
-    </mat-form-field>
+    </mat-form-field> -->
 
     <div class="example-button-row">
       <button

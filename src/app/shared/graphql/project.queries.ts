@@ -37,11 +37,11 @@ export const ReleaseFields = gql`
       ...basicPersonFields
     }
     issues {
-      id
-      summary
-      points
+      ...basicIssueFields
     }
   }
+  ${personFields}
+  ${IssueFields}
 `;
 
 export const GetReleases = gql`

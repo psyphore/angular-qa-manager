@@ -1,18 +1,11 @@
 <mat-card>
   <form [formGroup]="taskFormGroup">
     <div class="form-element">
-      <!--
-  fxLayout="column"
-      fxLayout.xs="column"
-      fxLayoutAlign="center"
-      fxLayoutGap="10px"
- -->
-
       <mat-form-field>
-        <mat-label>JIRA</mat-label>
+        <mat-label>Link</mat-label>
         <input
           required
-          formControlName="JIRA"
+          formControlName="link"
           class="form-control"
           placeholder="IPL-XXXX"
           type="text"
@@ -24,7 +17,7 @@
         <mat-label>Assigned To</mat-label>
         <input
           required
-          formControlName="author"
+          formControlName="person"
           class="form-control"
           placeholder="Sipho H."
           type="text"
@@ -42,10 +35,10 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Completed On</mat-label>
+        <mat-label>Description</mat-label>
         <input
           required
-          formControlName="dateCompleted"
+          formControlName="description"
           class="form-control"
           type="date"
           matInput

@@ -30,5 +30,8 @@ export enum ProjectActionTypes {
   UPDATE_FAILED = '[Project] Update failed',
   DELETE = '[Project] Delete',
   DELETE_SUCCESS = '[Project] Delete success',
-  DELETE_FAILED = '[Project] Delete failed'
+  DELETE_FAILED = '[Project] Delete failed',
+  LOAD_OPTIONS = '[Project] load options',
+  LOAD_OPTIONS_SUCCESS = '[Project] load options success',
+  LOAD_OPTIONS_FAILED = '[Project] load options failed'
 }

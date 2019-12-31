@@ -8,7 +8,8 @@ export function projectInitialState(): ProjectState {
     releases: {},
     release: null,
     issues: {},
-    issue: null
+    issue: null,
+    options: null
   };
 }
 
@@ -60,6 +61,12 @@ export function projectReducer(
           ...state.releases,
           ...releases_
         }
+      };
+
+    case ProjectActionTypes.LOAD_OPTIONS_SUCCESS:
+      return {
+        ...state,
+        options: { ...state.options }
       };
 
     default:

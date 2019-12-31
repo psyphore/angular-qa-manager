@@ -1,3 +1,9 @@
+import { Store } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
+import { Release } from '@models/project.interface';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+
 import {
   LoadProject,
   Delete,
@@ -7,23 +13,19 @@ import {
 import { fetchAllReleases } from '@states/project/project.selector';
 import { AppStore } from '@models/store.interface';
 
-import { Store } from '@ngrx/store';
-
-import { Observable } from 'rxjs';
-import { ReleaseSummary, Release } from '@models/project.interface';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectComponent {
+export class ProjectComponent implements OnInit {
   public project: Release = {} as Release;
-  public projects$: Observable<ReleaseSummary[]>;
+  public projects$: Observable<Release[]>;
 
-  constructor(private store$: Store<AppStore>) {
+  constructor(private store$: Store<AppStore>) {}
+
+  ngOnInit(): void {
     this.initialize();
   }
 

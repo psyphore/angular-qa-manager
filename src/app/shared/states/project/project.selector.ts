@@ -22,3 +22,8 @@ export const fetchAnIssue = createSelector(
   selectProjectState,
   state => state.issue
 );
+
+export const fetchAllOptions = createSelector(
+  selectProjectState,
+  state => state.options
+);

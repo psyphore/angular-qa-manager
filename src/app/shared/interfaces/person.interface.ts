@@ -1,9 +1,20 @@
 export interface Person {
-  id: number;
+  id: string | any;
   firstname: string;
   lastname: string;
   username: string;
   title: string;
   email: string;
-  avatar: string;
+  avatar: {
+    sha256: string;
+    url: string;
+    mime: string;
+    ext: string;
+  };
+  knownAs: string;
+  bio: string;
+}
+
+export interface ProfileResponse {
+  profile: Person;
 }

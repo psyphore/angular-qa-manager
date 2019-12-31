@@ -31,16 +31,16 @@ export const BasicQuery = gql`
 `;
 
 export const GetAllEnums = gql`
-  query getEnums {
-    environments {
-      id
-      name
-    }
+  query getOptions {
     statuses {
       id
       name
     }
     systems {
+      id
+      name
+    }
+    environments {
       id
       name
     }

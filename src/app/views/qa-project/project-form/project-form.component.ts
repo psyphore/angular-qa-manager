@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import {
-  Project,
+  Release,
   systemNames,
   environmentNames
 } from '@models/project.interface';
@@ -21,9 +21,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectFormComponent implements OnInit, OnChanges {
-  @Input() project: Project = {} as Project;
-  @Output() add: EventEmitter<Project> = new EventEmitter<Project>();
-  @Output() update: EventEmitter<Project> = new EventEmitter<Project>();
+  @Input() project: Release = {} as Release;
+  @Output() add: EventEmitter<Release> = new EventEmitter<Release>();
+  @Output() update: EventEmitter<Release> = new EventEmitter<Release>();
 
   sysnames = systemNames;
   envnames = environmentNames;
@@ -43,7 +43,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   }
 
   public addProject() {
-    const project: Project = { ...this.projectFormGroup.value };
+    const project: Release = { ...this.projectFormGroup.value };
     this.add.emit(project);
     this.initForm();
   }
@@ -57,18 +57,18 @@ export class ProjectFormComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
-  private initForm(project: Partial<Project> = {}) {
+  private initForm(project: Partial<Release> = {}) {
     this.projectFormGroup = this.fb.group({
       id: [project.id],
-      name: [project.name, Validators.required],
-      lead: [project.leadName, Validators.required],
+      projectName: [project.projectName, Validators.required],
       releaseName: [project.releaseName, Validators.required],
-      customerName: [project.customerName, Validators.required],
-      totalStoryPoints: [project.totalStoryPoints, Validators.required],
-      totalStoryCount: [project.totalStoryCount, Validators.required],
-      storyItems: [project.storyItems, Validators.required],
+      lead: [project.person, Validators.required],
+      customerName: [project.customer, Validators.required],
+      environment: [project.environment, Validators.required],
+      status: [project.status, Validators.required],
+      issues: [project.issues, Validators.required],
       system: [project.system, Validators.required],
-      environment: [project.environment, Validators.required]
+      attachments: [project.attachments]
     });
   }
 

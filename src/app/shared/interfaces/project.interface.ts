@@ -1,3 +1,5 @@
+import { Person } from './person.interface';
+
 export interface Project {
   id: number;
   name: string;
@@ -52,18 +54,17 @@ export interface Issue {
   points: number;
 }
 
-export interface ReleaseSummary {
-  id: string;
-  projectName: string;
-  releaseName: string;
-}
-
 export interface Release {
   id: string;
   projectName: string;
   releaseName: string;
   customer: string;
   issues: Issue[];
+  system: string;
+  environment: string;
+  status: string;
+  attachments: any[];
+  person: Person;
 }
 
 export interface ReleaseUpdate {
@@ -83,7 +84,7 @@ export interface ReleaseResponse {
 }
 
 export interface ReleasesResponse {
-  releases: ReleaseSummary[];
+  releases: Release[];
 }
 
 export interface ReleaseUpdateResponse {

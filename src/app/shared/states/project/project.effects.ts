@@ -1,3 +1,5 @@
+import { GeneralServices } from '@services/basic.service';
+import { EnumsReponse } from '@models/enums.interface';
 import {
   ReleasesResponse,
   ReleaseUpdateResponse,
@@ -6,13 +8,13 @@ import {
 } from '@models/project.interface';
 import * as ProjectActions from '@states/project/project.actions';
 
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Project, ReleaseSummary, Release } from '@models/project.interface';
+import { Release } from '@models/project.interface';
 import { ProjectsService } from '@services/projects.service';
 import { ProjectActionTypes } from '@enums/project.enum';
 
@@ -21,6 +23,7 @@ export class ProjectEffects {
   constructor(
     private actions$: Actions,
     private projectsService: ProjectsService,
+    private utils: GeneralServices,
     public snackBar: MatSnackBar
   ) {}
 
@@ -28,18 +31,34 @@ export class ProjectEffects {
     ProjectActionTypes.ADD_SUCCESS,
     ProjectActionTypes.UPDATE_SUCCESS,
     ProjectActionTypes.DELETE_SUCCESS,
-    ProjectActionTypes.LOAD_PROJECTS_SUCCESS
+    ProjectActionTypes.LOAD_PROJECTS_SUCCESS,
+    ProjectActionTypes.LOAD_OPTIONS_SUCCESS
   ];
 
   PROJECT_ACTIONS_FAILED = [
     ProjectActionTypes.ADD_FAILED,
     ProjectActionTypes.UPDATE_FAILED,
     ProjectActionTypes.DELETE_FAILED,
-    ProjectActionTypes.LOAD_PROJECTS_FAILED
+    ProjectActionTypes.LOAD_PROJECTS_FAILED,
+    ProjectActionTypes.LOAD_OPTIONS_FAILED
   ];
 
   @Effect()
-  loadAllProject$: Observable<ReleaseSummary | any> = this.actions$.pipe(
+  init$: Observable<any> = this.actions$.pipe(
+    ofType(ROOT_EFFECTS_INIT),
+    switchMap(() =>
+      this.utils.getAllOptions().pipe(
+        map(
+          (response: EnumsReponse) =>
+            new ProjectActions.LoadOptionsSuccess(response)
+        ),
+        catchError(error => of(new ProjectActions.LoadOptionsFailed(error)))
+      )
+    )
+  );
+
+  @Effect()
+  loadAllProject$: Observable<Release | any> = this.actions$.pipe(
     ofType(ProjectActionTypes.LOAD_PROJECTS),
     switchMap(() =>
       this.projectsService.getAllReleases(999, 0).pipe(
