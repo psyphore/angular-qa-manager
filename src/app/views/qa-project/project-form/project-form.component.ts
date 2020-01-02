@@ -13,6 +13,8 @@ import {
   systemNames,
   environmentNames
 } from '@models/project.interface';
+import { Person } from '@models/person.interface';
+import { EnumsReponse } from '@models/enums.interface';
 
 @Component({
   selector: 'app-project-form',
@@ -22,6 +24,8 @@ import {
 })
 export class ProjectFormComponent implements OnInit, OnChanges {
   @Input() project: Release = {} as Release;
+  @Input() qaPeople: Person[] = [] as Person[];
+  @Input() releaseOptions: EnumsReponse = {} as EnumsReponse;
   @Output() add: EventEmitter<Release> = new EventEmitter<Release>();
   @Output() update: EventEmitter<Release> = new EventEmitter<Release>();
 

@@ -1,15 +1,15 @@
 import { ProjectActions } from './project.actions';
 import { ProjectActionTypes } from '@enums/project.enum';
 import { ProjectState } from './project.state';
+import { EnumsReponse } from '@models/enums.interface';
 
 export function projectInitialState(): ProjectState {
   return {
-    ids: [],
     releases: {},
     release: null,
     issues: {},
     issue: null,
-    options: null
+    options: {} as EnumsReponse
   };
 }
 
@@ -66,7 +66,10 @@ export function projectReducer(
     case ProjectActionTypes.LOAD_OPTIONS_SUCCESS:
       return {
         ...state,
-        options: { ...state.options }
+        options: {
+          ...state.options,
+          ...action.payload
+        }
       };
 
     default:

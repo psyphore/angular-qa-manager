@@ -1,8 +1,7 @@
-import { PersonService, PersonQuery } from '@services/person.service';
+import { PersonService } from '@services/person.service';
 import { AuthService } from '@services/security.service';
 import { Person } from '@models/person.interface';
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -15,12 +14,11 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private personService: PersonService,
-    private personQuery: PersonQuery
+    private personService: PersonService
   ) {}
 
   ngOnInit() {
-    this.dummyProfileGraphQL();
+    this.dummyProfile();
   }
 
   private dummyProfile() {
@@ -32,13 +30,6 @@ export class ProfileComponent implements OnInit {
       this.profile = null;
       this.profileJson = null;
     });
-  }
-
-  private dummyProfileGraphQL() {
-    this.personQuery
-      .watch()
-      .valueChanges.pipe(map(result => result.data))
-      .subscribe((data: Person) => (this.profile = data));
   }
 
   private fetchProfile() {

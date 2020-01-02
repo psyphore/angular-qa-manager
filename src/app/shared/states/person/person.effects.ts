@@ -18,62 +18,38 @@ export class PersonEffects {
   ) {}
 
   PERSON_ACTIONS_SUCCESS = [
-    PersonActionTypes.ADD_SUCCESS,
-    PersonActionTypes.UPDATE_SUCCESS,
-    PersonActionTypes.DELETE_SUCCESS,
-    PersonActionTypes.LOAD_PERSONS_SUCCESS
+    PersonActionTypes.LOAD_PERSONS_SUCCESS,
+    PersonActionTypes.LOAD_PERSON_SUCCESS
   ];
 
   PERSON_ACTIONS_FAILED = [
-    PersonActionTypes.ADD_FAILED,
-    PersonActionTypes.UPDATE_FAILED,
-    PersonActionTypes.DELETE_FAILED,
-    PersonActionTypes.LOAD_PERSONS_FAILED
+    PersonActionTypes.LOAD_PERSONS_FAILED,
+    PersonActionTypes.LOAD_PERSON_FAILED
   ];
 
   @Effect()
-  loadAllPerson$: Observable<any> = this.actions$.pipe(
+  loadAll$: Observable<any> = this.actions$.pipe(
     ofType(PersonActionTypes.LOAD_PERSONS),
     switchMap(() =>
       this.personService.getUsers().pipe(
         map(
           (response: Array<Person>) =>
-            new PersonActions.LoadPersonSuccess(response)
+            new PersonActions.LoadPeopleSuccess(response)
+        ),
+        catchError(error => of(new PersonActions.LoadPeopleFailed(error)))
+      )
+    )
+  );
+
+  @Effect()
+  loadPerson$: Observable<any> = this.actions$.pipe(
+    ofType(PersonActionTypes.LOAD_PERSON),
+    switchMap((userId: number) =>
+      this.personService.getUser(userId).pipe(
+        map(
+          (response: Person) => new PersonActions.LoadPersonSuccess(response)
         ),
         catchError(error => of(new PersonActions.LoadPersonFailed(error)))
-      )
-    )
-  );
-
-  @Effect()
-  addPerson$: Observable<any> = this.actions$.pipe(
-    ofType(PersonActionTypes.ADD),
-    switchMap((action: any) =>
-      this.personService.addUser(action.person).pipe(
-        map((person: Person) => new PersonActions.AddSuccess(person)),
-        catchError(error => of(new PersonActions.AddFailed(error)))
-      )
-    )
-  );
-
-  @Effect()
-  deletePerson$: Observable<any> = this.actions$.pipe(
-    ofType(PersonActionTypes.DELETE),
-    switchMap(({ id }) =>
-      this.personService.deleteUser(id).pipe(
-        map(() => new PersonActions.DeleteSuccess(id)),
-        catchError(error => of(new PersonActions.DeleteFailed(error)))
-      )
-    )
-  );
-
-  @Effect()
-  updatePerson$: Observable<any> = this.actions$.pipe(
-    ofType(PersonActionTypes.UPDATE),
-    switchMap(({ person }) =>
-      this.personService.updateUser(person).pipe(
-        map(() => new PersonActions.UpdateSuccess(person)),
-        catchError(error => of(new PersonActions.UpdateFailed(error)))
       )
     )
   );

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-// import createAuth0Client from '@auth0/auth0-spa-js';
-// import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { BehaviorSubject, Observable } from 'rxjs';
-// import { environment } from '@environments/environment';
-
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
+
+import { selectToken } from '@states/security/security.selector';
+import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
   Me as MeResponse,
   SignInCredentials
 } from '@models/security.interface';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,8 @@ export class AuthService {
   profile = new BehaviorSubject<any>(null);
 
   private auth0Client: any; // Auth0Client;
+
+  constructor(private store$: Store<AppStore>) {}
 
   /**
    * Gets the Auth0Client instance.
@@ -61,6 +63,18 @@ export class AuthService {
     return authHeader;
   }
 
+  getAuthorizationHeaderAsync(): Observable<string> {
+    const header = this.store$
+      .select(selectToken)
+      .pipe(
+        map(
+          res => res && res.login && res.login.jwt && `Bearer ${res.login.jwt}`
+        )
+      );
+
+    return header;
+  }
+
   logout() {
     this.auth0Client.logout();
     localStorage.removeItem('access_token');
@@ -83,8 +97,14 @@ export class AuthService {
   }
 
   hasToken(): boolean {
-    const hasHeader = this.getAuthorizationHeader() !== null;
-    return hasHeader;
+    const hasHeader = this.getAuthorizationHeader();
+    return hasHeader && hasHeader.indexOf('Bearer ') !== -1;
+  }
+
+  hasTokenAsync(): Observable<boolean> {
+    return this.getAuthorizationHeaderAsync().pipe(
+      map(header => (header && header.indexOf('Bearer ') !== -1 ? true : false))
+    );
   }
 
   addSessionItem(key: string, value: any): void {

@@ -1,3 +1,4 @@
+import { AuthService } from '@services/security.service';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -6,7 +7,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '@services/security.service';
+import { first, flatMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class HeaderInterceptor implements HttpInterceptor {
@@ -16,15 +17,17 @@ export class HeaderInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const headers = req.headers
-      .set('Content-Type', 'application/json')
-      .set('Authorization', this.auth.getAuthorizationHeader());
-
-    if (!this.auth.hasToken()) {
-      headers.delete('Authorization');
-    }
-
-    const authReq = req.clone({ headers });
-    return next.handle(authReq);
+    return this.auth.getAuthorizationHeaderAsync().pipe(
+      first(),
+      flatMap(token => {
+        const headers =
+          token && token.length !== 0
+            ? req.clone({
+                setHeaders: { Authorization: token }
+              })
+            : req;
+        return next.handle(headers);
+      })
+    );
   }
 }

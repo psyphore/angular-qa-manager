@@ -84,7 +84,7 @@ export class LoadOptions implements Action {
 export class LoadOptionsSuccess implements Action {
   readonly type = ProjectActionTypes.LOAD_OPTIONS_SUCCESS;
 
-  constructor(public payload: EnumsReponse) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadOptionsFailed implements Action {

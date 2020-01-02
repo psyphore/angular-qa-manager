@@ -2,13 +2,19 @@
   <div class="col-md-12">
     <app-project-form
       [project]="project"
+      [releaseOptions]="projectOptions$ | async"
+      [qaPeople]="qaPeople$ | async"
       (update)="onUpdate($event)"
       (add)="onAdd($event)"
     ></app-project-form>
   </div>
   <div class="col-md-12">
+    <br />
+  </div>
+  <div class="col-md-12">
     <app-listing-form
       [releases]="projects$ | async"
+      [limit]="10"
       (delete)="onDelete($event)"
       (select)="onSelect($event)"
     ></app-listing-form>

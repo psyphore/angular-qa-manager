@@ -14,8 +14,9 @@ export const fetchARelease = createSelector(
   state => state.release
 );
 
-export const fetchAllIssues = createSelector(selectProjectState, state =>
-  Object.values(state.issues)
+export const fetchAllIssues = createSelector(
+  selectProjectState,
+  state => state.issues
 );
 
 export const fetchAnIssue = createSelector(

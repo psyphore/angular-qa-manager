@@ -15,6 +15,10 @@ export interface Person {
   bio: string;
 }
 
-export interface ProfileResponse {
-  profile: Person;
+export interface PersonResponse {
+  person: Person;
+}
+
+export interface PeopleResponse {
+  people: Person[];
 }

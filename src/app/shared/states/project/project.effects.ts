@@ -44,8 +44,8 @@ export class ProjectEffects {
   ];
 
   @Effect()
-  init$: Observable<any> = this.actions$.pipe(
-    ofType(ROOT_EFFECTS_INIT),
+  loadEnums$: Observable<EnumsReponse | any> = this.actions$.pipe(
+    ofType(ProjectActionTypes.LOAD_OPTIONS),
     switchMap(() =>
       this.utils.getAllOptions().pipe(
         map(

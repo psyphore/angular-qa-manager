@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '@services/security.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ import { AuthService } from '@services/security.service';
 })
 export class HeaderComponent implements OnInit {
   public currentPath: string;
-  public hasToken: boolean;
+  public hasToken$: Observable<boolean>;
   @Input() title: string;
   constructor(private router: Router, private auth: AuthService) {}
 
@@ -17,6 +18,6 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe(
       (_: NavigationEnd) => (this.currentPath = _.url)
     );
-    this.hasToken = this.auth.hasToken();
+    this.hasToken$ = this.auth.hasTokenAsync();
   }
 }

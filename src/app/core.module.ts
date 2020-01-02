@@ -2,8 +2,15 @@ import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import {
+  StoreModule,
+  ActionReducer,
+  ActionReducerMap,
+  MetaReducer
+} from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgrxCacheModule, NgrxCache } from 'apollo-angular-cache-ngrx';
+import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { environment } from '@environments/environment';
 import { reducers } from '@states/root.reducer';
@@ -33,19 +40,43 @@ const services = [
   AuthService
 ];
 
+export function localStorageSyncReducer(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return localStorageSync({ keys: ['qa'] })(reducer);
+}
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
+
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {}),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictStateSerializability: true,
+        strictActionSerializability: true
+      }
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production
+      logOnly: environment.production,
+      features: {
+        pause: false,
+        lock: true,
+        persist: true
+      }
     }),
-    EffectsModule.forRoot([...effects])
+    EffectsModule.forRoot([...effects]),
+    NgrxCacheModule
   ],
   providers: [...services],
   exports: []
 })
-export class CoreModule {}
+export class CoreModule {
+  constructor(_cache: NgrxCache) {
+    // const cache = _cache.create({});
+  }
+}

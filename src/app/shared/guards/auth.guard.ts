@@ -1,45 +1,46 @@
+import { AuthService } from '@services/security.service';
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree
+  Router,
+  CanActivateChild
 } from '@angular/router';
-import {
-  AuthService,
-  StrapiAuthService
-} from '@shared/services/security.service';
-import { environment } from '@environments/environment';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private sauth: StrapiAuthService
-  ) {}
+export class AuthGuard implements CanActivate, CanActivateChild {
+  constructor(private router: Router, private auth: AuthService) {}
 
-  async canActivate(
+  canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Promise<boolean | UrlTree> {
-    if (this.authService.hasToken()) {
-      return true;
-    }
+  ): Observable<boolean> {
+    return this.checkForToken();
+  }
 
-    const client = await this.authService.getAuth0Client();
-    const isAuthenticated = await client.isAuthenticated();
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
+    return this.canActivate(next, state);
+  }
 
-    if (isAuthenticated) {
-      return true;
-    }
+  checkForToken(): Observable<boolean> {
+    return this.auth.hasTokenAsync().pipe(
+      map(value => {
+        if (value) {
+          return true;
+        }
+        const url = '/security/signin';
+        this.router.navigate([url]);
 
-    client.loginWithRedirect({
-      redirect_uri: environment.auth0config.redirect_uri,
-      appState: { target: state.url }
-    });
-
-    return false;
+        return false;
+      })
+    );
   }
 }

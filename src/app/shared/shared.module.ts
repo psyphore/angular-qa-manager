@@ -9,9 +9,7 @@ import { EmojiDirective } from './directives/emoji.directive';
 import {
   ProjectsService,
   PersonService,
-  PersonQuery,
   AuthService,
-  BasicService,
   StrapiAuthService
 } from './services';
 import { AuthGuard } from './guards/auth.guard';
@@ -26,8 +24,6 @@ const COMPONENTS = [EmojiDirective];
     AuthGuard,
     ProjectsService,
     PersonService,
-    PersonQuery,
-    BasicService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,

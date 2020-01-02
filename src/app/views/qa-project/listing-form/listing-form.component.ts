@@ -11,7 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { Project, Release } from '@models/project.interface';
+import { Release } from '@models/project.interface';
 
 @Component({
   selector: 'app-listing-form',
@@ -20,7 +20,7 @@ import { Project, Release } from '@models/project.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListingFormComponent implements OnInit {
-  @Input() releases: Array<Release> = [];
+  @Input() releases: Array<Release> = [] as Array<Release>;
   @Input() limit = 5;
   @Output() delete: EventEmitter<Release> = new EventEmitter();
   @Output() select: EventEmitter<Release> = new EventEmitter();
@@ -39,7 +39,11 @@ export class ListingFormComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeGrid();
+  }
+
+  initializeGrid() {
     this.dataSource = new MatTableDataSource<Release>(this.releases);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

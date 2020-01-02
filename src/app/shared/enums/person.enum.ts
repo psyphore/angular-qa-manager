@@ -5,16 +5,11 @@ export enum Person {
 }
 
 export enum PersonActionTypes {
-  ADD = '[Person] Add',
-  ADD_SUCCESS = '[Person] Add success',
-  ADD_FAILED = '[Person] Add failed',
-  LOAD_PERSONS = '[Person] Load Person',
-  LOAD_PERSONS_SUCCESS = '[Person] Load Person success',
-  LOAD_PERSONS_FAILED = '[Person] Load Person failed',
-  UPDATE = '[Person] Update',
-  UPDATE_SUCCESS = '[Person] Update success',
-  UPDATE_FAILED = '[Person] Update failed',
-  DELETE = '[Person] Delete',
-  DELETE_SUCCESS = '[Person] Delete success',
-  DELETE_FAILED = '[Person] Delete failed'
+  LOAD_PERSONS = '[People] Load Person',
+  LOAD_PERSONS_SUCCESS = '[People] Load Person success',
+  LOAD_PERSONS_FAILED = '[People] Load Person failed',
+
+  LOAD_PERSON = '[Person] Load Person',
+  LOAD_PERSON_SUCCESS = '[Person] Load Person success',
+  LOAD_PERSON_FAILED = '[Person] Load Person failed'
 }

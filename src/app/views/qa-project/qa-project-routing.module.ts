@@ -1,3 +1,4 @@
+import { AuthGuard } from '@shared/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -11,11 +12,21 @@ const routes: Routes = [
   {
     path: 'projects',
     component: HostComponent,
+    canActivate: [AuthGuard],
     children: [
-      { path: '', component: ProjectComponent },
-      { path: 'list/:archived', component: ListingFormComponent },
-      { path: 'detail/:projectId', component: ProjectComponent },
-      { path: 'detail/:projectId/task/:taskId', component: TaskFormComponent }
+      {
+        path: '',
+        component: ProjectComponent,
+        canActivateChild: [AuthGuard],
+        children: [
+          { path: 'list/:archived', component: ListingFormComponent },
+          { path: 'detail/:projectId', component: ProjectComponent },
+          {
+            path: 'detail/:projectId/task/:taskId',
+            component: TaskFormComponent
+          }
+        ]
+      }
     ]
   }
 ];

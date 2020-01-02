@@ -1,81 +1,45 @@
 import { Action } from '@ngrx/store';
-import { PersonActionTypes } from '../../enums/person.enum';
-import { Person } from '../../interfaces/person.interface';
+import { PersonActionTypes } from '@enums/person.enum';
+import { Person } from '@models/person.interface';
 
-export class LoadPerson implements Action {
+export class LoadPeople implements Action {
   readonly type = PersonActionTypes.LOAD_PERSONS;
 
   constructor() {}
 }
 
-export class LoadPersonSuccess implements Action {
+export class LoadPeopleSuccess implements Action {
   readonly type = PersonActionTypes.LOAD_PERSONS_SUCCESS;
 
   constructor(public payload: Array<Person>) {}
 }
-export class LoadPersonFailed implements Action {
+export class LoadPeopleFailed implements Action {
   readonly type = PersonActionTypes.LOAD_PERSONS_FAILED;
 
   constructor(public message: string) {}
 }
 
-export class Add implements Action {
-  readonly type = PersonActionTypes.ADD;
+export class LoadPerson implements Action {
+  readonly type = PersonActionTypes.LOAD_PERSON;
 
-  constructor(public person: Person) {}
+  constructor() {}
 }
 
-export class AddSuccess implements Action {
-  readonly type = PersonActionTypes.ADD_SUCCESS;
+export class LoadPersonSuccess implements Action {
+  readonly type = PersonActionTypes.LOAD_PERSON_SUCCESS;
 
-  constructor(public person: Person) {}
+  constructor(public payload: Person) {}
 }
-export class AddFailed implements Action {
-  readonly type = PersonActionTypes.ADD_FAILED;
-
-  constructor(public message: string) {}
-}
-
-export class Delete implements Action {
-  readonly type = PersonActionTypes.DELETE;
-
-  constructor(public id: number) {}
-}
-export class DeleteSuccess implements Action {
-  readonly type = PersonActionTypes.DELETE_SUCCESS;
-
-  constructor(public id: number) {}
-}
-export class DeleteFailed implements Action {
-  readonly type = PersonActionTypes.DELETE_FAILED;
-
-  constructor(public message: string) {}
-}
-
-export class Update implements Action {
-  readonly type = PersonActionTypes.UPDATE;
-
-  constructor(public person: Person) {}
-}
-export class UpdateSuccess implements Action {
-  readonly type = PersonActionTypes.UPDATE_SUCCESS;
-
-  constructor(public person: Person) {}
-}
-export class UpdateFailed implements Action {
-  readonly type = PersonActionTypes.UPDATE_FAILED;
+export class LoadPersonFailed implements Action {
+  readonly type = PersonActionTypes.LOAD_PERSON_FAILED;
 
   constructor(public message: string) {}
 }
 
 export type PersonActions =
   | LoadPersonSuccess
-  | Add
-  | AddSuccess
-  | AddFailed
-  | Delete
-  | DeleteSuccess
-  | DeleteFailed
-  | Update
-  | UpdateSuccess
-  | UpdateFailed;
+  | LoadPerson
+  | LoadPersonFailed
+  | LoadPeople
+  | LoadPeopleFailed
+  | LoadPeopleSuccess;

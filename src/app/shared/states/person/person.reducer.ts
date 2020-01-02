@@ -1,12 +1,12 @@
-import { PersonActionTypes } from './../../enums/person.enum';
+import { PersonActionTypes } from '@enums/person.enum';
 import { PersonActions } from './person.actions';
 
 import { PersonState } from './person.state';
 
 export function personInitialState(): PersonState {
   return {
-    ids: [],
-    entities: {}
+    entities: {},
+    entity: null
   };
 }
 
@@ -28,29 +28,12 @@ export function personReducer(
         entities: arrayToObject(action.payload)
       };
 
-    case PersonActionTypes.ADD_SUCCESS:
+    case PersonActionTypes.LOAD_PERSON_SUCCESS:
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.person.id]: action.person
-        }
-      };
-
-    case PersonActionTypes.DELETE_SUCCESS:
-      const entities = { ...state.entities };
-      delete entities[action.id];
-      return {
-        ...state,
-        entities
-      };
-
-    case PersonActionTypes.UPDATE_SUCCESS:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.person.id]: action.person
+        entity: {
+          ...state.entity,
+          [action.payload.id]: action.payload
         }
       };
 

@@ -1,20 +1,13 @@
+import { Me, SignIn } from '@models/security.interface';
 import { SecurityActions } from './security.actions';
 import { SecurityActionTypes } from '@enums/security.enum';
 import { SecurityState } from './security.state';
 
 export function securityInitialState(): SecurityState {
   return {
-    ids: [],
-    entities: { me: null },
-    auth: { login: null }
+    entities: {} as Me,
+    auth: {} as SignIn
   };
-}
-
-function arrayToObject(array: any[]) {
-  return array.reduce((obj, item) => {
-    obj[item.id] = item;
-    return obj;
-  }, {});
 }
 
 export function securityReducer(

@@ -1,16 +1,9 @@
 import { EnumsReponse } from './../interfaces/enums.interface';
 import { Injectable } from '@angular/core';
-import { Query, Apollo } from 'apollo-angular';
-import { BasicQueryResponse, BasicQuery, GetAllEnums } from '@shared/graphql';
+import { Apollo } from 'apollo-angular';
+import { GetAllEnums } from '@shared/graphql';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class BasicService extends Query<BasicQueryResponse> {
-  document = BasicQuery;
-}
 
 @Injectable({ providedIn: 'root' })
 export class GeneralServices {
@@ -18,9 +11,9 @@ export class GeneralServices {
 
   public getAllOptions(): Observable<EnumsReponse> {
     return this.apollo
-      .query<EnumsReponse>({
+      .watchQuery<EnumsReponse>({
         query: GetAllEnums
       })
-      .pipe(map(res => res.data));
+      .valueChanges.pipe(map(res => res.data));
   }
 }

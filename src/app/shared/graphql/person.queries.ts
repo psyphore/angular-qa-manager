@@ -36,3 +36,16 @@ export const GetProfileQuery = gql`
 
   ${personFields}
 `;
+
+export const GetAllPeople = gql`
+  query getPeeps {
+    people {
+      id
+      firstname
+      lastname
+      avatar {
+        url
+      }
+    }
+  }
+`;

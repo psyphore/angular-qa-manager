@@ -2,7 +2,6 @@ import { Release, Issue } from '@models/project.interface';
 import { EnumsReponse } from '@models/enums.interface';
 
 export interface ProjectState {
-  ids: number[];
   releases: { [key: string]: Release };
   release: Release;
   issues: { [key: string]: Issue };

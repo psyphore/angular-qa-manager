@@ -48,7 +48,7 @@ export class SecurityEffects {
   LogInSuccess$: Observable<any> = this.actions$.pipe(
     ofType(SecurityActionTypes.SIGN_IN_SUCCESS),
     tap((security: any) => {
-      this.authSvc.addSessionItem('id_token', security.security.login.jwt);
+      // this.authSvc.addSessionItem('id_token', security.security.login.jwt);
       this.snackBar.open('SUCCESS', 'Operation success', {
         duration: this.snackBarDuration
       });

@@ -12,8 +12,13 @@ const routes: Routes = [
     path: 'security',
     component: HostComponent,
     children: [
-      { path: 'signin', component: SigninComponent },
-      { path: 'me', component: MeComponent /*, canActivate: [AuthGuard]*/ }
+      {
+        path: '',
+        children: [
+          { path: 'signin', component: SigninComponent },
+          { path: 'me', component: MeComponent, canActivate: [AuthGuard] }
+        ]
+      }
     ]
   }
 ];

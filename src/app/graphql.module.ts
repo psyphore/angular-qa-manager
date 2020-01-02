@@ -7,11 +7,9 @@ import { from } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 
-import { AuthService } from '@services/security.service';
 import { environment } from '@environments/environment';
 
 const uri = environment.graphQL_URI2;
-const auth = new AuthService();
 
 const defaultState = {};
 
@@ -37,13 +35,13 @@ export function provideApollo(httpLink: HttpLink) {
     includeExtensions: true
   });
 
-  const basic = setContext((operation, context) => ({
-    headers: {
-      Accept: 'charset=utf-8',
-      'Content-Type': 'application/json',
-      Authorization: auth.getAuthorizationHeader()
-    }
-  }));
+  // const basic = setContext((operation, context) => ({
+  //   headers: {
+  //     Accept: 'charset=utf-8',
+  //     'Content-Type': 'application/json',
+  //     Authorization: auth.getAuthorizationHeader()
+  //   }
+  // }));
 
   const cache = new InMemoryCache();
 
@@ -58,7 +56,7 @@ export function provideApollo(httpLink: HttpLink) {
     }
   });
 
-  const link = from([error, basic, http]);
+  const link = from([error, http]);
 
   return {
     link,

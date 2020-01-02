@@ -4,7 +4,11 @@ import { PersonState } from './person.state';
 
 export const selectPersonState = createFeatureSelector<PersonState>('person');
 
-export const selectAll = createSelector(
+export const fetchPeople = createSelector(selectPersonState, state =>
+  Object.values(state.entities)
+);
+
+export const fetchPerson = createSelector(
   selectPersonState,
-  state => Object.values(state.entities)
+  state => state.entity
 );

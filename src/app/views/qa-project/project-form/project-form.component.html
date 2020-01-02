@@ -6,14 +6,7 @@
   >
     <mat-form-field hidden>
       <mat-label>Number</mat-label>
-      <input
-        required
-        formControlName="id"
-        class="form-control"
-        type="text"
-        matInput
-        readonly
-      />
+      <input required formControlName="id" type="text" matInput readonly />
     </mat-form-field>
 
     <mat-form-field>
@@ -21,7 +14,6 @@
       <input
         required
         formControlName="projectName"
-        class="form-control"
         placeholder="Proposal UX updates"
         type="text"
         matInput
@@ -33,7 +25,6 @@
       <input
         required
         formControlName="releaseName"
-        class="form-control"
         placeholder="Sprint 15"
         type="text"
         matInput
@@ -42,14 +33,11 @@
 
     <mat-form-field>
       <mat-label>QA Lead</mat-label>
-      <input
-        required
-        formControlName="lead"
-        class="form-control"
-        placeholder="John Basic"
-        type="text"
-        matInput
-      />
+      <mat-select required formControlName="lead">
+        <mat-option *ngFor="let qa of qaPeople" [value]="qa.id">{{
+          qa.firstname + ' ' + qa.lastname
+        }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
@@ -57,7 +45,6 @@
       <input
         required
         formControlName="customerName"
-        class="form-control"
         placeholder="AIG"
         type="text"
         matInput
@@ -66,43 +53,36 @@
 
     <mat-form-field>
       <mat-label>System</mat-label>
-      <mat-select required formControlName="system" class="form-control">
-        <mat-option *ngFor="let sysn of sysnames" [value]="sysn.id">{{
-          sysn.name
-        }}</mat-option>
+      <mat-select required formControlName="system">
+        <mat-option
+          *ngFor="let sysn of releaseOptions.systems"
+          [value]="sysn.id"
+          >{{ sysn.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select required formControlName="status">
+        <mat-option
+          *ngFor="let sysn of releaseOptions.statuses"
+          [value]="sysn.id"
+          >{{ sysn.name }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Environment</mat-label>
-      <mat-select required formControlName="environment" class="form-control">
-        <mat-option *ngFor="let env of envnames" [value]="env.id">{{
-          env.name
-        }}</mat-option>
+      <mat-select required formControlName="environment">
+        <mat-option
+          *ngFor="let env of releaseOptions.environments"
+          [value]="env.id"
+          >{{ env.name }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
-    <!--
-    <mat-form-field>
-      <mat-label>Total Story Count</mat-label>
-      <input
-        required
-        formControlName="totalStoryCount"
-        class="form-control"
-        type="number"
-        matInput
-      />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Total Story Points</mat-label>
-      <input
-        required
-        formControlName="totalStoryPoints"
-        class="form-control"
-        type="number"
-        matInput
-      />
-    </mat-form-field> -->
 
     <div class="example-button-row">
       <button
