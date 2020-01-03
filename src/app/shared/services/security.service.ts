@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, flatMap, first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
 
-import { selectToken } from '@states/security/security.selector';
+import { selectAll } from '@states/security/security.selector';
 import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
@@ -22,7 +22,7 @@ export class AuthService {
 
   private auth0Client: any; // Auth0Client;
 
-  constructor(private store$: Store<AppStore>) {}
+  constructor(private store$: Store<AppStore>, private apollo: Apollo) {}
 
   /**
    * Gets the Auth0Client instance.
@@ -65,9 +65,13 @@ export class AuthService {
 
   getAuthorizationHeaderAsync(): Observable<string> {
     const header = this.store$
-      .select(selectToken)
+      .select(selectAll)
       .pipe(
-        map(
+        first(),
+        flatMap(d => d)
+      )
+      .pipe(
+        flatMap(
           res => res && res.login && res.login.jwt && `Bearer ${res.login.jwt}`
         )
       );
@@ -128,11 +132,6 @@ export class AuthService {
   getSession(key: string): any {
     return localStorage.getItem(key);
   }
-}
-
-@Injectable({ providedIn: 'root' })
-export class StrapiAuthService {
-  constructor(private apollo: Apollo) {}
 
   public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
     return this.apollo

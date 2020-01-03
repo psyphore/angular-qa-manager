@@ -2,50 +2,20 @@ import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import {
-  StoreModule,
-  ActionReducer,
-  ActionReducerMap,
-  MetaReducer
-} from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NgrxCacheModule, NgrxCache } from 'apollo-angular-cache-ngrx';
-import { localStorageSync } from 'ngrx-store-localstorage';
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
 
 import { environment } from '@environments/environment';
 import { reducers } from '@states/root.reducer';
-import { PokemonEffects } from '@states/pokemon';
 import { ProjectEffects } from '@states/project';
 import { PersonEffects } from '@states/person';
 import { SecurityEffects } from '@states/security';
-import {
-  PersonService,
-  ProjectsService,
-  PokemonService,
-  StrapiAuthService,
-  AuthService
-} from '@shared/services';
+import { PersonService, ProjectsService, AuthService } from '@shared/services';
 
-const effects = [
-  PokemonEffects,
-  ProjectEffects,
-  PersonEffects,
-  SecurityEffects
-];
-const services = [
-  PersonService,
-  ProjectsService,
-  PokemonService,
-  StrapiAuthService,
-  AuthService
-];
-
-export function localStorageSyncReducer(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
-  return localStorageSync({ keys: ['qa'] })(reducer);
-}
-const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
+const effects = [ProjectEffects, PersonEffects, SecurityEffects];
+const services = [PersonService, ProjectsService, AuthService];
 
 @NgModule({
   declarations: [],
@@ -53,6 +23,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, {
+      metaReducers: [storageSyncMetaReducer],
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
@@ -77,6 +48,6 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 })
 export class CoreModule {
   constructor(_cache: NgrxCache) {
-    // const cache = _cache.create({});
+    const cache = _cache.create({});
   }
 }

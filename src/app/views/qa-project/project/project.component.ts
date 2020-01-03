@@ -10,18 +10,17 @@ import {
   Update,
   Add
 } from '@states/project/project.actions';
-import {
-  fetchAllReleases,
-  fetchAllOptions
-} from '@states/project/project.selector';
+import { selectAll as selectProjects } from '@states/project/project.selector';
+import { selectAll as selectOptions } from '@states/project/enum.selector';
 
 import { LoadPeople } from '@states/person/person.actions';
-import { fetchPeople } from '@states/person/person.selector';
+import { selectAll as selectPeople } from '@states/person/person.selector';
 
 import { AppStore } from '@models/store.interface';
 import { Person } from '@models/person.interface';
 import { EnumsReponse } from '@models/enums.interface';
 import { Release } from '@models/project.interface';
+import { first, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-project',
@@ -46,9 +45,12 @@ export class ProjectComponent implements OnInit {
     this.store$.dispatch(new LoadProject());
     this.store$.dispatch(new LoadPeople());
 
-    this.projects$ = this.store$.select(fetchAllReleases);
-    this.qaPeople$ = this.store$.select(fetchPeople);
-    this.projectOptions$ = this.store$.select(fetchAllOptions);
+    this.projects$ = this.store$.select(selectProjects);
+    this.qaPeople$ = this.store$.select(selectPeople);
+    this.projectOptions$ = this.store$.select(selectOptions).pipe(
+      first(),
+      flatMap(p => p)
+    );
   }
 
   public onDelete(project: Release) {

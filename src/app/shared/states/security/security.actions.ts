@@ -53,13 +53,13 @@ export class LoadSecurityFailed implements Action {
 export class Update implements Action {
   readonly type = SecurityActionTypes.UPDATE;
 
-  constructor(public security: Me) {}
+  constructor(public payload: Me) {}
 }
 
 export class UpdateSuccess implements Action {
   readonly type = SecurityActionTypes.UPDATE_SUCCESS;
 
-  constructor(public security: Me) {}
+  constructor(public payload: Me) {}
 }
 
 export class UpdateFailed implements Action {

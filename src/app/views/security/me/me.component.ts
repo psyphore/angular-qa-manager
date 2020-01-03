@@ -4,10 +4,11 @@ import { Store } from '@ngrx/store';
 
 import { AuthService } from '@services/security.service';
 import { LoadSecurity } from '@states/security/security.actions';
-import { selectMe } from '@states/security/security.selector';
+import { selectAll } from '@states/security/me.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Me } from '@models/security.interface';
+import { first, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-me',
@@ -28,7 +29,13 @@ export class MeComponent implements OnInit {
     this.errorMessage = null;
     try {
       this.store$.dispatch(new LoadSecurity());
-      this.store$.select(selectMe).subscribe(d => (this.profile = d));
+      this.store$
+        .select(selectAll)
+        .pipe(
+          first(),
+          flatMap(d => d)
+        )
+        .subscribe(d => (this.profile = d));
     } catch (err) {
       this.handleError(err);
     }

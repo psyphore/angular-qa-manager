@@ -6,12 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SharedMaterialModule } from './shared-material.module';
 import { HeaderInterceptor } from './interceptors/auth.interceptor';
 import { EmojiDirective } from './directives/emoji.directive';
-import {
-  ProjectsService,
-  PersonService,
-  AuthService,
-  StrapiAuthService
-} from './services';
+import { ProjectsService, PersonService, AuthService } from './services';
 import { AuthGuard } from './guards/auth.guard';
 
 const COMPONENTS = [EmojiDirective];
@@ -29,8 +24,7 @@ const COMPONENTS = [EmojiDirective];
       useClass: HeaderInterceptor,
       multi: true,
       deps: [AuthService]
-    },
-    StrapiAuthService
+    }
   ],
   exports: COMPONENTS
 })

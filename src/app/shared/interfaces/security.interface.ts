@@ -14,7 +14,7 @@ export interface SignIn {
 
 export interface Me {
   me: {
-    id: string;
+    id: any;
     username: string;
     email: string;
     confirmed: boolean;

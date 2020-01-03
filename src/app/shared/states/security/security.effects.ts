@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material';
 
 import * as SecurityActions from '@states/security/security.actions';
 import { Me, SignIn, SignInCredentials } from '@models/security.interface';
-import { StrapiAuthService, AuthService } from '@services/security.service';
+import { AuthService } from '@services/security.service';
 import { SecurityActionTypes } from '@enums/security.enum';
 
 @Injectable()
@@ -15,7 +15,6 @@ export class SecurityEffects {
   private snackBarDuration = 2000;
   constructor(
     private actions$: Actions,
-    private securityService: StrapiAuthService,
     private authSvc: AuthService,
     private router: Router,
     public snackBar: MatSnackBar
@@ -37,7 +36,8 @@ export class SecurityEffects {
   LogIn$: Observable<SignIn | any> = this.actions$.pipe(
     ofType(SecurityActionTypes.SIGN_IN),
     switchMap((creds: SignInCredentials | any) => {
-      return this.securityService.signIn({ creds: creds.security }).pipe(
+      console.log(creds);
+      return this.authSvc.signIn({ creds: creds.security }).pipe(
         map((result: SignIn) => new SecurityActions.LogInSuccess(result)),
         catchError(error => of(new SecurityActions.LogInFailed(error)))
       );
@@ -48,6 +48,7 @@ export class SecurityEffects {
   LogInSuccess$: Observable<any> = this.actions$.pipe(
     ofType(SecurityActionTypes.SIGN_IN_SUCCESS),
     tap((security: any) => {
+      console.log(security);
       // this.authSvc.addSessionItem('id_token', security.security.login.jwt);
       this.snackBar.open('SUCCESS', 'Operation success', {
         duration: this.snackBarDuration
@@ -60,7 +61,8 @@ export class SecurityEffects {
   LogInFailed$: Observable<any> = this.actions$.pipe(
     ofType(SecurityActionTypes.SIGN_IN_FAILED),
     tap((error: any) => {
-      this.authSvc.removeSessionItem('id_token');
+      // this.authSvc.removeSessionItem('id_token');
+      console.error(error);
       this.snackBar.open(
         'FAILED',
         `Operation failed ${error.message.message}`,
@@ -76,7 +78,7 @@ export class SecurityEffects {
   LoadSecurity$: Observable<Me | any> = this.actions$.pipe(
     ofType(SecurityActionTypes.LOAD_SECURITY),
     switchMap(() => {
-      return this.securityService.me().pipe(
+      return this.authSvc.me().pipe(
         map((me: Me) => new SecurityActions.LoadSecuritySuccess(me)),
         catchError(error => of(new SecurityActions.LoadSecurityFailed(error)))
       );

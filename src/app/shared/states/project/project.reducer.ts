@@ -1,76 +1,52 @@
 import { ProjectActions } from './project.actions';
 import { ProjectActionTypes } from '@enums/project.enum';
-import { ProjectState } from './project.state';
-import { EnumsReponse } from '@models/enums.interface';
+import {
+  ReleaseState,
+  EnumsState,
+  releaseAdapter,
+  enumsAdapter
+} from './project.state';
 
-export function projectInitialState(): ProjectState {
-  return {
-    releases: {},
-    release: null,
-    issues: {},
-    issue: null,
-    options: {} as EnumsReponse
-  };
+export function releaseInitialState(): ReleaseState {
+  return releaseAdapter.getInitialState();
 }
 
-function arrayToObject(array) {
-  return array.reduce((obj, item) => {
-    obj[item.id] = item;
-    return obj;
-  }, {});
+export function enumsInitialState(): EnumsState {
+  return enumsAdapter.getInitialState();
 }
 
 export function projectReducer(
-  state: ProjectState = projectInitialState(),
+  state: ReleaseState = releaseInitialState(),
   action: ProjectActions
-): ProjectState {
+): ReleaseState {
   switch (action.type) {
     case ProjectActionTypes.LOAD_PROJECTS_SUCCESS:
-      return {
-        ...state,
-        releases: arrayToObject(action.payload)
-      };
+      return releaseAdapter.addAll(action.payload, state);
 
     case ProjectActionTypes.ADD_SUCCESS:
-      const _releases = { ...state.releases };
-      _releases[action.project.id].id = action.project.id;
-
-      return {
-        ...state,
-        releases: {
-          ...state.releases,
-          ..._releases
-        }
-      };
+      const addsuccess = { ...state.entities };
+      addsuccess[0].id = action.project.id;
+      return releaseAdapter.addOne(addsuccess[0], state);
 
     case ProjectActionTypes.DELETE_SUCCESS:
-      const releases = { ...state.releases };
-      delete releases[action.release.id];
-      return {
-        ...state,
-        releases
-      };
+      return releaseAdapter.removeOne(action.release.id, state);
 
     case ProjectActionTypes.UPDATE_SUCCESS:
-      const releases_ = { ...state.releases };
-      releases_[action.project.id].id = action.project.id;
+      const updatesuccess = { ...state.entities }[action.project.id];
+      return releaseAdapter.updateOne(updatesuccess.id as any, state);
 
-      return {
-        ...state,
-        releases: {
-          ...state.releases,
-          ...releases_
-        }
-      };
+    default:
+      return state;
+  }
+}
 
+export function enumsReducer(
+  state: EnumsState = enumsInitialState(),
+  action: ProjectActions
+): EnumsState {
+  switch (action.type) {
     case ProjectActionTypes.LOAD_OPTIONS_SUCCESS:
-      return {
-        ...state,
-        options: {
-          ...state.options,
-          ...action.payload
-        }
-      };
+      return enumsAdapter.addOne(action.payload, state);
 
     default:
       return state;
