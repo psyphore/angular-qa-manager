@@ -1,81 +1,57 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
+
 import { SignInCredentials, Me, SignIn } from '@models/security.interface';
 import { SecurityActionTypes } from '@enums/security.enum';
 
-export class LogIn implements Action {
-  readonly type = SecurityActionTypes.SIGN_IN;
-  constructor(public security: SignInCredentials) {}
-}
+export const LogIn = createAction(
+  SecurityActionTypes.SIGN_IN,
+  props<{ payload: SignInCredentials }>()
+);
 
-export class LogInSuccess implements Action {
-  readonly type = SecurityActionTypes.SIGN_IN_SUCCESS;
-  constructor(public security: SignIn) {}
-}
+export const LogInSuccess = createAction(
+  SecurityActionTypes.SIGN_IN_SUCCESS,
+  props<{ payload: SignIn }>()
+);
+export const LogInFailed = createAction(
+  SecurityActionTypes.SIGN_IN_FAILED,
+  props<{ message: string }>()
+);
 
-export class LogInFailed implements Action {
-  readonly type = SecurityActionTypes.SIGN_IN_FAILED;
-  constructor(public message: string) {}
-}
+export const LogOut = createAction(SecurityActionTypes.SIGN_OUT);
 
-export class LogOut implements Action {
-  readonly type = SecurityActionTypes.SIGN_OUT;
-  constructor() {}
-}
+export const LogOutSuccess = createAction(SecurityActionTypes.SIGN_OUT_SUCCESS);
 
-export class LogOutSuccess implements Action {
-  readonly type = SecurityActionTypes.SIGN_OUT_SUCCESS;
-  constructor() {}
-}
+export const LogOutFailed = createAction(
+  SecurityActionTypes.SIGN_OUT_FAILED,
+  props<{ message: string }>()
+);
 
-export class LogOutFailed implements Action {
-  readonly type = SecurityActionTypes.SIGN_OUT_FAILED;
-  constructor(public message: string) {}
-}
+export const LoadSecurity = createAction(
+  SecurityActionTypes.LOAD_SECURITY,
+  props<{ payload: Me | undefined }>()
+);
 
-export class LoadSecurity implements Action {
-  readonly type = SecurityActionTypes.LOAD_SECURITY;
+export const LoadSecuritySuccess = createAction(
+  SecurityActionTypes.LOAD_SECURITY_SUCCESS,
+  props<{ payload: Me }>()
+);
 
-  constructor(public payload: Me = null) {}
-}
+export const LoadSecurityFailed = createAction(
+  SecurityActionTypes.LOAD_SECURITY_FAILED,
+  props<{ message: string }>()
+);
 
-export class LoadSecuritySuccess implements Action {
-  readonly type = SecurityActionTypes.LOAD_SECURITY_SUCCESS;
+export const Update = createAction(
+  SecurityActionTypes.UPDATE,
+  props<{ payload: Me }>()
+);
 
-  constructor(public payload: Me) {}
-}
+export const UpdateSuccess = createAction(
+  SecurityActionTypes.UPDATE_SUCCESS,
+  props<{ payload: Me }>()
+);
 
-export class LoadSecurityFailed implements Action {
-  readonly type = SecurityActionTypes.LOAD_SECURITY_FAILED;
-
-  constructor(public message: string) {}
-}
-
-export class Update implements Action {
-  readonly type = SecurityActionTypes.UPDATE;
-
-  constructor(public payload: Me) {}
-}
-
-export class UpdateSuccess implements Action {
-  readonly type = SecurityActionTypes.UPDATE_SUCCESS;
-
-  constructor(public payload: Me) {}
-}
-
-export class UpdateFailed implements Action {
-  readonly type = SecurityActionTypes.UPDATE_FAILED;
-
-  constructor(public message: string) {}
-}
-
-export type SecurityActions =
-  | LoadSecuritySuccess
-  | LogIn
-  | LogInSuccess
-  | LogInFailed
-  | Update
-  | UpdateSuccess
-  | UpdateFailed
-  | LogOut
-  | LogOutSuccess
-  | LogOutFailed;
+export const UpdateFailed = createAction(
+  SecurityActionTypes.UPDATE_FAILED,
+  props<{ message: string }>()
+);

@@ -1,5 +1,5 @@
-import { SecurityActions } from './security.actions';
-import { SecurityActionTypes } from '@enums/security.enum';
+import { createReducer, on, Action } from '@ngrx/store';
+import * as SecurityActions from './security.actions';
 import {
   SecurityState,
   securityAdapter,
@@ -15,34 +15,28 @@ export function meInitialState(): MeState {
   return meAdapter.getInitialState();
 }
 
-export function securityReducer(
-  state: SecurityState = securityInitialState(),
-  action: SecurityActions
-): SecurityState | MeState {
-  switch (action.type) {
-    case SecurityActionTypes.SIGN_OUT_SUCCESS:
-      return securityAdapter.removeAll(state);
+export const securityReducer = createReducer(
+  securityInitialState(),
+  on(SecurityActions.LogInSuccess, (state, { payload }) =>
+    securityAdapter.addOne(payload, state)
+  ),
+  on(SecurityActions.LogOutSuccess, state => securityAdapter.removeAll(state))
+);
 
-    case SecurityActionTypes.SIGN_IN_SUCCESS:
-      return securityAdapter.addOne(action.security, state);
+export const meReducer = createReducer(
+  meInitialState(),
+  on(SecurityActions.LoadSecuritySuccess, (state, { payload }) =>
+    meAdapter.addOne(payload, state)
+  ),
+  on(SecurityActions.UpdateSuccess, (state, { payload }) =>
+    meAdapter.updateOne(payload.me.id, state)
+  )
+);
 
-    default:
-      return state;
-  }
+export function SecurityRed(state: SecurityState, action: Action) {
+  return securityReducer(state, action);
 }
 
-export function meReducer(
-  state: MeState = meInitialState(),
-  action: SecurityActions
-): MeState {
-  switch (action.type) {
-    case SecurityActionTypes.LOAD_SECURITY_SUCCESS:
-      return meAdapter.addOne(action.payload, state);
-
-    case SecurityActionTypes.UPDATE_SUCCESS:
-      return meAdapter.updateOne(action.payload.me.id, state);
-
-    default:
-      return state;
-  }
+export function MeRed(state: MeState, action: Action) {
+  return meReducer(state, action);
 }

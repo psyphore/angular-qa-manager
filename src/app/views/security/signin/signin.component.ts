@@ -30,8 +30,8 @@ export class SigninComponent implements OnInit {
 
     try {
       this.errorMessage = null;
-      this.credentials = { ...this.signInFormGroup.value };
-      this.store$.dispatch(new LogIn(this.credentials));
+      this.credentials.creds = { ...this.signInFormGroup.value };
+      this.store$.dispatch(LogIn({ payload: this.credentials }));
       this.initializeForm();
     } catch (error) {
       console.error(error);

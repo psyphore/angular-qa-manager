@@ -1,6 +1,6 @@
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { Observable, of, EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap, exhaustMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -32,120 +32,150 @@ export class SecurityEffects {
     SecurityActionTypes.LOAD_SECURITY_FAILED
   ];
 
-  @Effect()
-  LogIn$: Observable<SignIn | any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.SIGN_IN),
-    switchMap((creds: SignInCredentials | any) => {
-      console.log(creds);
-      return this.authSvc.signIn({ creds: creds.security }).pipe(
-        map((result: SignIn) => new SecurityActions.LogInSuccess(result)),
-        catchError(error => of(new SecurityActions.LogInFailed(error)))
-      );
-    })
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SecurityActionTypes.SIGN_IN),
+      exhaustMap((creds: SignInCredentials) =>
+        this.authSvc.signIn({ creds: creds.creds }).pipe(
+          map((result: SignIn) =>
+            SecurityActions.LogInSuccess({ payload: result })
+          ),
+          catchError(error =>
+            of(SecurityActions.LogInFailed({ message: error }))
+          )
+        )
+      )
+    )
   );
 
-  @Effect({ dispatch: false })
-  LogInSuccess$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.SIGN_IN_SUCCESS),
-    tap((security: any) => {
-      console.log(security);
-      // this.authSvc.addSessionItem('id_token', security.security.login.jwt);
-      this.snackBar.open('SUCCESS', 'Operation success', {
-        duration: this.snackBarDuration
-      });
-      this.router.navigate(['security/me']);
-    })
+  LogInSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.SIGN_IN_SUCCESS),
+        tap((security: SignIn) => {
+          this.authSvc.addSessionItem('id_token', security.login.jwt);
+          this.snackBar.open('SUCCESS', 'Operation success', {
+            duration: this.snackBarDuration
+          });
+          this.router.navigate(['security/me']);
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  LogInFailed$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.SIGN_IN_FAILED),
-    tap((error: any) => {
-      // this.authSvc.removeSessionItem('id_token');
-      console.error(error);
-      this.snackBar.open(
-        'FAILED',
-        `Operation failed ${error.message.message}`,
-        {
-          duration: this.snackBarDuration
+  LogInFailed$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.SIGN_IN_FAILED),
+        tap((error: any) => {
+          this.authSvc.removeSessionItem('id_token');
+          this.snackBar.open(
+            'FAILED',
+            `Operation failed ${error.message.message}`,
+            {
+              duration: this.snackBarDuration
+            }
+          );
+          this.router.navigate(['security/signin']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  LoadSecurity$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SecurityActionTypes.LOAD_SECURITY),
+      switchMap(() => {
+        return this.authSvc.me().pipe(
+          map((me: Me) => ({
+            type: SecurityActionTypes.LOAD_SECURITY_SUCCESS,
+            payload: me
+          })),
+          catchError(error =>
+            of({
+              type: SecurityActionTypes.LOAD_SECURITY_FAILED,
+              payload: error
+            })
+          )
+        );
+      })
+    )
+  );
+
+  LoadSecurtySuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.LOAD_SECURITY_SUCCESS),
+        tap((payload: any) => {
+          this.snackBar.open('SUCCESS', 'Operation success', {
+            duration: this.snackBarDuration
+          });
+          // return payload.security;
+        })
+      ),
+    { dispatch: false }
+  );
+
+  LoadSecurityFailed$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.LOAD_SECURITY_FAILED),
+        tap((error: any) => {
+          this.authSvc.removeSessionItem('id_token');
+          this.snackBar.open(
+            'FAILED',
+            `Operation failed ${error.message.message}`,
+            {
+              duration: this.snackBarDuration
+            }
+          );
+          this.router.navigate(['security/signin']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  LogOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SecurityActionTypes.SIGN_OUT),
+      tap(() => {
+        try {
+          this.authSvc.removeSessionItem('id_token');
+          return SecurityActions.LogOutSuccess();
+        } catch (error) {
+          return SecurityActions.LogOutFailed(error);
         }
-      );
-      this.router.navigate(['security/signin']);
-    })
+      })
+    )
   );
 
-  @Effect()
-  LoadSecurity$: Observable<Me | any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.LOAD_SECURITY),
-    switchMap(() => {
-      return this.authSvc.me().pipe(
-        map((me: Me) => new SecurityActions.LoadSecuritySuccess(me)),
-        catchError(error => of(new SecurityActions.LoadSecurityFailed(error)))
-      );
-    })
+  LogOutSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.SIGN_OUT_SUCCESS),
+        tap(() => {
+          this.authSvc.removeSessionItem('id_token');
+          this.snackBar.open('SUCCESS', 'Operation success', {
+            duration: this.snackBarDuration
+          });
+          this.router.navigate(['security/me']);
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  LoadSecurtySuccess$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.LOAD_SECURITY_SUCCESS),
-    tap((payload: any) => {
-      this.snackBar.open('SUCCESS', 'Operation success', {
-        duration: this.snackBarDuration
-      });
-      return payload.security;
-    })
-  );
-
-  @Effect({ dispatch: false })
-  LoadSecurityFailed$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.LOAD_SECURITY_FAILED),
-    tap((error: any) => {
-      this.authSvc.removeSessionItem('id_token');
-      this.snackBar.open(
-        'FAILED',
-        `Operation failed ${error.message.message}`,
-        {
-          duration: this.snackBarDuration
-        }
-      );
-      this.router.navigate(['security/signin']);
-    })
-  );
-
-  @Effect()
-  LogOut$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.SIGN_OUT),
-    tap(() => {
-      try {
-        this.authSvc.removeSessionItem('id_token');
-        const x = new SecurityActions.LogOutSuccess();
-      } catch (error) {
-        return new SecurityActions.LogOutFailed(error);
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  LogOutSuccess$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.SIGN_OUT_SUCCESS),
-    tap(() => {
-      this.authSvc.removeSessionItem('id_token');
-      this.snackBar.open('SUCCESS', 'Operation success', {
-        duration: this.snackBarDuration
-      });
-      this.router.navigate(['security/me']);
-    })
-  );
-
-  @Effect({ dispatch: false })
-  LogOutFailed$: Observable<any> = this.actions$.pipe(
-    ofType(SecurityActionTypes.SIGN_OUT_FAILED),
-    tap(() => {
-      this.authSvc.removeSessionItem('id_token');
-      this.snackBar.open('SUCCESS', 'Operation success', {
-        duration: this.snackBarDuration
-      });
-      this.router.navigate(['/']);
-    })
+  LogOutFailed$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.SIGN_OUT_FAILED),
+        tap(() => {
+          this.authSvc.removeSessionItem('id_token');
+          this.snackBar.open('SUCCESS', 'Operation success', {
+            duration: this.snackBarDuration
+          });
+          this.router.navigate(['/']);
+        })
+      ),
+    { dispatch: false }
   );
 }

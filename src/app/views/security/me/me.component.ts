@@ -28,7 +28,7 @@ export class MeComponent implements OnInit {
   ngOnInit() {
     this.errorMessage = null;
     try {
-      this.store$.dispatch(new LoadSecurity());
+      this.store$.dispatch(LoadSecurity({ payload: null }));
       this.store$
         .select(selectAll)
         .pipe(

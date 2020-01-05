@@ -1,13 +1,13 @@
 import { apolloReducer } from 'apollo-angular-cache-ngrx';
 import { projectReducer, enumsReducer } from './project';
 import { personReducer } from './person';
-import { securityReducer, meReducer } from './security';
+import { SecurityRed, MeRed } from './security';
 
 export const reducers = {
   apollo: apolloReducer,
   project: projectReducer,
   enums: enumsReducer,
   person: personReducer,
-  security: securityReducer,
-  me: meReducer
+  security: SecurityRed,
+  me: MeRed
 };
