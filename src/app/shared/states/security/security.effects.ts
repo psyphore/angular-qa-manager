@@ -35,8 +35,8 @@ export class SecurityEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SecurityActionTypes.SIGN_IN),
-      exhaustMap((creds: SignInCredentials) =>
-        this.authSvc.signIn({ creds: creds.creds }).pipe(
+      exhaustMap((act: any) =>
+        this.authSvc.signIn({ creds: act.payload.creds }).pipe(
           map((result: SignIn) =>
             SecurityActions.LogInSuccess({ payload: result })
           ),

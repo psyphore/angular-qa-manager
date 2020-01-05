@@ -15,7 +15,7 @@ import { SignInCredentials } from '@models/security.interface';
 export class SigninComponent implements OnInit {
   public signInFormGroup: FormGroup;
   public errorMessage: string = null;
-  public credentials: SignInCredentials = {} as SignInCredentials;
+  public credentials: SignInCredentials = { creds: {} } as SignInCredentials;
 
   constructor(private fb: FormBuilder, private store$: Store<AppStore>) {}
 
@@ -41,8 +41,8 @@ export class SigninComponent implements OnInit {
 
   initializeForm() {
     this.signInFormGroup = this.fb.group({
-      identifier: [null, Validators.required],
-      password: [null, Validators.required],
+      identifier: ['yolandae', Validators.required],
+      password: ['HmXqPKkuT!bZYM5', Validators.required],
       provider: ['local', Validators.required]
     });
   }
