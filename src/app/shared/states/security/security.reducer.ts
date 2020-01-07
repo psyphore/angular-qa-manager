@@ -18,7 +18,7 @@ export function meInitialState(): MeState {
 export const securityReducer = createReducer(
   securityInitialState(),
   on(SecurityActions.LogInSuccess, (state, { payload }) =>
-    securityAdapter.addOne(payload, state)
+    securityAdapter.addAll([{ ...payload }], state)
   ),
   on(SecurityActions.LogOutSuccess, state => securityAdapter.removeAll(state))
 );
@@ -26,11 +26,12 @@ export const securityReducer = createReducer(
 export const meReducer = createReducer(
   meInitialState(),
   on(SecurityActions.LoadSecuritySuccess, (state, { payload }) =>
-    meAdapter.addOne(payload, state)
+    meAdapter.upsertOne(payload, state)
   ),
-  on(SecurityActions.UpdateSuccess, (state, { payload }) =>
-    meAdapter.updateOne(payload.me.id, state)
-  )
+  on(SecurityActions.UpdateSuccess, (state, { payload }) => ({
+    ...state,
+    [state.entities.me.me.id]: payload.me.id
+  }))
 );
 
 export function SecurityRed(state: SecurityState, action: Action) {

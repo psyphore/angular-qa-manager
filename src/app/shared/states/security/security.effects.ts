@@ -1,12 +1,12 @@
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
-import { Observable, of, EMPTY } from 'rxjs';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { of } from 'rxjs';
 import { catchError, map, switchMap, tap, exhaustMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import * as SecurityActions from '@states/security/security.actions';
-import { Me, SignIn, SignInCredentials } from '@models/security.interface';
+import { Me, SignIn } from '@models/security.interface';
 import { AuthService } from '@services/security.service';
 import { SecurityActionTypes } from '@enums/security.enum';
 
@@ -35,13 +35,13 @@ export class SecurityEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SecurityActionTypes.SIGN_IN),
-      exhaustMap((act: any) =>
-        this.authSvc.signIn({ creds: act.payload.creds }).pipe(
+      exhaustMap((action: any) =>
+        this.authSvc.signIn(action.payload).pipe(
           map((result: SignIn) =>
             SecurityActions.LogInSuccess({ payload: result })
           ),
           catchError(error =>
-            of(SecurityActions.LogInFailed({ message: error }))
+            of(SecurityActions.LogInFailed({ message: error.message }))
           )
         )
       )
@@ -52,8 +52,9 @@ export class SecurityEffects {
     () =>
       this.actions$.pipe(
         ofType(SecurityActionTypes.SIGN_IN_SUCCESS),
-        tap((security: SignIn) => {
-          this.authSvc.addSessionItem('id_token', security.login.jwt);
+        tap((action: any) => {
+          // this.authSvc.addSessionItem('id_token', action.payload.login.jwt);
+          console.log(action);
           this.snackBar.open('SUCCESS', 'Operation success', {
             duration: this.snackBarDuration
           });
@@ -68,7 +69,7 @@ export class SecurityEffects {
       this.actions$.pipe(
         ofType(SecurityActionTypes.SIGN_IN_FAILED),
         tap((error: any) => {
-          this.authSvc.removeSessionItem('id_token');
+          // this.authSvc.removeSessionItem('id_token');
           this.snackBar.open(
             'FAILED',
             `Operation failed ${error.message.message}`,
@@ -141,6 +142,9 @@ export class SecurityEffects {
       tap(() => {
         try {
           this.authSvc.removeSessionItem('id_token');
+          // clear me
+          // clear projects
+          //
           return SecurityActions.LogOutSuccess();
         } catch (error) {
           return SecurityActions.LogOutFailed(error);

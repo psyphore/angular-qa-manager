@@ -14,7 +14,7 @@ export const LogInSuccess = createAction(
 );
 export const LogInFailed = createAction(
   SecurityActionTypes.SIGN_IN_FAILED,
-  props<{ message: string }>()
+  props<{ message: string | any }>()
 );
 
 export const LogOut = createAction(SecurityActionTypes.SIGN_OUT);
@@ -23,7 +23,7 @@ export const LogOutSuccess = createAction(SecurityActionTypes.SIGN_OUT_SUCCESS);
 
 export const LogOutFailed = createAction(
   SecurityActionTypes.SIGN_OUT_FAILED,
-  props<{ message: string }>()
+  props<{ message: string | any }>()
 );
 
 export const LoadSecurity = createAction(

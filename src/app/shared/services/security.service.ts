@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, flatMap, first } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
 
-import { selectAll } from '@states/security/security.selector';
+import { selectEntities } from '@states/security/security.selector';
 import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
@@ -64,17 +64,15 @@ export class AuthService {
   }
 
   getAuthorizationHeaderAsync(): Observable<string> {
-    const header = this.store$
-      .select(selectAll)
-      .pipe(
-        first(),
-        flatMap(d => d)
-      )
-      .pipe(
-        flatMap(
-          res => res && res.login && res.login.jwt && `Bearer ${res.login.jwt}`
-        )
-      );
+    const header = this.store$.select(selectEntities).pipe(
+      map(res => {
+        if (!res || res === undefined || Object.entries(res).length === 0) {
+          return '';
+        }
+        const token = res.undefined.login.jwt ? res.undefined.login.jwt : '';
+        return token.length !== 0 ? `Bearer ${token}` : token;
+      })
+    );
 
     return header;
   }
@@ -107,7 +105,9 @@ export class AuthService {
 
   hasTokenAsync(): Observable<boolean> {
     return this.getAuthorizationHeaderAsync().pipe(
-      map(header => (header && header.indexOf('Bearer ') !== -1 ? true : false))
+      map(header => {
+        return header && header.indexOf('Bearer ') !== -1 ? true : false;
+      })
     );
   }
 

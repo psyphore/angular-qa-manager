@@ -4,28 +4,11 @@ import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { from } from 'apollo-link';
-// import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 
 import { environment } from '@environments/environment';
 
 const uri = environment.graphQL_URI2;
-
-const defaultState = {};
-
-const defaultOptions = {
-  watchQuery: {
-    fetchPolicy: 'cache-and-network',
-    errorPolicy: 'all'
-  },
-  query: {
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all'
-  },
-  mutate: {
-    errorPolicy: 'all'
-  }
-};
 
 export function provideApollo(httpLink: HttpLink) {
   const http = httpLink.create({
@@ -34,14 +17,6 @@ export function provideApollo(httpLink: HttpLink) {
     includeQuery: true,
     includeExtensions: true
   });
-
-  // const basic = setContext((operation, context) => ({
-  //   headers: {
-  //     Accept: 'charset=utf-8',
-  //     'Content-Type': 'application/json',
-  //     Authorization: auth.getAuthorizationHeader()
-  //   }
-  // }));
 
   const cache = new InMemoryCache();
 

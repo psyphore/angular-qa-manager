@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AuthService } from '@services/security.service';
 import { LoadSecurity } from '@states/security/security.actions';
-import { selectAll } from '@states/security/me.selector';
+import { selectEntities } from '@states/security/me.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Me } from '@models/security.interface';
@@ -29,13 +29,10 @@ export class MeComponent implements OnInit {
     this.errorMessage = null;
     try {
       this.store$.dispatch(LoadSecurity({ payload: null }));
-      this.store$
-        .select(selectAll)
-        .pipe(
-          first(),
-          flatMap(d => d)
-        )
-        .subscribe(d => (this.profile = d));
+      this.store$.select(selectEntities).subscribe(d => {
+        console.log(d);
+        this.profile = d as any;
+      });
     } catch (err) {
       this.handleError(err);
     }

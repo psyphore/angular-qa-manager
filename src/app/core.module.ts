@@ -12,10 +12,10 @@ import { reducers } from '@states/root.reducer';
 import { ProjectEffects } from '@states/project';
 import { PersonEffects } from '@states/person';
 import { SecurityEffects } from '@states/security';
-import { PersonService, ProjectsService, AuthService } from '@shared/services';
+// import { PersonService, ProjectsService, AuthService } from '@shared/services';
 
 const effects = [ProjectEffects, PersonEffects, SecurityEffects];
-const services = [PersonService, ProjectsService, AuthService];
+// const services = [PersonService, ProjectsService, AuthService];
 
 @NgModule({
   declarations: [],
@@ -43,7 +43,7 @@ const services = [PersonService, ProjectsService, AuthService];
     EffectsModule.forRoot([...effects]),
     NgrxCacheModule
   ],
-  providers: [...services],
+  // providers: [...services],
   exports: []
 })
 export class CoreModule {
