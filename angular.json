@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cardinal-qa-poc": {
+    "qa-poc": {
       "root": "src",
       "sourceRoot": "src",
       "projectType": "application",
@@ -53,24 +53,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cardinal-qa-poc:build",
+            "browserTarget": "qa-poc:build",
             "host": "0.0.0.0",
             "port": 4200,
             "disableHostCheck": true,
-            "publicHost": "sipholpt",
+            "publicHost": "localhost",
             "aot": true,
             "liveReload": true
           },
           "configurations": {
             "production": {
-              "browserTarget": "cardinal-qa-poc:build:production"
+              "browserTarget": "qa-poc:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cardinal-qa-poc:build"
+            "browserTarget": "qa-poc:build"
           }
         },
         "test": {
@@ -102,7 +102,7 @@
         }
       }
     },
-    "cardinal-qa-poc-e2e": {
+    "qa-poc-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -111,7 +111,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "cardinal-qa-poc:serve"
+            "devServerTarget": "qa-poc:serve"
           }
         },
         "lint": {
@@ -124,7 +124,7 @@
       }
     }
   },
-  "defaultProject": "cardinal-qa-poc",
+  "defaultProject": "qa-poc",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
