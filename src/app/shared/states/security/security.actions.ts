@@ -1,6 +1,6 @@
-import { createAction, props, union } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 
-import { SignInCredentials, Me, SignIn } from '@models/security.interface';
+import { SignInCredentials, SignIn } from '@models/security.interface';
 import { SecurityActionTypes } from '@enums/security.enum';
 
 export const LogIn = createAction(
