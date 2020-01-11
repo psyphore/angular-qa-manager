@@ -11,11 +11,9 @@ import { environment } from '@environments/environment';
 import { reducers } from '@states/root.reducer';
 import { ProjectEffects } from '@states/project';
 import { PersonEffects } from '@states/person';
-import { SecurityEffects } from '@states/security';
-// import { PersonService, ProjectsService, AuthService } from '@shared/services';
+import { SecurityEffects, MeEffects } from '@states/security';
 
-const effects = [ProjectEffects, PersonEffects, SecurityEffects];
-// const services = [PersonService, ProjectsService, AuthService];
+const effects = [ProjectEffects, PersonEffects, SecurityEffects, MeEffects];
 
 @NgModule({
   declarations: [],
@@ -43,7 +41,6 @@ const effects = [ProjectEffects, PersonEffects, SecurityEffects];
     EffectsModule.forRoot([...effects]),
     NgrxCacheModule
   ],
-  // providers: [...services],
   exports: []
 })
 export class CoreModule {

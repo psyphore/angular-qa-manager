@@ -3,12 +3,11 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@services/security.service';
-import { LoadSecurity } from '@states/security/security.actions';
+import * as MeActions from '@states/security/me.actions';
 import { selectEntities } from '@states/security/me.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Me } from '@models/security.interface';
-import { first, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-me',
@@ -28,7 +27,7 @@ export class MeComponent implements OnInit {
   ngOnInit() {
     this.errorMessage = null;
     try {
-      this.store$.dispatch(LoadSecurity({ payload: null }));
+      this.store$.dispatch(MeActions.LoadSecurity(null));
       this.store$.select(selectEntities).subscribe(d => {
         console.log(d);
         this.profile = d as any;

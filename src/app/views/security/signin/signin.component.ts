@@ -2,9 +2,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { LogIn, LogOut } from '@states/security/security.actions';
+import * as SignInActions from '@states/security/security.actions';
 import { AppStore } from '@models/store.interface';
-import { SignInCredentials } from '@models/security.interface';
 
 @Component({
   selector: 'app-signin',
@@ -19,7 +18,6 @@ export class SigninComponent implements OnInit {
   constructor(private fb: FormBuilder, private store$: Store<AppStore>) {}
 
   ngOnInit() {
-    // this.store$.dispatch(LogOut());
     this.initializeForm();
   }
 
@@ -31,7 +29,7 @@ export class SigninComponent implements OnInit {
     try {
       this.errorMessage = null;
       const values = { creds: { ...this.signInFormGroup.value } };
-      this.store$.dispatch(LogIn({ payload: values }));
+      this.store$.dispatch(SignInActions.LogIn(values));
       this.initializeForm();
     } catch (error) {
       this.errorMessage = error.message;

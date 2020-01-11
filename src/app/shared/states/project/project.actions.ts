@@ -1,4 +1,3 @@
-import { EnumsReponse } from '@models/enums.interface';
 import { Action } from '@ngrx/store';
 import { Release, ReleaseUpdate } from '@models/project.interface';
 import { ProjectActionTypes } from '@enums/project.enum';

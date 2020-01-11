@@ -8,7 +8,7 @@ import {
 } from '@models/project.interface';
 import * as ProjectActions from '@states/project/project.actions';
 
-import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
@@ -20,6 +20,7 @@ import { ProjectActionTypes } from '@enums/project.enum';
 
 @Injectable()
 export class ProjectEffects {
+  private snackBarDuration = 2000;
   constructor(
     private actions$: Actions,
     private projectsService: ProjectsService,
@@ -129,7 +130,7 @@ export class ProjectEffects {
     ofType(...this.PROJECT_ACTIONS_SUCCESS),
     tap(() =>
       this.snackBar.open('SUCCESS', 'Operation success', {
-        duration: 2000
+        duration: this.snackBarDuration
       })
     )
   );
@@ -138,7 +139,7 @@ export class ProjectEffects {
     ofType(...this.PROJECT_ACTIONS_FAILED),
     tap(() =>
       this.snackBar.open('FAILED', 'Operation failed', {
-        duration: 2000
+        duration: this.snackBarDuration
       })
     )
   );

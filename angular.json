@@ -27,7 +27,7 @@
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
-            "aot": true,
+            "aot": false,
             "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
@@ -37,7 +37,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -58,7 +58,7 @@
             "port": 4200,
             "disableHostCheck": true,
             "publicHost": "localhost",
-            "aot": true,
+            "aot": false,
             "liveReload": true
           },
           "configurations": {

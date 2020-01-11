@@ -1,6 +1,13 @@
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap, exhaustMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  switchMap,
+  tap,
+  exhaustMap,
+  mergeMap
+} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -22,14 +29,12 @@ export class SecurityEffects {
 
   SECURITY_ACTIONS_SUCCESS = [
     SecurityActionTypes.SIGN_IN_SUCCESS,
-    SecurityActionTypes.UPDATE_SUCCESS,
-    SecurityActionTypes.LOAD_SECURITY_SUCCESS
+    SecurityActionTypes.SIGN_OUT_SUCCESS
   ];
 
   SECURITY_ACTIONS_FAILED = [
     SecurityActionTypes.SIGN_IN_FAILED,
-    SecurityActionTypes.UPDATE_FAILED,
-    SecurityActionTypes.LOAD_SECURITY_FAILED
+    SecurityActionTypes.SIGN_OUT_FAILED
   ];
 
   login$ = createEffect(() =>
@@ -37,24 +42,19 @@ export class SecurityEffects {
       ofType(SecurityActionTypes.SIGN_IN),
       exhaustMap((action: any) =>
         this.authSvc.signIn(action.payload).pipe(
-          map((result: SignIn) =>
-            SecurityActions.LogInSuccess({ payload: result })
-          ),
-          catchError(error =>
-            of(SecurityActions.LogInFailed({ message: error.message }))
-          )
+          map((result: SignIn) => SecurityActions.LogInSuccess(result)),
+          catchError(error => of(SecurityActions.LogInFailed(error.message)))
         )
       )
     )
   );
 
-  LogInSuccess$ = createEffect(
+  logInSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(SecurityActionTypes.SIGN_IN_SUCCESS),
         tap((action: any) => {
-          // this.authSvc.addSessionItem('id_token', action.payload.login.jwt);
-          console.log(action);
+          this.authSvc.addSessionItem('id_token', action.payload.login.jwt);
           this.snackBar.open('SUCCESS', 'Operation success', {
             duration: this.snackBarDuration
           });
@@ -64,12 +64,12 @@ export class SecurityEffects {
     { dispatch: false }
   );
 
-  LogInFailed$ = createEffect(
+  logInFailed$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(SecurityActionTypes.SIGN_IN_FAILED),
         tap((error: any) => {
-          // this.authSvc.removeSessionItem('id_token');
+          this.authSvc.removeSessionItem('id_token');
           this.snackBar.open(
             'FAILED',
             `Operation failed ${error.message.message}`,
@@ -83,7 +83,7 @@ export class SecurityEffects {
     { dispatch: false }
   );
 
-  LoadSecurity$ = createEffect(() =>
+  loadSecurity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SecurityActionTypes.LOAD_SECURITY),
       switchMap(() => {
@@ -103,7 +103,7 @@ export class SecurityEffects {
     )
   );
 
-  LoadSecurtySuccess$ = createEffect(
+  loadSecuritySuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(SecurityActionTypes.LOAD_SECURITY_SUCCESS),
@@ -117,7 +117,7 @@ export class SecurityEffects {
     { dispatch: false }
   );
 
-  LoadSecurityFailed$ = createEffect(
+  loadSecurityFailed$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(SecurityActionTypes.LOAD_SECURITY_FAILED),
@@ -136,15 +136,12 @@ export class SecurityEffects {
     { dispatch: false }
   );
 
-  LogOut$ = createEffect(() =>
+  logOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SecurityActionTypes.SIGN_OUT),
       tap(() => {
         try {
           this.authSvc.removeSessionItem('id_token');
-          // clear me
-          // clear projects
-          //
           return SecurityActions.LogOutSuccess();
         } catch (error) {
           return SecurityActions.LogOutFailed(error);
@@ -153,12 +150,35 @@ export class SecurityEffects {
     )
   );
 
-  LogOutSuccess$ = createEffect(
+  logOutSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(SecurityActionTypes.SIGN_OUT_SUCCESS),
         tap(() => {
           this.authSvc.removeSessionItem('id_token');
+          this.router.navigate(['security/me']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  logOutFailed$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActionTypes.SIGN_OUT_FAILED),
+        tap(() => {
+          this.authSvc.removeSessionItem('id_token');
+          this.router.navigate(['/']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  success$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(...this.SECURITY_ACTIONS_SUCCESS),
+        tap(() => {
           this.snackBar.open('SUCCESS', 'Operation success', {
             duration: this.snackBarDuration
           });
@@ -168,16 +188,14 @@ export class SecurityEffects {
     { dispatch: false }
   );
 
-  LogOutFailed$ = createEffect(
+  failure$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SecurityActionTypes.SIGN_OUT_FAILED),
+        ofType(...this.SECURITY_ACTIONS_FAILED),
         tap(() => {
-          this.authSvc.removeSessionItem('id_token');
-          this.snackBar.open('SUCCESS', 'Operation success', {
+          this.snackBar.open('FAILED', 'Operation failed', {
             duration: this.snackBarDuration
           });
-          this.router.navigate(['/']);
         })
       ),
     { dispatch: false }
