@@ -1,7 +1,8 @@
 import { EnumsState } from './../states/project/project.state';
 import { ReleaseState, IssueState } from '@states/project';
 import { PersonState } from '@states/person';
-import { SecurityState, MeState } from '@states/security';
+import { SecurityState } from '@states/security';
+import { MeState } from '@states/me';
 
 export interface AppStore {
   readonly release: ReleaseState;

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import * as MeActions from '@states/security/me.actions';
+import * as MeActions from '@states/me/me.actions';
 import { Me } from '@models/security.interface';
 import { AuthService } from '@services/security.service';
 import { SecurityActionTypes } from '@enums/security.enum';

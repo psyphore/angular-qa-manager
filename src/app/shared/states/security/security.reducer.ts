@@ -1,21 +1,25 @@
-import { createReducer, on, Action } from '@ngrx/store';
-import * as SecurityActions from './security.actions';
+import { SignInActions } from './security.actions';
 import { SecurityState, securityAdapter } from './security.state';
+import { SecurityActionTypes } from '@shared/enums/security.enum';
 
 export function securityInitialState(): SecurityState {
   return securityAdapter.getInitialState();
 }
 
-export const securityReducer = createReducer(
-  securityInitialState(),
-  on(SecurityActions.LogInSuccess, (state, { payload }) =>
-    securityAdapter.upsertOne(payload, state)
-  ),
-  on(SecurityActions.LogInFailed, state => securityAdapter.removeAll(state)),
-  on(SecurityActions.LogOutSuccess, state => securityAdapter.removeAll(state)),
-  on(SecurityActions.LogOutFailed, state => securityAdapter.removeAll(state))
-);
+export function SecurityRed(
+  state: SecurityState = securityInitialState(),
+  action: SignInActions
+): SecurityState {
+  switch (action.type) {
+    case SecurityActionTypes.SIGN_IN_SUCCESS:
+      return securityAdapter.upsertOne(action.payload, state);
 
-export function SecurityRed(state: SecurityState, action: Action) {
-  return securityReducer(state, action);
+    case SecurityActionTypes.SIGN_IN_FAILED:
+    case SecurityActionTypes.SIGN_OUT_FAILED:
+    case SecurityActionTypes.SIGN_OUT_SUCCESS:
+      return securityAdapter.removeAll(state);
+
+    default:
+      return state;
+  }
 }

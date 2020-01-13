@@ -1,38 +1,38 @@
-import { createAction, union } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 import { SignInCredentials, SignIn } from '@models/security.interface';
 import { SecurityActionTypes } from '@enums/security.enum';
 
-export const LogIn = createAction(
-  SecurityActionTypes.SIGN_IN,
-  (payload: SignInCredentials) => ({ payload })
-);
+export class LogIn implements Action {
+  readonly type = SecurityActionTypes.SIGN_IN;
+  constructor(public payload: SignInCredentials) {}
+}
 
-export const LogInSuccess = createAction(
-  SecurityActionTypes.SIGN_IN_SUCCESS,
-  (payload: SignIn) => ({ payload })
-);
-export const LogInFailed = createAction(
-  SecurityActionTypes.SIGN_IN_FAILED,
-  (message: string | any) => ({ message })
-);
+export class LogInSuccess implements Action {
+  readonly type = SecurityActionTypes.SIGN_IN_SUCCESS;
+  constructor(public payload: SignIn) {}
+}
+export class LogInFailed implements Action {
+  readonly type = SecurityActionTypes.SIGN_IN_FAILED;
+  constructor(public message: string | any) {}
+}
 
-export const LogOut = createAction(SecurityActionTypes.SIGN_OUT);
+export class LogOut implements Action {
+  readonly type = SecurityActionTypes.SIGN_OUT;
+}
 
-export const LogOutSuccess = createAction(SecurityActionTypes.SIGN_OUT_SUCCESS);
+export class LogOutSuccess implements Action {
+  readonly type = SecurityActionTypes.SIGN_OUT_SUCCESS;
+}
 
-export const LogOutFailed = createAction(
-  SecurityActionTypes.SIGN_OUT_FAILED,
-  (message: string | any) => ({ message })
-);
-
-const signInActions = union({
-  LogIn,
-  LogInSuccess,
-  LogInFailed,
-  LogOut,
-  LogOutSuccess,
-  LogOutFailed
-});
-
-export type SignInActions = typeof signInActions;
+export class LogOutFailed implements Action {
+  readonly type = SecurityActionTypes.SIGN_OUT_FAILED;
+  constructor(public message: string | any) {}
+}
+export type SignInActions =
+  | LogIn
+  | LogInSuccess
+  | LogInFailed
+  | LogOut
+  | LogOutSuccess
+  | LogOutFailed;

@@ -29,7 +29,7 @@ export class SigninComponent implements OnInit {
     try {
       this.errorMessage = null;
       const values = { creds: { ...this.signInFormGroup.value } };
-      this.store$.dispatch(SignInActions.LogIn(values));
+      this.store$.dispatch(new SignInActions.LogIn(values));
       this.initializeForm();
     } catch (error) {
       this.errorMessage = error.message;

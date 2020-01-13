@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@services/security.service';
-import * as MeActions from '@states/security/me.actions';
-import { selectEntities } from '@states/security/me.selector';
+import * as MeActions from '@states/me/me.actions';
+import { selectEntities } from '@states/me/me.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Me } from '@models/security.interface';
