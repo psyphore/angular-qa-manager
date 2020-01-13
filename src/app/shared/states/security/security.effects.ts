@@ -1,11 +1,6 @@
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {
-  catchError,
-  map,
-  tap,
-  exhaustMap
-} from 'rxjs/operators';
+import { catchError, map, tap, exhaustMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -34,7 +29,7 @@ export class SecurityEffects {
     SecurityActionTypes.SIGN_OUT_FAILED
   ];
 
-  login$ = createEffect(() =>
+  logIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SecurityActions.LogIn),
       exhaustMap((action: any) =>
@@ -98,7 +93,7 @@ export class SecurityEffects {
   logOutSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SecurityActions.LogInSuccess),
+        ofType(SecurityActions.LogOutSuccess),
         tap(() => {
           this.authSvc.removeSessionItem('id_token');
           this.router.navigate(['security/me']);

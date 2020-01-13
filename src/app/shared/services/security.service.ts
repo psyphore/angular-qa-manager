@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
 
-import { selectEntities } from '@states/security/security.selector';
+import { selectEntities, selectAuthToken } from '@states/security/security.selector';
 import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   getAuthorizationHeaderAsync(): Observable<string> {
-    const header = this.store$.select(selectEntities).pipe(
+    const header = this.store$.pipe(select(selectAuthToken)).pipe(
       map(res => {
         if (!res || res === undefined || Object.entries(res).length === 0) {
           return '';

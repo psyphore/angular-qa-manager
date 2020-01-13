@@ -6,7 +6,7 @@ export function securityInitialState(): SecurityState {
   return securityAdapter.getInitialState();
 }
 
-export const securityReducer = createReducer(
+const reducer = createReducer(
   securityInitialState(),
   on(SecurityActions.LogInSuccess, (state, { payload }) =>
     securityAdapter.upsertOne(payload, state)
@@ -16,6 +16,9 @@ export const securityReducer = createReducer(
   on(SecurityActions.LogOutFailed, state => securityAdapter.removeAll(state))
 );
 
-export function SecurityRed(state: SecurityState, action: Action) {
-  return securityReducer(state, action);
+export function SecurityReducer(
+  state: SecurityState,
+  action: Action
+): SecurityState {
+  return reducer(state, action);
 }

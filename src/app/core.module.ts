@@ -11,7 +11,8 @@ import { environment } from '@environments/environment';
 import { reducers } from '@states/root.reducer';
 import { ProjectEffects } from '@states/project';
 import { PersonEffects } from '@states/person';
-import { SecurityEffects, MeEffects } from '@states/security';
+import { SecurityEffects } from '@states/security';
+import { MeEffects } from '@states/me';
 
 const effects = [ProjectEffects, PersonEffects, SecurityEffects, MeEffects];
 
