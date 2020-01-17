@@ -1,4 +1,4 @@
-import { apolloReducer } from 'apollo-angular-cache-ngrx';
+// import { apolloReducer } from 'apollo-angular-cache-ngrx';
 import { projectReducer } from './project';
 import { issueReducer } from './issue';
 import { enumsReducer } from './enums';
@@ -7,9 +7,9 @@ import { SecurityReducer } from './security';
 import { MeReducer } from './me';
 
 export const reducers = {
-  apollo: apolloReducer,
-  project: projectReducer,
-  task: issueReducer,
+  // apollo: apolloReducer,
+  release: projectReducer,
+  issue: issueReducer,
   enums: enumsReducer,
   person: personReducer,
   security: SecurityReducer,

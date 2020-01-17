@@ -20,17 +20,16 @@ export class SecurityEffects {
     private router: Router,
     public snackBar: MatSnackBar
   ) {}
-  logIn$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(SecurityActions.LogIn),
-        exhaustMap((action: any) =>
-          this.authSvc.signIn(action.payload).pipe(
-            map((result: any) => SecurityActions.LogInSuccess(result)),
-            catchError(error => of(SecurityActions.LogInFailed(error.message)))
-          )
+  logIn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SecurityActions.LogIn),
+      exhaustMap((action: any) =>
+        this.authSvc.signIn(action.payload).pipe(
+          map((result: any) => SecurityActions.LogInSuccess(result)),
+          catchError(error => of(SecurityActions.LogInFailed(error.message)))
         )
       )
+    )
   );
 
   logInSuccess$ = createEffect(

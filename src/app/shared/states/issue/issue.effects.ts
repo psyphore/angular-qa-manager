@@ -8,7 +8,7 @@ import { IssuesService } from '@services/issues.service';
 import * as IssueActions from '@states/issue/issue.actions';
 
 @Injectable()
-export class ProjectEffects {
+export class IssueEffects {
   private snackBarDuration = 2000;
   constructor(
     private actions$: Actions,

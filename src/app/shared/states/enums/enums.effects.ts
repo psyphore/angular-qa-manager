@@ -10,7 +10,7 @@ import { EnumsResponse } from '@models/enums.interface';
 import * as EnumsActions from '@states/enums/enums.actions';
 
 @Injectable()
-export class ProjectEffects {
+export class EnumsEffects {
   private snackBarDuration = 2000;
   constructor(
     private actions$: Actions,

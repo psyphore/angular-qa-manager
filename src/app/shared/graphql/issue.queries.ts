@@ -1,6 +1,5 @@
-import { personFields } from './person.queries';
 import gql from 'graphql-tag';
-
+import { personFields } from './person.queries';
 export const IssueFields = gql`
   fragment basicIssueFields on Issue {
     id
@@ -18,7 +17,7 @@ export const IssueFields = gql`
 export const GetIssues = gql`
   query getIssues($limit: Int, $start: Int) {
     issues(limit: $limit, start: $start) {
-      ...basicReleaseFields
+      ...basicIssueFields
     }
   }
 

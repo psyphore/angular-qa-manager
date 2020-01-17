@@ -4,17 +4,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NgrxCacheModule, NgrxCache } from 'apollo-angular-cache-ngrx';
-import { storageSyncMetaReducer } from 'ngrx-store-persist';
+// import { NgrxCacheModule, NgrxCache } from 'apollo-angular-cache-ngrx';
+// import { storageSyncMetaReducer } from 'ngrx-store-persist';
 
 import { environment } from '@environments/environment';
 import { reducers } from '@states/root.reducer';
 import { ProjectEffects } from '@states/project';
+import { IssueEffects } from '@states/issue';
+import { EnumsEffects } from '@states/enums';
 import { PersonEffects } from '@states/person';
 import { SecurityEffects } from '@states/security';
 import { MeEffects } from '@states/me';
 
-const effects = [ProjectEffects, PersonEffects, SecurityEffects, MeEffects];
+const effects = [
+  ProjectEffects,
+  PersonEffects,
+  SecurityEffects,
+  MeEffects,
+  IssueEffects,
+  EnumsEffects
+];
 
 @NgModule({
   declarations: [],
@@ -22,13 +31,13 @@ const effects = [ProjectEffects, PersonEffects, SecurityEffects, MeEffects];
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, {
-      metaReducers: [storageSyncMetaReducer],
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
-        strictStateSerializability: true,
-        strictActionSerializability: true
-      }
+      // metaReducers: [storageSyncMetaReducer],
+      // runtimeChecks: {
+      //   strictStateImmutability: true,
+      //   strictActionImmutability: true,
+      //   strictStateSerializability: true,
+      //   strictActionSerializability: true
+      // }
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
@@ -39,13 +48,14 @@ const effects = [ProjectEffects, PersonEffects, SecurityEffects, MeEffects];
         persist: true
       }
     }),
-    EffectsModule.forRoot([...effects]),
-    NgrxCacheModule
+    EffectsModule.forRoot([...effects])
+    // NgrxCacheModule
   ],
   exports: []
 })
 export class CoreModule {
-  constructor(_cache: NgrxCache) {
-    const cache = _cache.create({});
+  constructor() {
+    // _cache: NgrxCache
+    // const cache = _cache.create({});
   }
 }
