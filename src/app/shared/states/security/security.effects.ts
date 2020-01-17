@@ -73,10 +73,9 @@ export class SecurityEffects {
       ofType(SecurityActions.LogOut),
       tap(() => {
         try {
-          this.authSvc.removeSessionItem('id_token');
           return SecurityActions.LogOutSuccess();
         } catch (error) {
-          return SecurityActions.LogOutFailed(error);
+          return of(SecurityActions.LogOutFailed(error));
         }
       })
     )

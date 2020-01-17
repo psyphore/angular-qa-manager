@@ -83,15 +83,17 @@ const actions = union({
   LoadReleases,
   LoadReleasesSuccess,
   LoadReleasesFailed,
+  LoadRelease,
   LoadReleaseSuccess,
+  LoadReleaseFailed,
   AddRelease,
   AddReleaseSuccess,
   AddReleaseFailed,
-  DeleteRelease,
-  DeleteReleaseSuccess,
-  DeleteReleaseFailed,
   UpdateRelease,
   UpdateReleaseSuccess,
-  UpdateReleaseFailed
+  UpdateReleaseFailed,
+  DeleteRelease,
+  DeleteReleaseSuccess,
+  DeleteReleaseFailed
 });
 export type ReleaseActions = typeof actions;

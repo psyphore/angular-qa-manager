@@ -4,8 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-// import { NgrxCacheModule, NgrxCache } from 'apollo-angular-cache-ngrx';
-// import { storageSyncMetaReducer } from 'ngrx-store-persist';
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
 
 import { environment } from '@environments/environment';
 import { reducers } from '@states/root.reducer';
@@ -26,12 +25,11 @@ const effects = [
 ];
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, {
-      // metaReducers: [storageSyncMetaReducer],
+      metaReducers: [storageSyncMetaReducer]
       // runtimeChecks: {
       //   strictStateImmutability: true,
       //   strictActionImmutability: true,
@@ -48,14 +46,7 @@ const effects = [
         persist: true
       }
     }),
-    EffectsModule.forRoot([...effects])
-    // NgrxCacheModule
-  ],
-  exports: []
+    EffectsModule.forRoot(effects)
+  ]
 })
-export class CoreModule {
-  constructor() {
-    // _cache: NgrxCache
-    // const cache = _cache.create({});
-  }
-}
+export class CoreModule {}

@@ -1,5 +1,4 @@
-import { EntityState } from '@ngrx/entity';
-import { createEntityAdapter } from '@ngrx/entity';
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { SignIn } from '@models/security.interface';
 
 export const securityAdapter = createEntityAdapter<SignIn>();

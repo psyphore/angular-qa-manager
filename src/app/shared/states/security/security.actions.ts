@@ -26,7 +26,7 @@ export const LogOutFailed = createAction(
   (message: string | any) => ({ message })
 );
 
-const signInActions = union({
+const actions = union({
   LogIn,
   LogInSuccess,
   LogInFailed,
@@ -35,4 +35,4 @@ const signInActions = union({
   LogOutFailed
 });
 
-export type SignInActions = typeof signInActions;
+export type SecurityActions = typeof actions;
