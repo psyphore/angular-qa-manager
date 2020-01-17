@@ -7,7 +7,7 @@ import {
   PeopleResponse,
   PersonResponse
 } from '@models/person.interface';
-import { GetProfileQuery, GetAllPeople } from '@graphql/person.queries';
+import { GetPersonQuery, GetAllPeople } from '@graphql/person.queries';
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +23,11 @@ export class PersonService {
       .pipe(map(res => res.data.people));
   }
 
-  getUser(userId: number): Observable<Person> {
-    console.log(userId);
+  getUser(personId: number): Observable<Person> {
     return this.apollo
       .query<PersonResponse, any>({
-        query: GetProfileQuery,
-        variables: { userId }
+        query: GetPersonQuery,
+        variables: { userId: personId }
       })
       .pipe(map(res => res.data.person));
   }

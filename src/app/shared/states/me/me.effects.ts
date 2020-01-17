@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import * as MeActions from '@states/security/me.actions';
+import * as MeActions from '@states/me/me.actions';
 import { Me } from '@models/security.interface';
 import { AuthService } from '@services/security.service';
 import { SecurityActionTypes } from '@enums/security.enum';
@@ -20,48 +20,37 @@ export class MeEffects {
     public snackBar: MatSnackBar
   ) {}
 
-  SECURITY_ACTIONS_SUCCESS = [
-    SecurityActionTypes.UPDATE_SUCCESS,
-    SecurityActionTypes.LOAD_SECURITY_SUCCESS
-  ];
-
-  SECURITY_ACTIONS_FAILED = [
-    SecurityActionTypes.UPDATE_FAILED,
-    SecurityActionTypes.LOAD_SECURITY_FAILED
-  ];
-
   loadSecurity$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SecurityActionTypes.LOAD_SECURITY),
+      ofType(MeActions.LoadMe),
       switchMap(() => {
         return this.authSvc.me().pipe(
           map(
-            (me: Me) => MeActions.LoadSecuritySuccess(me),
-            catchError(error => of(MeActions.LoadSecurityFailed(error.message)))
+            (me: Me) => MeActions.LoadMeSuccess(me),
+            catchError(error => of(MeActions.LoadMeFailed(error.message)))
           )
         );
       })
     )
   );
 
-  loadSecuritySuccess$ = createEffect(
+  success$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SecurityActionTypes.LOAD_SECURITY_SUCCESS),
+        ofType(MeActions.LoadMeSuccess),
         tap((payload: any) => {
           this.snackBar.open('SUCCESS', 'Operation success', {
             duration: this.snackBarDuration
           });
-          // return payload.security;
         })
       ),
     { dispatch: false }
   );
 
-  loadSecurityFailed$ = createEffect(
+  failed$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SecurityActionTypes.LOAD_SECURITY_FAILED),
+        ofType(MeActions.LoadMeFailed),
         tap((error: any) => {
           this.authSvc.removeSessionItem('id_token');
           this.snackBar.open(
@@ -77,30 +66,4 @@ export class MeEffects {
     { dispatch: false }
   );
 
-  success$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(...this.SECURITY_ACTIONS_SUCCESS),
-        tap(() => {
-          this.snackBar.open('SUCCESS', 'Operation success', {
-            duration: this.snackBarDuration
-          });
-          this.router.navigate(['security/me']);
-        })
-      ),
-    { dispatch: false }
-  );
-
-  failure$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(...this.SECURITY_ACTIONS_FAILED),
-        tap(() => {
-          this.snackBar.open('FAILED', 'Operation failed', {
-            duration: this.snackBarDuration
-          });
-        })
-      ),
-    { dispatch: false }
-  );
 }

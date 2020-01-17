@@ -1,5 +1,5 @@
 import { createFeatureSelector } from '@ngrx/store';
-import { IssueState, issueAdapter } from './project.state';
+import { IssueState, issueAdapter } from '@states/issue/issue.state';
 
 export const selectIssueState = createFeatureSelector<IssueState>('issue');
 

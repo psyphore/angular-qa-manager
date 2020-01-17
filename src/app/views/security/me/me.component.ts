@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { AuthService } from '@services/security.service';
-import * as MeActions from '@states/security/me.actions';
-import { selectEntities } from '@states/security/me.selector';
+import * as MeActions from '@states/me/me.actions';
+import { selectEntities } from '@states/me/me.selector';
 import { AppStore } from '@models/store.interface';
 
 import { Me } from '@models/security.interface';
@@ -27,8 +27,8 @@ export class MeComponent implements OnInit {
   ngOnInit() {
     this.errorMessage = null;
     try {
-      this.store$.dispatch(MeActions.LoadSecurity(null));
-      this.store$.select(selectEntities).subscribe(d => {
+      this.store$.dispatch(MeActions.LoadMe());
+      this.store$.pipe(select(selectEntities)).subscribe(d => {
         console.log(d);
         this.profile = d as any;
       });

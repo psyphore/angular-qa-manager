@@ -1,108 +1,97 @@
-import { Action } from '@ngrx/store';
-import { Release, ReleaseUpdate } from '@models/project.interface';
+import { union, createAction } from '@ngrx/store';
+import { Release, ReleaseUpdate } from '@models/release.interface';
 import { ProjectActionTypes } from '@enums/project.enum';
 
-export class LoadProject implements Action {
-  readonly type = ProjectActionTypes.LOAD_PROJECTS;
+export const LoadRelease = createAction(
+  ProjectActionTypes.LOAD_PROJECT,
+  (id: any) => ({ id })
+);
 
-  constructor() {}
-}
+export const LoadReleaseSuccess = createAction(
+  ProjectActionTypes.LOAD_PROJECT_SUCCESS,
+  (payload: Release) => ({ payload })
+);
 
-export class LoadProjectSuccess implements Action {
-  readonly type = ProjectActionTypes.LOAD_PROJECTS_SUCCESS;
+export const LoadReleaseFailed = createAction(
+  ProjectActionTypes.LOAD_PROJECT_FAILED,
 
-  constructor(public payload: Array<Release>) {}
-}
+  (message: string) => ({ message })
+);
 
-export class LoadProjectFailed implements Action {
-  readonly type = ProjectActionTypes.LOAD_PROJECTS_FAILED;
+export const LoadReleases = createAction(
+  ProjectActionTypes.LOAD_PROJECTS,
+  (limit: number, start: number) => ({ limit, start })
+);
 
-  constructor(public message: string) {}
-}
+export const LoadReleasesSuccess = createAction(
+  ProjectActionTypes.LOAD_PROJECTS_SUCCESS,
+  (payload: Array<Release>) => ({ payload })
+);
 
-export class Add implements Action {
-  readonly type = ProjectActionTypes.ADD;
+export const LoadReleasesFailed = createAction(
+  ProjectActionTypes.LOAD_PROJECTS_FAILED,
 
-  constructor(public project: Release) {}
-}
+  (message: string) => ({ message })
+);
 
-export class AddSuccess implements Action {
-  readonly type = ProjectActionTypes.ADD_SUCCESS;
+export const AddRelease = createAction(
+  ProjectActionTypes.ADD,
+  (payload: Release) => ({ payload })
+);
 
-  constructor(public project: ReleaseUpdate) {}
-}
+export const AddReleaseSuccess = createAction(
+  ProjectActionTypes.ADD_SUCCESS,
+  (payload: ReleaseUpdate) => ({ payload })
+);
 
-export class AddFailed implements Action {
-  readonly type = ProjectActionTypes.ADD_FAILED;
+export const AddReleaseFailed = createAction(
+  ProjectActionTypes.ADD_FAILED,
+  (message: string) => ({ message })
+);
 
-  constructor(public message: string) {}
-}
+export const DeleteRelease = createAction(
+  ProjectActionTypes.DELETE,
+  (payload: Release) => ({ payload })
+);
 
-export class Delete implements Action {
-  readonly type = ProjectActionTypes.DELETE;
+export const DeleteReleaseSuccess = createAction(
+  ProjectActionTypes.DELETE_SUCCESS,
+  (payload: ReleaseUpdate) => ({ payload })
+);
 
-  constructor(public release: Release) {}
-}
+export const DeleteReleaseFailed = createAction(
+  ProjectActionTypes.DELETE_FAILED,
+  (message: string) => ({ message })
+);
 
-export class DeleteSuccess implements Action {
-  readonly type = ProjectActionTypes.DELETE_SUCCESS;
+export const UpdateRelease = createAction(
+  ProjectActionTypes.UPDATE,
+  (payload: Release) => ({ payload })
+);
 
-  constructor(public release: ReleaseUpdate) {}
-}
+export const UpdateReleaseSuccess = createAction(
+  ProjectActionTypes.UPDATE_SUCCESS,
+  (payload: ReleaseUpdate) => ({ payload })
+);
 
-export class DeleteFailed implements Action {
-  readonly type = ProjectActionTypes.DELETE_FAILED;
+export const UpdateReleaseFailed = createAction(
+  ProjectActionTypes.UPDATE_FAILED,
+  (message: string) => ({ message })
+);
 
-  constructor(public message: string) {}
-}
-
-export class Update implements Action {
-  readonly type = ProjectActionTypes.UPDATE;
-
-  constructor(public project: Release) {}
-}
-
-export class UpdateSuccess implements Action {
-  readonly type = ProjectActionTypes.UPDATE_SUCCESS;
-
-  constructor(public project: ReleaseUpdate) {}
-}
-
-export class UpdateFailed implements Action {
-  readonly type = ProjectActionTypes.UPDATE_FAILED;
-
-  constructor(public message: string) {}
-}
-
-export class LoadOptions implements Action {
-  readonly type = ProjectActionTypes.LOAD_OPTIONS;
-
-  constructor() {}
-}
-
-export class LoadOptionsSuccess implements Action {
-  readonly type = ProjectActionTypes.LOAD_OPTIONS_SUCCESS;
-
-  constructor(public payload: any) {}
-}
-
-export class LoadOptionsFailed implements Action {
-  readonly type = ProjectActionTypes.LOAD_OPTIONS_FAILED;
-
-  constructor(public message: string) {}
-}
-
-export type ProjectActions =
-  | LoadProjectSuccess
-  | Add
-  | AddSuccess
-  | AddFailed
-  | Delete
-  | DeleteSuccess
-  | DeleteFailed
-  | Update
-  | UpdateSuccess
-  | UpdateFailed
-  | LoadOptions
-  | LoadOptionsSuccess
-  | LoadOptionsFailed;
+const actions = union({
+  LoadReleases,
+  LoadReleasesSuccess,
+  LoadReleasesFailed,
+  LoadReleaseSuccess,
+  AddRelease,
+  AddReleaseSuccess,
+  AddReleaseFailed,
+  DeleteRelease,
+  DeleteReleaseSuccess,
+  DeleteReleaseFailed,
+  UpdateRelease,
+  UpdateReleaseSuccess,
+  UpdateReleaseFailed
+});
+export type ReleaseActions = typeof actions;

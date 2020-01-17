@@ -1,21 +1,18 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as MeActions from './me.actions';
-import { MeState, meAdapter } from './me.state';
+import { MeState, meAdapter, meInitialState } from './me.state';
 
-export function meInitialState(): MeState {
-  return meAdapter.getInitialState();
-}
-export const meReducer = createReducer(
+const reducer = createReducer(
   meInitialState(),
-  on(MeActions.LoadSecuritySuccess, (state, { payload }) =>
+  on(MeActions.LoadMeSuccess, (state, { payload }) =>
     meAdapter.upsertOne(payload, state)
   ),
   on(MeActions.UpdateSuccess, (state, { payload }) => ({
     ...state,
     [state.entities.me.me.id]: payload.me.id
   })),
-  on(MeActions.LoadSecurityFailed, state => meAdapter.removeAll(state))
+  on(MeActions.LoadMeFailed, state => meAdapter.removeAll(state))
 );
-export function MeRed(state: MeState, action: Action) {
-  return meReducer(state, action);
+export function MeReducer(state: MeState, action: Action) {
+  return reducer(state, action);
 }

@@ -27,7 +27,7 @@ export const personFields = gql`
   ${avatarFields}
 `;
 
-export const GetProfileQuery = gql`
+export const GetPersonQuery = gql`
   query getPerson($id: ID!) {
     person(id: $id) {
       ...basicPersonFields
@@ -40,12 +40,11 @@ export const GetProfileQuery = gql`
 export const GetAllPeople = gql`
   query getPeeps {
     people {
-      id
-      firstname
-      lastname
+      ...basicPersonFields
       avatar {
         url
       }
     }
   }
+  ${personFields}
 `;

@@ -1,20 +1,6 @@
 import { personFields } from './person.queries';
+import { IssueFields } from './issue.queries';
 import gql from 'graphql-tag';
-import { Project } from '@models/project.interface';
-
-export const IssueFields = gql`
-  fragment basicIssueFields on Issue {
-    id
-    summary
-    description
-    points
-    person {
-      ...basicPersonFields
-    }
-  }
-
-  ${personFields}
-`;
 
 export const ReleaseFields = gql`
   fragment basicReleaseFields on Release {

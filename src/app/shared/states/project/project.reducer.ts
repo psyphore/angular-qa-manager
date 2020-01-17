@@ -1,54 +1,29 @@
-import { ProjectActions } from './project.actions';
-import { ProjectActionTypes } from '@enums/project.enum';
+import { on, createReducer, Action } from '@ngrx/store';
+import * as ProjectActions from './project.actions';
 import {
   ReleaseState,
-  EnumsState,
   releaseAdapter,
-  enumsAdapter
+  releaseInitialState
 } from './project.state';
+import { Update } from '@ngrx/entity';
+import { Release } from '@models/release.interface';
 
-export function releaseInitialState(): ReleaseState {
-  return releaseAdapter.getInitialState();
-}
-
-export function enumsInitialState(): EnumsState {
-  return enumsAdapter.getInitialState();
-}
+const reducer = createReducer(
+  releaseInitialState(),
+  on(ProjectActions.AddReleaseSuccess, (state, { payload }) =>
+    releaseAdapter.addOne(<Release>{id: payload.id}, state)
+  ),
+  on(ProjectActions.DeleteReleaseSuccess, (state, { payload }) =>
+    releaseAdapter.removeOne(payload.id, state)
+  ),
+  on(ProjectActions.UpdateReleaseSuccess, (state, { payload }) =>
+    releaseAdapter.updateOne(<Update<Release>>{id: payload.id}, state)
+  )
+);
 
 export function projectReducer(
   state: ReleaseState = releaseInitialState(),
-  action: ProjectActions
+  action: Action
 ): ReleaseState {
-  switch (action.type) {
-    case ProjectActionTypes.LOAD_PROJECTS_SUCCESS:
-      return releaseAdapter.addAll(action.payload, state);
-
-    case ProjectActionTypes.ADD_SUCCESS:
-      const addsuccess = { ...state.entities };
-      addsuccess[0].id = action.project.id;
-      return releaseAdapter.addOne(addsuccess[0], state);
-
-    case ProjectActionTypes.DELETE_SUCCESS:
-      return releaseAdapter.removeOne(action.release.id, state);
-
-    case ProjectActionTypes.UPDATE_SUCCESS:
-      const updatesuccess = { ...state.entities }[action.project.id];
-      return releaseAdapter.updateOne(updatesuccess.id as any, state);
-
-    default:
-      return state;
-  }
-}
-
-export function enumsReducer(
-  state: EnumsState = enumsInitialState(),
-  action: ProjectActions
-): EnumsState {
-  switch (action.type) {
-    case ProjectActionTypes.LOAD_OPTIONS_SUCCESS:
-      return enumsAdapter.addOne(action.payload, state);
-
-    default:
-      return state;
-  }
+  return reducer(state, action);
 }

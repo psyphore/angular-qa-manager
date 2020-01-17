@@ -7,38 +7,30 @@ import { MatSnackBar } from '@angular/material';
 
 import * as SecurityActions from '@states/security/security.actions';
 import { AuthService } from '@services/security.service';
-import { SecurityActionTypes } from '@enums/security.enum';
+import { AppStore } from '@models/store.interface';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class SecurityEffects {
   private snackBarDuration = 2000;
   constructor(
     private actions$: Actions,
+    private store$: Store<AppStore>,
     private authSvc: AuthService,
     private router: Router,
     public snackBar: MatSnackBar
   ) {}
-
-  SECURITY_ACTIONS_SUCCESS = [
-    SecurityActionTypes.SIGN_IN_SUCCESS,
-    SecurityActionTypes.SIGN_OUT_SUCCESS
-  ];
-
-  SECURITY_ACTIONS_FAILED = [
-    SecurityActionTypes.SIGN_IN_FAILED,
-    SecurityActionTypes.SIGN_OUT_FAILED
-  ];
-
-  logIn$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(SecurityActions.LogIn),
-      exhaustMap((action: any) =>
-        this.authSvc.signIn(action.payload).pipe(
-          map((result: any) => SecurityActions.LogInSuccess(result)),
-          catchError(error => of(SecurityActions.LogInFailed(error.message)))
+  logIn$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SecurityActions.LogIn),
+        exhaustMap((action: any) =>
+          this.authSvc.signIn(action.payload).pipe(
+            map((result: any) => SecurityActions.LogInSuccess(result)),
+            catchError(error => of(SecurityActions.LogInFailed(error.message)))
+          )
         )
       )
-    )
   );
 
   logInSuccess$ = createEffect(
@@ -76,6 +68,7 @@ export class SecurityEffects {
       ),
     { dispatch: false }
   );
+
   logOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SecurityActions.LogOut),
@@ -109,33 +102,6 @@ export class SecurityEffects {
         tap(() => {
           this.authSvc.removeSessionItem('id_token');
           this.router.navigate(['/']);
-        })
-      ),
-    { dispatch: false }
-  );
-
-  success$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(...this.SECURITY_ACTIONS_SUCCESS),
-        tap(() => {
-          this.snackBar.open('SUCCESS', 'Operation success', {
-            duration: this.snackBarDuration
-          });
-          this.router.navigate(['security/me']);
-        })
-      ),
-    { dispatch: false }
-  );
-
-  failure$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(...this.SECURITY_ACTIONS_FAILED),
-        tap(() => {
-          this.snackBar.open('FAILED', 'Operation failed', {
-            duration: this.snackBarDuration
-          });
         })
       ),
     { dispatch: false }

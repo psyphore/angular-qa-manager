@@ -1,10 +1,6 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as SecurityActions from './security.actions';
-import { SecurityState, securityAdapter } from './security.state';
-
-export function securityInitialState(): SecurityState {
-  return securityAdapter.getInitialState();
-}
+import { SecurityState, securityAdapter, securityInitialState } from './security.state';
 
 const reducer = createReducer(
   securityInitialState(),

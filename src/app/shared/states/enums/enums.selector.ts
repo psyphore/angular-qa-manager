@@ -1,5 +1,5 @@
 import { createFeatureSelector } from '@ngrx/store';
-import { EnumsState, enumsAdapter } from './project.state';
+import { EnumsState, enumsAdapter } from '@states/enums/enums.state';
 
 export const selectEnumsState = createFeatureSelector<EnumsState>('enums');
 

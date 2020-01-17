@@ -4,7 +4,10 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
 
-import { selectEntities, selectAuthToken } from '@states/security/security.selector';
+import {
+  selectEntities,
+  selectAuthToken
+} from '@states/security/security.selector';
 import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
@@ -105,9 +108,7 @@ export class AuthService {
 
   hasTokenAsync(): Observable<boolean> {
     return this.getAuthorizationHeaderAsync().pipe(
-      map(header => {
-        return header && header.indexOf('Bearer ') !== -1 ? true : false;
-      })
+      map(header => header && header.indexOf('Bearer ') !== -1)
     );
   }
 
