@@ -1,20 +1,23 @@
-import { createAction, union } from '@ngrx/store';
+import { createAction, props, union } from '@ngrx/store';
 
 import { SignInCredentials, SignIn } from '@models/security.interface';
 import { SecurityActionTypes } from '@enums/security.enum';
 
 export const LogIn = createAction(
   SecurityActionTypes.SIGN_IN,
-  (payload: SignInCredentials) => ({ payload })
+  // (payload: SignInCredentials) => ({ payload })
+  props<{payload: SignInCredentials}>()
 );
 
 export const LogInSuccess = createAction(
   SecurityActionTypes.SIGN_IN_SUCCESS,
-  (payload: SignIn) => ({ payload })
+  // (payload: SignIn) => ({ payload })
+  props<{payload: SignIn}>()
 );
 export const LogInFailed = createAction(
   SecurityActionTypes.SIGN_IN_FAILED,
-  (message: string | any) => ({ message })
+  // (message: string | any) => ({ message })
+  props<{message: string | any}>()
 );
 
 export const LogOut = createAction(SecurityActionTypes.SIGN_OUT);
