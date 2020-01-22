@@ -29,13 +29,13 @@ const effects = [
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, {
-      metaReducers: [storageSyncMetaReducer]
-      // runtimeChecks: {
-      //   strictStateImmutability: true,
-      //   strictActionImmutability: true,
-      //   strictStateSerializability: true,
-      //   strictActionSerializability: true
-      // }
+      metaReducers: [storageSyncMetaReducer],
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictStateSerializability: true,
+        strictActionSerializability: true
+      }
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
