@@ -12,7 +12,7 @@ const getError = (state: State): any => state.error;
 
 const getIsLoading = (state: State): boolean => state.isLoading;
 
-const getOptions = (state: State): EnumsResponse => state.entities[0];
+const getOptions = (state: State): EnumsResponse => state.values;
 
 export const selectMyFeatureState: MemoizedSelector<
   object,

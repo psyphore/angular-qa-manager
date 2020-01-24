@@ -9,14 +9,14 @@ export const featureAdapter: EntityAdapter<SignIn> = createEntityAdapter<
     b.login.jwt.localeCompare(a.login.jwt)
 });
 
-export interface State extends EntityState<SignIn> {
+export interface State {
   token: string;
   isLoading?: boolean;
   error?: any;
 }
 
-export const initialState: State = featureAdapter.getInitialState({
+export const initialState: State = {
   token: null,
   isLoading: false,
   error: null
-});
+};

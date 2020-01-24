@@ -5,12 +5,14 @@ export const featureAdapter: EntityAdapter<EnumsResponse> = createEntityAdapter<
   EnumsResponse
 >();
 
-export interface State extends EntityState<EnumsResponse> {
+export interface State {
+  values: EnumsResponse;
   isLoading?: boolean;
   error?: any;
 }
 
 export const initialState: State = featureAdapter.getInitialState({
+  values: null,
   isLoading: false,
   error: null
 });

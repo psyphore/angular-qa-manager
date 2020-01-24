@@ -12,7 +12,7 @@ const getError = (state: State): any => state.error;
 
 const getIsLoading = (state: State): boolean => state.isLoading;
 
-const getMe = (state: State): Me => state.entities[0];
+const getMe = (state: State): Me => state.profile;
 
 export const selectMyFeatureState: MemoizedSelector<
   object,

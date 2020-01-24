@@ -17,11 +17,11 @@
       />
     </mat-form-field>
 
-    <p *ngIf="isLoading$ | async">is loading...</p>
+    <p *ngIf="isLoading$ | async">Loading: {{isLoading$ | async}}</p>
 
-    <p *ngIf="errorMessage$ | async">{{ errorMessage$ | async }}</p>
+    <p *ngIf="errorMessage$ | async">Errors: {{ errorMessage$ | async }}</p>
 
-    <p *ngIf="authenticated$ | async">{{ authenticated$ | async }}</p>
+    <p *ngIf="authenticated$ | async">Auth: {{ authenticated$ | async }}</p>
 
     <div class="signin-full-width">
       <button

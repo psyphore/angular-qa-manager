@@ -8,8 +8,6 @@ import {
   SignInStoreSelectors
 } from '../../../root-store/';
 
-// import * as SignInActions from '@states/security/security.actions';
-// import { AppStore } from '@models/store.interface';
 import { Observable } from 'rxjs';
 import { SignInCredentials } from '@models/security.interface';
 
@@ -32,6 +30,10 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    this.listenForStateChanges();
+  }
+
+  listenForStateChanges() {
     this.errorMessage$ = this.store$.select(
       SignInStoreSelectors.selectMyFeatureError
     );
@@ -43,7 +45,7 @@ export class SigninComponent implements OnInit {
     );
   }
 
-  public signIn() {
+  signIn() {
     if (this.signInFormGroup.invalid) {
       return;
     }
@@ -52,7 +54,6 @@ export class SigninComponent implements OnInit {
       const values = <SignInCredentials>{
         creds: { ...this.signInFormGroup.value }
       };
-      // this.store$.dispatch(SignInActions.LogIn({ payload: values }));
       this.store$.dispatch(new SignInStoreActions.LoadRequestAction(values));
       this.initializeForm();
     } catch (error) {

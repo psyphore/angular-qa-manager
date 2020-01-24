@@ -1,9 +1,10 @@
 import { Actions, ActionTypes } from './actions';
-import { featureAdapter, initialState, State } from './state';
+import { initialState, State } from './state';
 
 export function featureReducer(state = initialState, action: Actions): State {
   switch (action.type) {
     case ActionTypes.LOAD_REQUEST: {
+      console.log('> SignIn attempt', action);
       return {
         ...state,
         token: null,
@@ -12,14 +13,16 @@ export function featureReducer(state = initialState, action: Actions): State {
       };
     }
     case ActionTypes.LOAD_SUCCESS: {
-      return featureAdapter.addOne(action.payload, {
+      console.log('> SignIn success', action);
+      return {
         ...state,
         token: action.payload.login.jwt,
         isLoading: false,
         error: null
-      });
+      };
     }
     case ActionTypes.LOAD_FAILURE: {
+      console.log('> SignIn failed', action);
       return {
         ...state,
         isLoading: false,

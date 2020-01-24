@@ -3,9 +3,17 @@ import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 
 import { AuthService } from '@services/security.service';
-import * as MeActions from '@states/me/me.actions';
-import { selectEntities } from '@states/me/me.selector';
-import { AppStore } from '@models/store.interface';
+// import * as MeActions from '@states/me/me.actions';
+// import { selectEntities } from '@states/me/me.selector';
+// import { AppStore } from '@models/store.interface';
+
+import {
+  RootStoreState,
+  MeStoreActions,
+  MeStoreSelectors
+} from '../../../root-store/';
+
+import { Observable } from 'rxjs';
 
 import { Me } from '@models/security.interface';
 
@@ -21,17 +29,19 @@ export class MeComponent implements OnInit {
   constructor(
     private router: Router,
     private authSvc: AuthService,
-    private store$: Store<AppStore>
+    private store$: Store<RootStoreState.RootState>
   ) {}
 
   ngOnInit() {
     this.errorMessage = null;
     try {
-      this.store$.dispatch(MeActions.LoadMe());
-      this.store$.pipe(select(selectEntities)).subscribe(d => {
-        console.log(d);
-        this.profile = d as any;
-      });
+      this.store$.dispatch(new MeStoreActions.LoadRequestAction());
+      this.store$
+        .pipe(select(MeStoreSelectors.selectMyFeatureOptions))
+        .subscribe(d => {
+          console.log(d);
+          this.profile = d as Me;
+        });
     } catch (err) {
       this.handleError(err);
     }
