@@ -54,7 +54,7 @@ export class SigninComponent implements OnInit {
       const values = <SignInCredentials>{
         creds: { ...this.signInFormGroup.value }
       };
-      this.store$.dispatch(new SignInStoreActions.LoadRequestAction(values));
+      this.store$.dispatch(SignInStoreActions.signInRequest(values));
       this.initializeForm();
     } catch (error) {
       console.error(error);

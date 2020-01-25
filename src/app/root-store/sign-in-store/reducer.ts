@@ -1,36 +1,36 @@
-import { Actions, ActionTypes } from './actions';
+import { createReducer, on, Action } from '@ngrx/store';
+import {
+  signInRequest,
+  signInRequestFailure,
+  signInRequestSuccess
+} from './actions';
 import { initialState, State } from './state';
 
-export function featureReducer(state = initialState, action: Actions): State {
-  switch (action.type) {
-    case ActionTypes.LOAD_REQUEST: {
-      console.log('> SignIn attempt', action);
-      return {
-        ...state,
-        token: null,
-        isLoading: true,
-        error: null
-      };
-    }
-    case ActionTypes.LOAD_SUCCESS: {
-      console.log('> SignIn success', action);
-      return {
-        ...state,
-        token: action.payload.login.jwt,
-        isLoading: false,
-        error: null
-      };
-    }
-    case ActionTypes.LOAD_FAILURE: {
-      console.log('> SignIn failed', action);
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload.error
-      };
-    }
-    default: {
-      return state;
-    }
-  }
+const reducer = createReducer(
+  initialState,
+  on(signInRequest, state => ({
+    ...state,
+    token: null,
+    isLoading: true,
+    error: null
+  })),
+  on(signInRequestSuccess, (state, { payload }) => ({
+    ...state,
+    token: payload.login.jwt,
+    isLoading: false,
+    error: null
+  })),
+  on(signInRequestFailure, (state, { errorMessage }) => ({
+    ...state,
+    token: null,
+    isLoading: false,
+    error: errorMessage
+  }))
+);
+
+export function featureReducer(
+  state: State | undefined,
+  action: Action
+): State {
+  return reducer(state, action);
 }

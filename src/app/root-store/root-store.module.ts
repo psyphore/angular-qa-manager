@@ -38,7 +38,7 @@ import { OptionsStoreModule } from './options-store/options-store.module';
       logOnly: environment.production,
       features: {
         pause: false,
-        lock: true,
+        lock: false,
         persist: true
       }
     })

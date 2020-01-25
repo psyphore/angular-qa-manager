@@ -1,34 +1,37 @@
-import { Actions, ActionTypes } from './actions';
-import { featureAdapter, initialState, State } from './state';
+import { createReducer, on, Action } from '@ngrx/store';
+import {
+  Actions,
+  loadOptions,
+  loadOptionsFailure,
+  loadOptionsSuccess
+} from './actions';
+import { initialState, State } from './state';
 
-export function featureReducer(state = initialState, action: Actions): State {
-  switch (action.type) {
-    case ActionTypes.LOAD_OPTIONS_REQUEST: {
-      return {
-        ...state,
-        values: null,
-        isLoading: true,
-        error: null
-      };
-    }
-    case ActionTypes.LOAD_OPTIONS_SUCCESS: {
-      return {
-        ...state,
-        values: action.payload,
-        isLoading: false,
-        error: null
-      };
-    }
-    case ActionTypes.LOAD_OPTIONS_FAILURE: {
-      return {
-        ...state,
-        values: null,
-        isLoading: false,
-        error: action.payload.error
-      };
-    }
-    default: {
-      return state;
-    }
-  }
+const reducer = createReducer(
+  initialState,
+  on(loadOptions, state => ({
+    ...state,
+    values: null,
+    isLoading: true,
+    error: null
+  })),
+  on(loadOptionsSuccess, (state, { payload }) => ({
+    ...state,
+    values: payload,
+    isLoading: false,
+    error: null
+  })),
+  on(loadOptionsFailure, (state, { payload }) => ({
+    ...state,
+    values: null,
+    isLoading: false,
+    error: payload.errorMessage
+  }))
+);
+
+export function featureReducer(
+  state: State | undefined,
+  action: Action
+): State {
+  return reducer(state, action);
 }

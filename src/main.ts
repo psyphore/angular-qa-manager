@@ -15,7 +15,7 @@ if (environment.production) {
 
 getAllDataFromLocalForage({
   driver: localForage.INDEXEDDB,
-  keys: ['signIn', 'person', 'me', 'options']
+  keys: ['signIn', 'me', 'options']
 }).then(() => {
   platformBrowserDynamic()
     .bootstrapModule(AppModule)

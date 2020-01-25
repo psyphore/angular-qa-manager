@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import {
   SignIn,
   SignInCredentials
@@ -10,19 +10,25 @@ export enum ActionTypes {
   LOAD_SUCCESS = '[Sign In] Load Success'
 }
 
-export class LoadRequestAction implements Action {
-  readonly type = ActionTypes.LOAD_REQUEST;
-  constructor(public payload: SignInCredentials) {}
-}
+export const signInRequest = createAction(
+  ActionTypes.LOAD_REQUEST,
+  (payload: SignInCredentials) => ({ payload })
+);
 
-export class LoadFailureAction implements Action {
-  readonly type = ActionTypes.LOAD_FAILURE;
-  constructor(public payload: { error: string }) {}
-}
+export const signInRequestFailure = createAction(
+  ActionTypes.LOAD_FAILURE,
+  (errorMessage = 'Failed to SignIn') => ({ errorMessage })
+);
 
-export class LoadSuccessAction implements Action {
-  readonly type = ActionTypes.LOAD_SUCCESS;
-  constructor(public payload: SignIn | any) {}
-}
+export const signInRequestSuccess = createAction(
+  ActionTypes.LOAD_SUCCESS,
+  (payload: SignIn) => ({ payload })
+);
 
-export type Actions = LoadRequestAction | LoadFailureAction | LoadSuccessAction;
+const actions = union({
+  signInRequest,
+  signInRequestFailure,
+  signInRequestSuccess
+});
+
+export type Actions = typeof actions;
