@@ -4,17 +4,11 @@ import { Observable } from 'rxjs';
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 import {
-  LoadRelease,
-  DeleteRelease,
-  UpdateRelease,
-  AddRelease
-} from '@states/project/project.actions';
-import { selectAll as selectProjects } from '@states/project/project.selector';
+  RootStoreState,
+  SignInStoreActions,
+  SignInStoreSelectors
+} from '../../../root-store/';
 
-import { LoadPeople } from '@states/person/person.actions';
-import { selectAll as selectPeople } from '@states/person/person.selector';
-
-import { AppStore } from '@models/store.interface';
 import { Person } from '@models/person.interface';
 import { Release } from '@models/release.interface';
 import { first, flatMap } from 'rxjs/operators';
@@ -32,7 +26,7 @@ export class ProjectComponent implements OnInit {
   public qaPeople$: Observable<Person[]>;
   public projectOptions$: Observable<EnumsResponse>;
 
-  constructor(private store$: Store<AppStore>) {}
+  constructor(private store$: Store<RootStoreState.RootState>) {}
 
   ngOnInit(): void {
     this.initialize();
@@ -40,11 +34,10 @@ export class ProjectComponent implements OnInit {
 
   initialize(): void {
     // this.store$.dispatch(LoadOptions());
-    this.store$.dispatch(LoadRelease({limit: 900, start: 0}));
-    this.store$.dispatch(new LoadPeople());
-
-    this.projects$ = this.store$.select(selectProjects);
-    this.qaPeople$ = this.store$.select(selectPeople);
+    // this.store$.dispatch(LoadRelease({limit: 900, start: 0}));
+    // this.store$.dispatch(new LoadPeople());
+    // this.projects$ = this.store$.select(selectProjects);
+    // this.qaPeople$ = this.store$.select(selectPeople);
     // this.projectOptions$ = this.store$.pipe(select(selectOptions).pipe(
     //   first(),
     //   flatMap(p => p)
@@ -52,7 +45,7 @@ export class ProjectComponent implements OnInit {
   }
 
   public onDelete(project: Release) {
-    this.store$.dispatch(DeleteRelease(project));
+    // this.store$.dispatch(DeleteRelease(project));
   }
 
   public onSelect(project: Release) {
@@ -60,10 +53,10 @@ export class ProjectComponent implements OnInit {
   }
 
   public onUpdate(project: Release) {
-    this.store$.dispatch(UpdateRelease(project));
+    // this.store$.dispatch(UpdateRelease(project));
   }
 
   public onAdd(project: Release) {
-    this.store$.dispatch(AddRelease(project));
+    // this.store$.dispatch(AddRelease(project));
   }
 }

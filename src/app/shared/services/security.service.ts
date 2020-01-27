@@ -5,10 +5,16 @@ import { Store, select } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
 
 import {
-  selectEntities,
-  selectAuthToken
-} from '@states/security/security.selector';
-import { AppStore } from '@models/store.interface';
+  RootStoreState,
+  SignInStoreActions,
+  SignInStoreSelectors
+} from '../../root-store';
+
+// import {
+//   selectEntities,
+//   selectAuthToken
+// } from '@states/security/security.selector';
+// import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
@@ -25,7 +31,10 @@ export class AuthService {
 
   private auth0Client: any; // Auth0Client;
 
-  constructor(private store$: Store<AppStore>, private apollo: Apollo) {}
+  constructor(
+    private store$: Store<RootStoreState.RootState>,
+    private apollo: Apollo
+  ) {}
 
   /**
    * Gets the Auth0Client instance.
@@ -67,15 +76,18 @@ export class AuthService {
   }
 
   getAuthorizationHeaderAsync(): Observable<string> {
-    const header = this.store$.pipe(select(selectAuthToken)).pipe(
-      map(res => {
-        if (!res || res === undefined || Object.entries(res).length === 0) {
-          return '';
-        }
-        const token = res.undefined.login.jwt ? res.undefined.login.jwt : '';
-        return token.length !== 0 ? `Bearer ${token}` : token;
-      })
-    );
+    const header = this.store$
+      .pipe(select(SignInStoreSelectors.selectMyFeatureUser))
+      .pipe(
+        map(res => {
+          console.log('> get auth header', res);
+          if (!res || res === undefined || Object.entries(res).length === 0) {
+            return '';
+          }
+          const token = res; // res.undefined.login.jwt ? res.undefined.login.jwt : '';
+          return token.length !== 0 ? `Bearer ${token}` : token;
+        })
+      );
 
     return header;
   }
@@ -134,9 +146,11 @@ export class AuthService {
     return localStorage.getItem(key);
   }
 
-  public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
+  public signIn(
+    credentials: SignInCredentials
+  ): Observable<SignInResponse | any> {
     return this.apollo
-      .mutate<SignInResponse, SignInCredentials>({
+      .mutate<SignInResponse | any, SignInCredentials>({
         mutation: SignIn,
         variables: { creds: credentials.creds }
       })

@@ -1,9 +1,0 @@
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { SignIn } from '@models/security.interface';
-
-export const securityAdapter = createEntityAdapter<SignIn>();
-export interface SecurityState extends EntityState<SignIn> {}
-
-export function securityInitialState(): SecurityState {
-  return securityAdapter.getInitialState();
-}
