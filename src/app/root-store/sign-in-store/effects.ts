@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap, exhaustMap, mergeMap } from 'rxjs/operators';
+import { catchError, map, tap, exhaustMap, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
@@ -22,12 +22,9 @@ export class SignInStoreEffects {
     this.actions$.pipe(
       ofType(featureActions.signInRequest),
       tap(() => console.log('> authenticate')),
-      mergeMap(action =>
+      exhaustMap(action =>
         this.dataService.signIn(action.payload).pipe(
-          map(response => {
-            console.log('> Authenticated', response);
-            return featureActions.signInRequestSuccess(response);
-          }),
+          map(response => featureActions.signInRequestSuccess(response)),
           catchError(error =>
             of(featureActions.signInRequestFailure(error.message))
           )

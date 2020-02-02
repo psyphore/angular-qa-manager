@@ -23,27 +23,34 @@ export class MeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authSvc: AuthService,
+    private service$: AuthService,
     private store$: Store<RootStoreState.RootState>
   ) {}
 
   ngOnInit() {
     this.errorMessage = null;
     try {
-      this.store$.dispatch(MeStoreActions.loadProfile());
-      this.store$
-        .pipe(select(MeStoreSelectors.selectMyFeatureOptions))
-        .subscribe(d => {
-          console.log(d);
-          this.profile = d as Me;
-        });
+      // this.store$.dispatch(MeStoreActions.loadProfile());
+      // this.store$
+      //   .pipe(select(MeStoreSelectors.selectMyFeatureOptions))
+      //   .subscribe(d => {
+      //     console.log(d);
+      //     this.profile = d as Me;
+      //   });
+
+      this.service$.me().subscribe(
+        (payload: Me) => {
+          this.profile = payload;
+        },
+        err => console.error('X failed to load me', err)
+      );
     } catch (err) {
       this.handleError(err);
     }
   }
 
   private clearSessionStore(): void {
-    this.authSvc.removeSessionItem('id_token');
+    this.service$.removeSessionItem('id_token');
     this.router.navigate(['security/signin']);
   }
 

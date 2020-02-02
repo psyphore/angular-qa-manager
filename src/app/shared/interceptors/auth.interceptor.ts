@@ -17,7 +17,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.auth.getAuthorizationHeaderAsync().pipe(
+    return this.getToken().pipe(
       switchMap(value => {
         const header =
           value && value.length !== 0
@@ -26,5 +26,15 @@ export class HeaderInterceptor implements HttpInterceptor {
         return next.handle(header);
       })
     );
+  }
+
+  getToken() {
+    return new Observable<string>(s =>
+      s.next(this.auth.getAuthorizationHeader())
+    );
+  }
+
+  getTokenAsync() {
+    return this.auth.getAuthorizationHeaderAsync();
   }
 }

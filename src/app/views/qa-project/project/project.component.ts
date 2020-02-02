@@ -11,8 +11,10 @@ import {
 
 import { Person } from '@models/person.interface';
 import { Release } from '@models/release.interface';
-import { first, flatMap } from 'rxjs/operators';
+import { first, flatMap, map } from 'rxjs/operators';
 import { EnumsResponse } from '@models/enums.interface';
+import { ProjectsService } from '@services/projects.service';
+import { GeneralServices, PersonService } from '@shared/services';
 
 @Component({
   selector: 'app-project',
@@ -26,7 +28,12 @@ export class ProjectComponent implements OnInit {
   public qaPeople$: Observable<Person[]>;
   public projectOptions$: Observable<EnumsResponse>;
 
-  constructor(private store$: Store<RootStoreState.RootState>) {}
+  constructor(
+    private store$: Store<RootStoreState.RootState>,
+    private options$: GeneralServices,
+    private project$: ProjectsService,
+    private people$: PersonService
+  ) {}
 
   ngOnInit(): void {
     this.initialize();
@@ -42,6 +49,12 @@ export class ProjectComponent implements OnInit {
     //   first(),
     //   flatMap(p => p)
     // );
+
+    this.projectOptions$ = this.options$.getAllOptions();
+    this.projects$ = this.project$
+      .getAllReleases(900, 0)
+      .pipe(map(value => value.releases));
+    this.qaPeople$ = this.people$.getUsers();
   }
 
   public onDelete(project: Release) {

@@ -9,7 +9,9 @@ import {
 } from '../../../root-store/';
 
 import { Observable } from 'rxjs';
-import { SignInCredentials } from '@models/security.interface';
+import { SignInCredentials, SignIn } from '@models/security.interface';
+import { AuthService } from '@services/security.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -25,7 +27,9 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private store$: Store<RootStoreState.RootState>
+    private router: Router,
+    private store$: Store<RootStoreState.RootState>,
+    private service$: AuthService
   ) {}
 
   ngOnInit() {
@@ -54,7 +58,15 @@ export class SigninComponent implements OnInit {
       const values = <SignInCredentials>{
         creds: { ...this.signInFormGroup.value }
       };
-      this.store$.dispatch(SignInStoreActions.signInRequest(values));
+      // this.store$.dispatch(SignInStoreActions.signInRequest(values));
+
+      this.service$.signIn(values).subscribe(
+        (payload: SignIn) => {
+          this.service$.setAuthorizationHeader(payload.login.jwt);
+          this.router.navigate(['security/me']);
+        },
+        err => console.error('X failed to auth', err)
+      );
       this.initializeForm();
     } catch (error) {
       console.error(error);

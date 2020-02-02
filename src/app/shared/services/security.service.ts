@@ -69,6 +69,17 @@ export class AuthService {
     return this.auth0Client;
   }
 
+  logout() {
+    this.auth0Client.logout();
+    this.removeSessionItem('access_token');
+    this.removeSessionItem('id_token');
+    this.removeSessionItem('expires_at');
+  }
+
+  setAuthorizationHeader(value): void {
+    this.addSessionItem('id_token', value);
+  }
+
   getAuthorizationHeader(): string {
     const token = this.getSession('id_token');
     const authHeader = token ? `Bearer ${token}` : '';
@@ -90,13 +101,6 @@ export class AuthService {
       );
 
     return header;
-  }
-
-  logout() {
-    this.auth0Client.logout();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
   }
 
   setSessionToken() {
@@ -132,6 +136,10 @@ export class AuthService {
     localStorage.removeItem(key);
   }
 
+  getSession(key: string): any {
+    return localStorage.getItem(key);
+  }
+
   setSession(authResult: any): void {
     // Set the time that the Access Token will expire at
     const expiresAt = JSON.stringify(
@@ -140,10 +148,6 @@ export class AuthService {
     this.addSessionItem('access_token', authResult.accessToken);
     this.addSessionItem('id_token', authResult.idToken);
     this.addSessionItem('expires_at', expiresAt);
-  }
-
-  getSession(key: string): any {
-    return localStorage.getItem(key);
   }
 
   public signIn(

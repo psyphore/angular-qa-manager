@@ -31,12 +31,23 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkForToken(): Observable<boolean> {
+    return new Observable<boolean>(s => s.next(this.auth.hasToken())).pipe(
+      map(value => {
+        if (value === true) {
+          return true;
+        }
+        this.router.navigate(['/security/signin']);
+        return false;
+      })
+    );
+  }
+
+  checkForTokenAsync(): Observable<boolean> {
     return this.auth.hasTokenAsync().pipe(
       map(value => {
         if (value === true) {
           return true;
         }
-
         this.router.navigate(['/security/signin']);
         return false;
       })
