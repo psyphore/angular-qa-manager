@@ -13,7 +13,8 @@ import {
   GetReleaseById,
   AddRelease,
   DeleteRelease,
-  UpdateRelease
+  UpdateRelease,
+  ProjectsPageQuery
 } from '@shared/graphql';
 
 import { environment } from '@environments/environment';
@@ -69,6 +70,15 @@ export class ProjectsService {
       .watchQuery<ReleaseResponse, any>({
         query: GetReleaseById,
         variables: { releaseId: projectId }
+      })
+      .valueChanges.pipe(map(result => result.data));
+  }
+
+  public getReleaseListing(limit: number, start: number): Observable<any> {
+    return this.apollo
+      .watchQuery<any, any>({
+        query: ProjectsPageQuery,
+        variables: { limit, start }
       })
       .valueChanges.pipe(map(result => result.data));
   }

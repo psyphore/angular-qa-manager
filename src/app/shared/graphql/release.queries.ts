@@ -58,3 +58,30 @@ export const GetReleaseById = gql`
   ${personFields}
   ${IssueFields}
 `;
+
+export const ProjectsPageQuery = gql`
+  query projectListing($limit: Int = 10, $start: Int = 0) {
+    releases(limit: $limit, start: $start) {
+      ...basicReleaseFields
+    }
+    people {
+      ...basicPersonFields
+      avatar {
+        url
+      }
+    }
+    statuses {
+      id
+      name
+    }
+    systems {
+      id
+      name
+    }
+    environments {
+      id
+      name
+    }
+  }
+  ${ReleaseFields}
+`;

@@ -50,11 +50,25 @@ export class ProjectComponent implements OnInit {
     //   flatMap(p => p)
     // );
 
-    this.projectOptions$ = this.options$.getAllOptions();
-    this.projects$ = this.project$
-      .getAllReleases(900, 0)
-      .pipe(map(value => value.releases));
-    this.qaPeople$ = this.people$.getUsers();
+    this.project$.getReleaseListing(10, 0).pipe(
+      map(payload => {
+        this.projects$ = new Observable(s => s.next(payload.releases));
+        this.qaPeople$ = new Observable(s => s.next(payload.people));
+        this.projectOptions$ = new Observable(s =>
+          s.next(<EnumsResponse>{
+            statuses: payload.statuses,
+            environments: payload.environments,
+            systems: payload.systems
+          })
+        );
+      })
+    );
+
+    // this.projectOptions$ = this.options$.getAllOptions();
+    // this.projects$ = this.project$
+    //   .getAllReleases(900, 0)
+    //   .pipe(map(value => value.releases));
+    // this.qaPeople$ = this.people$.getUsers();
   }
 
   public onDelete(project: Release) {
