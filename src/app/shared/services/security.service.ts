@@ -150,11 +150,9 @@ export class AuthService {
     this.addSessionItem('expires_at', expiresAt);
   }
 
-  public signIn(
-    credentials: SignInCredentials
-  ): Observable<SignInResponse | any> {
+  public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
     return this.apollo
-      .mutate<SignInResponse | any, SignInCredentials>({
+      .mutate<SignInResponse, SignInCredentials>({
         mutation: SignIn,
         variables: { creds: credentials.creds }
       })

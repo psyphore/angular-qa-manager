@@ -4,14 +4,12 @@ import { Store } from '@ngrx/store';
 
 import {
   RootStoreState,
-  SignInStoreActions,
   SignInStoreSelectors
 } from '../../../root-store/';
 
 import { Observable } from 'rxjs';
-import { SignInCredentials, SignIn } from '@models/security.interface';
-import { AuthService } from '@services/security.service';
-import { Router } from '@angular/router';
+import { SignInCredentials } from '@models/security.interface';
+import { SignInService } from './signin.service';
 
 @Component({
   selector: 'app-signin',
@@ -27,9 +25,8 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private store$: Store<RootStoreState.RootState>,
-    private service$: AuthService
+    private service$: SignInService
   ) {}
 
   ngOnInit() {
@@ -60,13 +57,7 @@ export class SigninComponent implements OnInit {
       };
       // this.store$.dispatch(SignInStoreActions.signInRequest(values));
 
-      this.service$.signIn(values).subscribe(
-        (payload: SignIn) => {
-          this.service$.setAuthorizationHeader(payload.login.jwt);
-          this.router.navigate(['security/me']);
-        },
-        err => console.error('X failed to auth', err)
-      );
+      this.service$.SignIn(values);
       this.initializeForm();
     } catch (error) {
       console.error(error);
