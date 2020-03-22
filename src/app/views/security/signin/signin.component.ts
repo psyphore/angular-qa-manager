@@ -2,8 +2,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as SignInActions from '@states/security/security.actions';
-import { AppStore } from '@models/store.interface';
+import { RootStoreState, SignInStoreSelectors } from '../../../root-store/';
+
+import { Observable } from 'rxjs';
+import { SignInCredentials } from '@models/security.interface';
+import { SignInService } from './signin.service';
 
 @Component({
   selector: 'app-signin',
@@ -12,27 +15,49 @@ import { AppStore } from '@models/store.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SigninComponent implements OnInit {
-  public signInFormGroup: FormGroup;
-  public errorMessage: string = null;
+  signInFormGroup: FormGroup;
+  errorMessage$: Observable<string>;
+  isLoading$: Observable<boolean>;
+  authenticated$: Observable<string>;
 
-  constructor(private fb: FormBuilder, private store$: Store<AppStore>) {}
+  constructor(
+    private fb: FormBuilder,
+    private store$: Store<RootStoreState.RootState>,
+    private service$: SignInService
+  ) {}
 
   ngOnInit() {
     this.initializeForm();
+    this.listenForStateChanges();
   }
 
-  public signIn() {
+  listenForStateChanges() {
+    this.errorMessage$ = this.store$.select(
+      SignInStoreSelectors.selectMyFeatureError
+    );
+    this.isLoading$ = this.store$.select(
+      SignInStoreSelectors.selectMyFeatureIsLoading
+    );
+    this.authenticated$ = this.store$.select(
+      SignInStoreSelectors.selectMyFeatureUser
+    );
+  }
+
+  signIn() {
     if (this.signInFormGroup.invalid) {
       return;
     }
 
     try {
-      this.errorMessage = null;
-      const values = { creds: { ...this.signInFormGroup.value } };
-      this.store$.dispatch(new SignInActions.LogIn(values));
+      const values = <SignInCredentials>{
+        creds: { ...this.signInFormGroup.value }
+      };
+      // this.store$.dispatch(SignInStoreActions.signInRequest(values));
+
+      this.service$.SignIn(values);
       this.initializeForm();
     } catch (error) {
-      this.errorMessage = error.message;
+      console.error(error);
     }
   }
 

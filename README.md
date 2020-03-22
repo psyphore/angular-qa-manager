@@ -53,7 +53,7 @@ ng serve
 ## Environment
 
 ```javascript
-{
+export const environment = {
   appName: 'Quality Manager',
   production: false,
   baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -74,6 +74,5 @@ ng serve
     token: 'token',
     baseUrl: 'https://api.atlassian.com/ex/jira/#cloudId#/rest/'
   }
-}
-
+};
 ```

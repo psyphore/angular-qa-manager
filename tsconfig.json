@@ -17,7 +17,7 @@
     "paths": {
       "@shared/*": ["src/app/shared/*"],
       "@services/*": ["src/app/shared/services/*"],
-      "@states/*": ["src/app/shared/states/*"],
+      "@root-store/*": ["src/app/root-store/*"],
       "@views/*": ["src/app/views/*"],
       "@models/*": ["src/app/shared/interfaces/*"],
       "@enums/*": ["src/app/shared/enums/*"],

@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Issue } from '@models/project.interface';
+import { Issue } from '@models/issue.interface';
 
 @Component({
   selector: 'app-task-form',

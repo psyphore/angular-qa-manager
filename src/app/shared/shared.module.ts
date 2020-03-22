@@ -6,7 +6,13 @@ import { RouterModule } from '@angular/router';
 import { SharedMaterialModule } from './shared-material.module';
 import { HeaderInterceptor } from './interceptors/auth.interceptor';
 import { EmojiDirective } from './directives/emoji.directive';
-import { ProjectsService, PersonService, AuthService } from './services';
+import {
+  ProjectsService,
+  PersonService,
+  AuthService,
+  IssuesService,
+  GeneralServices
+} from './services';
 import { AuthGuard } from './guards/auth.guard';
 
 const COMPONENTS = [EmojiDirective];
@@ -19,6 +25,8 @@ const COMPONENTS = [EmojiDirective];
     AuthGuard,
     ProjectsService,
     PersonService,
+    IssuesService,
+    GeneralServices,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,

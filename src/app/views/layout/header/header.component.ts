@@ -9,8 +9,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  public currentPath: string;
-  public hasToken$: Observable<boolean>;
+  currentPath: string;
+  hasToken$: Observable<boolean>;
+  hasToken: boolean;
   @Input() title: string;
   constructor(private router: Router, private auth: AuthService) {}
 
@@ -18,6 +19,14 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe(
       (_: NavigationEnd) => (this.currentPath = _.url)
     );
-    this.hasToken$ = this.auth.hasTokenAsync();
+    // this.hasToken$ = this.auth.hasTokenAsync();
+    this.hasToken = false;
+    this.auth.hasTokenAsync().subscribe(
+      t => (this.hasToken = t),
+      err => {
+        this.hasToken = false;
+        console.error(err);
+      }
+    );
   }
 }

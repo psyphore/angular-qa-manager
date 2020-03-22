@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
 
-import { selectEntities } from '@states/security/security.selector';
-import { AppStore } from '@models/store.interface';
+import {
+  RootStoreState,
+  SignInStoreActions,
+  SignInStoreSelectors
+} from '../../root-store';
+
+// import {
+//   selectEntities,
+//   selectAuthToken
+// } from '@states/security/security.selector';
+// import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
@@ -22,7 +31,10 @@ export class AuthService {
 
   private auth0Client: any; // Auth0Client;
 
-  constructor(private store$: Store<AppStore>, private apollo: Apollo) {}
+  constructor(
+    private store$: Store<RootStoreState.RootState>,
+    private apollo: Apollo
+  ) {}
 
   /**
    * Gets the Auth0Client instance.
@@ -57,6 +69,17 @@ export class AuthService {
     return this.auth0Client;
   }
 
+  logout() {
+    this.auth0Client.logout();
+    this.removeSessionItem('access_token');
+    this.removeSessionItem('id_token');
+    this.removeSessionItem('expires_at');
+  }
+
+  setAuthorizationHeader(value): void {
+    this.addSessionItem('id_token', value);
+  }
+
   getAuthorizationHeader(): string {
     const token = this.getSession('id_token');
     const authHeader = token ? `Bearer ${token}` : '';
@@ -64,24 +87,20 @@ export class AuthService {
   }
 
   getAuthorizationHeaderAsync(): Observable<string> {
-    const header = this.store$.select(selectEntities).pipe(
-      map(res => {
-        if (!res || res === undefined || Object.entries(res).length === 0) {
-          return '';
-        }
-        const token = res.undefined.login.jwt ? res.undefined.login.jwt : '';
-        return token.length !== 0 ? `Bearer ${token}` : token;
-      })
-    );
+    const header = this.store$
+      .pipe(select(SignInStoreSelectors.selectMyFeatureUser))
+      .pipe(
+        map(res => {
+          console.log('> get auth header', res);
+          if (!res || res === undefined || Object.entries(res).length === 0) {
+            return '';
+          }
+          const token = res; // res.undefined.login.jwt ? res.undefined.login.jwt : '';
+          return token.length !== 0 ? `Bearer ${token}` : token;
+        })
+      );
 
     return header;
-  }
-
-  logout() {
-    this.auth0Client.logout();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
   }
 
   setSessionToken() {
@@ -105,9 +124,7 @@ export class AuthService {
 
   hasTokenAsync(): Observable<boolean> {
     return this.getAuthorizationHeaderAsync().pipe(
-      map(header => {
-        return header && header.indexOf('Bearer ') !== -1 ? true : false;
-      })
+      map(header => header && header.indexOf('Bearer ') !== -1)
     );
   }
 
@@ -119,6 +136,10 @@ export class AuthService {
     localStorage.removeItem(key);
   }
 
+  getSession(key: string): any {
+    return localStorage.getItem(key);
+  }
+
   setSession(authResult: any): void {
     // Set the time that the Access Token will expire at
     const expiresAt = JSON.stringify(
@@ -127,10 +148,6 @@ export class AuthService {
     this.addSessionItem('access_token', authResult.accessToken);
     this.addSessionItem('id_token', authResult.idToken);
     this.addSessionItem('expires_at', expiresAt);
-  }
-
-  getSession(key: string): any {
-    return localStorage.getItem(key);
   }
 
   public signIn(credentials: SignInCredentials): Observable<SignInResponse> {

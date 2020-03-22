@@ -1,6 +1,5 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib",
-  "npm-scripts.showStartNotification": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
   "window.zoomLevel": 1,
   "editor.fontSize": 12,
   "terminal.integrated.fontSize": 12,
@@ -12,7 +11,13 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/node_modules": true,
-    "**/dist": true
+    "**/dist": true,
+    "**/coverage": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
   },
   "[javascript]": {
     "editor.tabSize": 2
@@ -28,13 +33,12 @@
   },
   "editor.minimap.enabled": false,
   "explorer.confirmDragAndDrop": true,
-  "workbench.statusBar.feedback.visible": false,
   "workbench.editor.labelFormat": "short",
   "terminal.integrated.rendererType": "dom",
   "emmet.excludeLanguages": ["typescript", "typescriptreact", "javascript"],
   "workbench.editor.showTabs": true,
   "breadcrumbs.enabled": true,
-  "editor.fontFamily": "Fira Code",
-  "terminal.integrated.fontFamily": "Fira Code",
+  "editor.fontFamily": "'FiraCode','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+  "terminal.integrated.fontFamily": "'FiraCode','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
   "terminal.integrated.fontWeightBold": "normal"
 }

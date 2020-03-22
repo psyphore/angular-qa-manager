@@ -49,7 +49,7 @@
       Archives
     </a>
 
-    <a
+    <!-- <a
       *ngIf="!hasToken$ | async"
       class="py-2 d-none d-md-inline-block"
       routerLink="/security/signin"
@@ -64,6 +64,14 @@
       routerLinkActive="router-link-active"
     >
       Me
+    </a> -->
+
+    <a
+      class="py-2 d-none d-md-inline-block"
+      routerLink="/security/me"
+      routerLinkActive="router-link-active"
+    >
+      Has Token: {{ hasToken }}
     </a>
   </div>
 </nav>

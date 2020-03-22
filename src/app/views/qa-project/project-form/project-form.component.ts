@@ -9,12 +9,10 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import {
-  Release,
-  systemNames,
-  environmentNames
-} from '@models/project.interface';
+  Release
+} from '@models/release.interface';
 import { Person } from '@models/person.interface';
-import { EnumsReponse } from '@models/enums.interface';
+import { EnumsResponse } from '@models/enums.interface';
 
 @Component({
   selector: 'app-project-form',
@@ -25,12 +23,9 @@ import { EnumsReponse } from '@models/enums.interface';
 export class ProjectFormComponent implements OnInit, OnChanges {
   @Input() project: Release = {} as Release;
   @Input() qaPeople: Person[] = [] as Person[];
-  @Input() releaseOptions: EnumsReponse = {} as EnumsReponse;
+  @Input() releaseOptions: EnumsResponse = {} as EnumsResponse;
   @Output() add: EventEmitter<Release> = new EventEmitter<Release>();
   @Output() update: EventEmitter<Release> = new EventEmitter<Release>();
-
-  sysnames = systemNames;
-  envnames = environmentNames;
 
   public projectFormGroup: FormGroup;
   public submitted = false;
