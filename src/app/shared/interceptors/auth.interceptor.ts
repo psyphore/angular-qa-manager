@@ -1,4 +1,3 @@
-import { AuthService } from '@services/security.service';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -8,10 +7,12 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { SignInStoreState } from '@root-store/sign-in-store';
 
 @Injectable({ providedIn: 'root' })
 export class HeaderInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
+  constructor(private store$: Store) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -21,7 +22,7 @@ export class HeaderInterceptor implements HttpInterceptor {
       switchMap(value => {
         const header =
           value && value.length !== 0
-            ? req.clone({ setHeaders: { Authorization: value } })
+            ? req.clone({ setHeaders: { Authorization: `Bearer ${value}` } })
             : req;
         return next.handle(header);
       })
@@ -30,11 +31,7 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   getToken() {
     return new Observable<string>(s =>
-      s.next(this.auth.getAuthorizationHeader())
+      s.next(this.store$.selectSnapshot(SignInStoreState.SignInState.getToken))
     );
-  }
-
-  getTokenAsync() {
-    return this.auth.getAuthorizationHeaderAsync();
   }
 }

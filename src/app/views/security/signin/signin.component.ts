@@ -1,12 +1,10 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, Select } from '@ngxs/store';
 
-import { RootStoreState, SignInStoreSelectors } from '../../../root-store/';
-
-import { Observable } from 'rxjs';
 import { SignInCredentials } from '@models/security.interface';
-import { SignInService } from './signin.service';
+import { SigningIn } from '@root-store/sign-in-store/actions';
+import { SignInState } from '@root-store/sign-in-store/state';
 
 @Component({
   selector: 'app-signin',
@@ -16,31 +14,15 @@ import { SignInService } from './signin.service';
 })
 export class SigninComponent implements OnInit {
   signInFormGroup: FormGroup;
-  errorMessage$: Observable<string>;
-  isLoading$: Observable<boolean>;
-  authenticated$: Observable<string>;
 
-  constructor(
-    private fb: FormBuilder,
-    private store$: Store<RootStoreState.RootState>,
-    private service$: SignInService
-  ) {}
+  @Select(SignInState.getToken) authenticated$;
+  @Select(SignInState.getErrors) errorMessage$;
+  @Select(SignInState.isLoading) isLoading$;
+
+  constructor(private fb: FormBuilder, private store$: Store) {}
 
   ngOnInit() {
     this.initializeForm();
-    this.listenForStateChanges();
-  }
-
-  listenForStateChanges() {
-    this.errorMessage$ = this.store$.select(
-      SignInStoreSelectors.selectMyFeatureError
-    );
-    this.isLoading$ = this.store$.select(
-      SignInStoreSelectors.selectMyFeatureIsLoading
-    );
-    this.authenticated$ = this.store$.select(
-      SignInStoreSelectors.selectMyFeatureUser
-    );
   }
 
   signIn() {
@@ -52,9 +34,8 @@ export class SigninComponent implements OnInit {
       const values = <SignInCredentials>{
         creds: { ...this.signInFormGroup.value }
       };
-      // this.store$.dispatch(SignInStoreActions.signInRequest(values));
 
-      this.service$.SignIn(values);
+      this.store$.dispatch(new SigningIn(values));
       this.initializeForm();
     } catch (error) {
       console.error(error);

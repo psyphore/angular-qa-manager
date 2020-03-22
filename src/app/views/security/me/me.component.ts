@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-
-import { AuthService } from '@services/security.service';
-
-import {
-  RootStoreState,
-  MeStoreActions,
-  MeStoreSelectors
-} from '../../../root-store/';
-
-import { Me } from '@models/security.interface';
+import { Store, Select } from '@ngxs/store';
+import { ProfileState } from '@root-store/me-store/state';
+import { LoadProfile } from '@root-store/me-store/actions';
 
 @Component({
   selector: 'app-me',
@@ -18,45 +9,13 @@ import { Me } from '@models/security.interface';
   styleUrls: ['./me.component.css']
 })
 export class MeComponent implements OnInit {
-  public errorMessage: string = null;
-  public profile: Me = null;
+  @Select(ProfileState.getProfile) profile$;
+  @Select(ProfileState.getErrors) errorMessage$;
+  @Select(ProfileState.isLoading) isLoading$;
 
-  constructor(
-    private router: Router,
-    private service$: AuthService,
-    private store$: Store<RootStoreState.RootState>
-  ) {}
+  constructor(private store$: Store) {}
 
   ngOnInit() {
-    this.errorMessage = null;
-    try {
-      // this.store$.dispatch(MeStoreActions.loadProfile());
-      // this.store$
-      //   .pipe(select(MeStoreSelectors.selectMyFeatureOptions))
-      //   .subscribe(d => {
-      //     console.log(d);
-      //     this.profile = d as Me;
-      //   });
-
-      this.service$.me().subscribe(
-        (payload: Me) => {
-          this.profile = payload;
-        },
-        err => console.error('X failed to load me', err)
-      );
-    } catch (err) {
-      this.handleError(err);
-    }
-  }
-
-  private clearSessionStore(): void {
-    this.service$.removeSessionItem('id_token');
-    this.router.navigate(['security/signin']);
-  }
-
-  private handleError(err: any): void {
-    console.error(err);
-    this.errorMessage = err;
-    this.clearSessionStore();
+    this.store$.dispatch(LoadProfile);
   }
 }

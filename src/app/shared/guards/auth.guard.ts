@@ -1,5 +1,6 @@
-import { AuthService } from '@services/security.service';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { SignInStoreState } from '@root-store/sign-in-store';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -14,7 +15,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(private router: Router, private store$: Store) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -31,19 +32,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkForToken(): Observable<boolean> {
-    return new Observable<boolean>(s => s.next(this.auth.hasToken())).pipe(
-      map(value => {
-        if (value === true) {
-          return true;
-        }
-        this.router.navigate(['/security/signin']);
-        return false;
-      })
-    );
-  }
+    const hasToken =
+      this.store$.selectSnapshot(SignInStoreState.SignInState.getToken) !==
+      null;
 
-  checkForTokenAsync(): Observable<boolean> {
-    return this.auth.hasTokenAsync().pipe(
+    return new Observable<boolean>(s => s.next(hasToken)).pipe(
       map(value => {
         if (value === true) {
           return true;

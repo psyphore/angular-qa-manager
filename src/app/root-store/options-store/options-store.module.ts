@@ -1,18 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { OptionsStoreEffects } from './effects';
-import { featureReducer } from './reducer';
+import { NgxsModule } from '@ngxs/store';
+import { OptionsState } from './state';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    StoreModule.forFeature('options', featureReducer),
-    EffectsModule.forFeature([OptionsStoreEffects])
-  ],
-  providers: [OptionsStoreEffects]
+  imports: [CommonModule, NgxsModule.forFeature([OptionsState])]
 })
 export class OptionsStoreModule {}

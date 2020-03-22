@@ -1,4 +1,3 @@
-import { createAction, union } from '@ngrx/store';
 import { Me } from '../../shared/interfaces/security.interface';
 
 export enum ActionTypes {
@@ -7,22 +6,16 @@ export enum ActionTypes {
   LOAD_ME_SUCCESS = '[Me] Load Success'
 }
 
-export const loadProfile = createAction(ActionTypes.LOAD_ME_REQUEST);
+export class LoadProfile {
+  static readonly type = ActionTypes.LOAD_ME_REQUEST;
+}
 
-export const loadProfileFailure = createAction(
-  ActionTypes.LOAD_ME_FAILURE,
-  (errorMessage = 'Failed to load Profile') => ({ errorMessage })
-);
+export class ProfileSuccess {
+  static readonly type = ActionTypes.LOAD_ME_SUCCESS;
+  constructor(public payload: Me) {}
+}
 
-export const loadProfileSuccess = createAction(
-  ActionTypes.LOAD_ME_SUCCESS,
-  (profile: Me) => ({ profile })
-);
-
-const actions = union({
-  loadProfile,
-  loadProfileFailure,
-  loadProfileSuccess
-});
-
-export type Actions = typeof actions;
+export class ProfileFailure {
+  static readonly type = ActionTypes.LOAD_ME_FAILURE;
+  constructor(public message: string) {}
+}

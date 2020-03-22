@@ -1,20 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
-
-import {
-  RootStoreState,
-  SignInStoreActions,
-  SignInStoreSelectors
-} from '../../root-store';
-
-// import {
-//   selectEntities,
-//   selectAuthToken
-// } from '@states/security/security.selector';
-// import { AppStore } from '@models/store.interface';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
@@ -31,10 +18,7 @@ export class AuthService {
 
   private auth0Client: any; // Auth0Client;
 
-  constructor(
-    private store$: Store<RootStoreState.RootState>,
-    private apollo: Apollo
-  ) {}
+  constructor(private apollo: Apollo) {}
 
   /**
    * Gets the Auth0Client instance.
@@ -86,23 +70,6 @@ export class AuthService {
     return authHeader;
   }
 
-  getAuthorizationHeaderAsync(): Observable<string> {
-    const header = this.store$
-      .pipe(select(SignInStoreSelectors.selectMyFeatureUser))
-      .pipe(
-        map(res => {
-          console.log('> get auth header', res);
-          if (!res || res === undefined || Object.entries(res).length === 0) {
-            return '';
-          }
-          const token = res; // res.undefined.login.jwt ? res.undefined.login.jwt : '';
-          return token.length !== 0 ? `Bearer ${token}` : token;
-        })
-      );
-
-    return header;
-  }
-
   setSessionToken() {
     const cached = this.auth0Client['cache'].cache[
       'default::openid profile email'
@@ -115,17 +82,6 @@ export class AuthService {
       });
     }
     return localStorage.getItem('id_token');
-  }
-
-  hasToken(): boolean {
-    const hasHeader = this.getAuthorizationHeader();
-    return hasHeader && hasHeader.indexOf('Bearer ') !== -1;
-  }
-
-  hasTokenAsync(): Observable<boolean> {
-    return this.getAuthorizationHeaderAsync().pipe(
-      map(header => header && header.indexOf('Bearer ') !== -1)
-    );
   }
 
   addSessionItem(key: string, value: any): void {

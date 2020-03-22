@@ -1,34 +1,41 @@
-import { createAction, union } from '@ngrx/store';
 import {
-  SignIn,
+  SignIn as RequestPaylod,
   SignInCredentials
 } from '../../shared/interfaces/security.interface';
 
 export enum ActionTypes {
-  LOAD_REQUEST = '[Sign In] Load Request',
-  LOAD_FAILURE = '[Sign In] Load Failure',
-  LOAD_SUCCESS = '[Sign In] Load Success'
+  SIGNIN_REQUEST = '[Sign In] Request',
+  SIGNIN_FAILURE = '[Sign In] Failure',
+  SIGNIN_SUCCESS = '[Sign In] Success',
+  SIGNOUT_REQUEST = '[Sign Out] Request',
+  SIGNOUT_SUCCESS = '[Sign Out] Success',
+  SIGNOUT_FAILURE = '[Sign Out] Failure'
 }
 
-export const signInRequest = createAction(
-  ActionTypes.LOAD_REQUEST,
-  (payload: SignInCredentials) => ({ payload })
-);
+export class SigningIn {
+  static readonly type = ActionTypes.SIGNIN_REQUEST;
+  constructor(public payload: SignInCredentials) {}
+}
 
-export const signInRequestFailure = createAction(
-  ActionTypes.LOAD_FAILURE,
-  (errorMessage = 'Failed to SignIn') => ({ errorMessage })
-);
+export class SignInSuccess {
+  static readonly type = ActionTypes.SIGNIN_SUCCESS;
+  constructor(public payload: RequestPaylod) {}
+}
 
-export const signInRequestSuccess = createAction(
-  ActionTypes.LOAD_SUCCESS,
-  (payload: SignIn) => ({ payload })
-);
+export class SignInFailure {
+  static readonly type = ActionTypes.SIGNIN_FAILURE;
+  constructor(public message: string) {}
+}
 
-const actions = union({
-  signInRequest,
-  signInRequestFailure,
-  signInRequestSuccess
-});
+export class SigningOut {
+  static readonly type = ActionTypes.SIGNOUT_REQUEST;
+}
 
-export type Actions = typeof actions;
+export class SignOutSuccess {
+  static readonly type = ActionTypes.SIGNOUT_SUCCESS;
+}
+
+export class SignOutFailure {
+  static readonly type = ActionTypes.SIGNOUT_FAILURE;
+  constructor(public message: string) {}
+}

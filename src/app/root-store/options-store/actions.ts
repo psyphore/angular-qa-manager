@@ -1,4 +1,3 @@
-import { Action, createAction, props, union } from '@ngrx/store';
 import { EnumsResponse } from '../../shared/interfaces/enums.interface';
 
 export enum ActionTypes {
@@ -7,22 +6,16 @@ export enum ActionTypes {
   LOAD_OPTIONS_SUCCESS = '[Options] Load Success'
 }
 
-export const loadOptions = createAction(ActionTypes.LOAD_OPTIONS_REQUEST);
+export class LoadOptions {
+  static readonly type = ActionTypes.LOAD_OPTIONS_REQUEST;
+}
 
-export const loadOptionsFailure = createAction(
-  ActionTypes.LOAD_OPTIONS_FAILURE,
-  (errorMessage = 'Error Loading Options') => ({ payload: { errorMessage } })
-);
+export class LoadOptionsFailure {
+  static readonly type = ActionTypes.LOAD_OPTIONS_FAILURE;
+  constructor(public message: string) {}
+}
 
-export const loadOptionsSuccess = createAction(
-  ActionTypes.LOAD_OPTIONS_SUCCESS,
-  (payload: EnumsResponse) => ({ payload })
-);
-
-const actions = union({
-  loadOptions,
-  loadOptionsFailure,
-  loadOptionsSuccess
-});
-
-export type Actions = typeof actions;
+export class LoadOptionsSuccess {
+  static readonly type = ActionTypes.LOAD_OPTIONS_SUCCESS;
+  constructor(public payload: EnumsResponse) {}
+}

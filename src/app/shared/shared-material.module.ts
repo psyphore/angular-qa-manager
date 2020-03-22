@@ -21,7 +21,6 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -114,7 +113,6 @@ const MaterialModules = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule,
     FlexLayoutModule,
     ...MaterialModules,
     BrowserAnimationsModule,
