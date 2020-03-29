@@ -61,17 +61,21 @@ export class SignInState {
   ) {
     patchState({ isLoading: true });
     return this.dataService.signIn(payload).pipe(
-      mergeMap(response => dispatch(new SignInSuccess(response))),
-      catchError(error => of(new SignInFailure(error.message)))
+      tap(response =>
+        patchState({
+          token: response.login.jwt,
+          isLoading: false,
+          error: null
+        })
+      ),
+      // catchError(error => of(new SignInFailure(error.message))),
+      mergeMap(() => dispatch(new SignInSuccess(null)))
     );
   }
 
   @Action(SignInSuccess)
-  signedIn(
-    { patchState }: StateContext<SignInStateModel>,
-    { payload }: SignInSuccess
-  ) {
-    patchState({ token: payload.login.jwt, isLoading: false });
+  signedIn({ patchState }: StateContext<SignInStateModel>) {
+    patchState({ isLoading: false, error: null });
     this.snackBar.open('SUCCESS', 'SignIn operation is a success', {
       duration: this.snackBarDuration
     });

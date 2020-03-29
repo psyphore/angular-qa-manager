@@ -19,7 +19,7 @@ export class SigningIn {
 
 export class SignInSuccess {
   static readonly type = ActionTypes.SIGNIN_SUCCESS;
-  constructor(public payload: RequestPaylod) {}
+  constructor(public payload: RequestPaylod | null) {}
 }
 
 export class SignInFailure {
