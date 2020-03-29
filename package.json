@@ -102,7 +102,9 @@
     "tslib": "^1.10.0",
     "tslint": "^5.18.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.38.2"
+    "webpack": "^4.38.2",
+    "minimist": ">=1.2.2",
+    "acorn": ">=6.4.1"
   },
   "resolutions": {
     "graphql": "14.5.8"
