@@ -23,7 +23,9 @@
     "lint": "ng lint",
     "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
-    "start:debug": "ng serve --port 4200"
+    "start:debug": "ng serve --port 4200",
+    "start:acer": "ng serve --port 4200 --configuration=acer",
+    "start:hp": "ng serve --port 4200 --configuration=hp"
   },
   "private": true,
   "dependencies": {
