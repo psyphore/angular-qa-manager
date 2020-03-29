@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
 import { SignIn, GetProfileQuery } from '@shared/graphql';
 import {
@@ -108,18 +108,18 @@ export class AuthService {
 
   public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
     return this.apollo
-      .mutate<SignInResponse, SignInCredentials>({
+      .mutate<SignInResponse>({
         mutation: SignIn,
         variables: { creds: credentials.creds }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public me(): Observable<MeResponse> {
     return this.apollo
-      .watchQuery<null, MeResponse>({
+      .watchQuery<MeResponse>({
         query: GetProfileQuery
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 }

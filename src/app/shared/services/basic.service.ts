@@ -14,6 +14,6 @@ export class GeneralServices {
       .watchQuery<EnumsResponse>({
         query: GetAllEnums
       })
-      .valueChanges.pipe(map(res => res.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 }

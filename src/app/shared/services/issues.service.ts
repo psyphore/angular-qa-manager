@@ -24,29 +24,29 @@ export class IssuesService {
 
   public addIssue(issue: Issue): Observable<IssueUpdateResponse> {
     return this.apollo
-      .mutate<IssueUpdateResponse, any>({
+      .mutate<IssueUpdateResponse>({
         mutation: AddIssue,
         variables: { issue }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public deleteIssue(issue: Issue): Observable<IssueUpdateResponse> {
     return this.apollo
-      .mutate<IssueUpdateResponse, any>({
+      .mutate<IssueUpdateResponse>({
         mutation: DeleteIssue,
         variables: { issue }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public updateIssue(issue: Issue): Observable<IssueUpdateResponse> {
     return this.apollo
-      .mutate<IssueUpdateResponse, any>({
+      .mutate<IssueUpdateResponse>({
         mutation: UpdateIssue,
         variables: { issue }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public getAllIssues(
@@ -54,19 +54,19 @@ export class IssuesService {
     start: number
   ): Observable<IssuesResponse> {
     return this.apollo
-      .watchQuery<IssuesResponse, any>({
+      .watchQuery<IssuesResponse>({
         query: GetIssues,
         variables: { limit, start }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 
   public getIssueById(issueId: number): Observable<IssueResponse> {
     return this.apollo
-      .watchQuery<IssueResponse, any>({
+      .watchQuery<IssueResponse>({
         query: GetIssueById,
         variables: { issueId }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 }

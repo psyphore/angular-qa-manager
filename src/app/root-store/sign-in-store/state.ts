@@ -14,6 +14,7 @@ import {
   SignOutSuccess,
   SignOutFailure
 } from './actions';
+import { SignIn } from '@shared/interfaces/security.interface';
 
 export interface SignInStateModel {
   token: string;
@@ -60,15 +61,15 @@ export class SignInState {
     { payload }: SigningIn
   ) {
     patchState({ isLoading: true });
-    return this.dataService.signIn(payload).pipe(
-      tap(response =>
+    this.dataService.signIn(payload).pipe(
+      tap(response => {
         patchState({
           token: response.login.jwt,
           isLoading: false,
           error: null
-        })
-      ),
-      // catchError(error => of(new SignInFailure(error.message))),
+        });
+      }),
+      catchError(error => dispatch(new SignInFailure(error.message))),
       mergeMap(() => dispatch(new SignInSuccess(null)))
     );
   }

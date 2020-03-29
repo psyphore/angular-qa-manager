@@ -17,18 +17,18 @@ export class PersonService {
 
   getUsers(): Observable<Person[]> {
     return this.apollo
-      .query<PeopleResponse, null>({
+      .watchQuery<PeopleResponse>({
         query: GetAllPeople
       })
-      .pipe(map(res => res.data.people));
+      .valueChanges.pipe(map(({ data }) => data.people));
   }
 
   getUser(personId: number): Observable<Person> {
     return this.apollo
-      .query<PersonResponse, any>({
+      .watchQuery<PersonResponse>({
         query: GetPersonQuery,
         variables: { userId: personId }
       })
-      .pipe(map(res => res.data.person));
+      .valueChanges.pipe(map(({ data }) => data.person));
   }
 }

@@ -17,40 +17,37 @@ import {
   ProjectsPageQuery
 } from '@shared/graphql';
 
-import { environment } from '@environments/environment';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
-  baseUrl = environment.baseUrl;
   constructor(private apollo: Apollo) {}
 
   public addRelease(release: Release): Observable<ReleaseUpdateResponse> {
     return this.apollo
-      .mutate<ReleaseUpdateResponse, any>({
+      .mutate<ReleaseUpdateResponse>({
         mutation: AddRelease,
         variables: { release }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public deleteRelease(release: Release): Observable<ReleaseUpdateResponse> {
     return this.apollo
-      .mutate<ReleaseUpdateResponse, any>({
+      .mutate<ReleaseUpdateResponse>({
         mutation: DeleteRelease,
         variables: { release }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public updateRelease(release: Release): Observable<ReleaseUpdateResponse> {
     return this.apollo
-      .mutate<ReleaseUpdateResponse, any>({
+      .mutate<ReleaseUpdateResponse>({
         mutation: UpdateRelease,
         variables: { release }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public getAllReleases(
@@ -58,28 +55,28 @@ export class ProjectsService {
     start: number
   ): Observable<ReleasesResponse> {
     return this.apollo
-      .watchQuery<ReleasesResponse, any>({
+      .watchQuery<ReleasesResponse>({
         query: GetReleases,
         variables: { limit, start }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 
   public getReleaseById(projectId: number): Observable<ReleaseResponse> {
     return this.apollo
-      .watchQuery<ReleaseResponse, any>({
+      .watchQuery<ReleaseResponse>({
         query: GetReleaseById,
         variables: { releaseId: projectId }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 
   public getReleaseListing(limit: number, start: number): Observable<any> {
     return this.apollo
-      .watchQuery<any, any>({
+      .watchQuery<any>({
         query: ProjectsPageQuery,
         variables: { limit, start }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 }
