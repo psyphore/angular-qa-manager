@@ -18,7 +18,9 @@ import { OptionsStoreModule } from './options-store/options-store.module';
     ReleaseStoreModule,
     OptionsStoreModule,
 
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([], {
+      developmentMode: !environment.production
+    }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       name: environment.appName,
       disabled: environment.production

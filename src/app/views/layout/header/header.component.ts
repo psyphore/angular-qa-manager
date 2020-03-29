@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { SignInStoreState } from '@root-store/sign-in-store';
+import { Select } from '@ngxs/store';
+import { SignInState } from '@root-store/sign-in-store/state';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +12,12 @@ export class HeaderComponent implements OnInit {
   currentPath: string;
   hasToken: boolean;
   @Input() title: string;
-  constructor(private router: Router, private store$: Store) {}
+  @Select(SignInState.getToken) token$;
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.router.events.subscribe(
       (_: NavigationEnd) => (this.currentPath = _.url)
     );
-    this.hasToken =
-      this.store$.selectSnapshot(SignInStoreState.SignInState.getToken) !==
-      null;
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { SignInStoreState } from '@root-store/sign-in-store';
+import { Select } from '@ngxs/store';
+import { SignInState } from '@root-store/sign-in-store/state';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -15,7 +15,8 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private store$: Store) {}
+  @Select(SignInState.getToken) token$;
+  constructor(private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -32,11 +33,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkForToken(): Observable<boolean> {
-    const hasToken =
-      this.store$.selectSnapshot(SignInStoreState.SignInState.getToken) !==
-      null;
-
-    return new Observable<boolean>(s => s.next(hasToken)).pipe(
+    return this.token$.pipe(
       map(value => {
         if (value === true) {
           return true;

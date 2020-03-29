@@ -1,6 +1,6 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
@@ -54,19 +54,14 @@ export class SignInState {
     return state.isLoading;
   }
 
-  @Action(SigningIn, { cancelUncompleted: true })
+  @Action(SigningIn)
   signIn(
     { patchState, dispatch }: StateContext<SignInStateModel>,
     { payload }: SigningIn
   ) {
     patchState({ isLoading: true });
-
-    this.dataService.signIn(payload).pipe(
-      tap(response =>
-        response.login
-          ? dispatch(new SignInSuccess(response))
-          : dispatch(new SignInFailure('failed to sign in....'))
-      ),
+    return this.dataService.signIn(payload).pipe(
+      mergeMap(response => dispatch(new SignInSuccess(response))),
       catchError(error => of(new SignInFailure(error.message)))
     );
   }
@@ -96,8 +91,9 @@ export class SignInState {
   }
 
   @Action(SigningOut)
-  signOut({ patchState }: StateContext<SignInStateModel>) {
+  signOut({ patchState, dispatch }: StateContext<SignInStateModel>) {
     patchState({ isLoading: true });
+    return dispatch(new SignOutSuccess());
   }
 
   @Action([SignOutFailure, SignOutSuccess])

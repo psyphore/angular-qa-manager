@@ -71,7 +71,7 @@
       routerLink="/security/me"
       routerLinkActive="router-link-active"
     >
-      is Auth: {{ hasToken }}
+      is Auth: {{ token$ | async }}
     </a>
   </div>
 </nav>
