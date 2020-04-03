@@ -1,6 +1,6 @@
 {
   "name": "qa-poc",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Sipho Hlophe",
@@ -12,18 +12,19 @@
     "url": "https://github.com/psyphore/angular-qa-manager.git"
   },
   "scripts": {
-    "ng": "ng",
+    "ng": "./node_modules/.bin/ng",
     "postinstallx": "ngc -p ./angular-metadata.tsconfig.json",
-    "start": "ng serve",
-    "start-prod": "ng serve --prod",
-    "build": "ng build",
-    "build-prod": "ng build --prod",
-    "build-bazel": "ng build --prod --leaveBazelFilesOnDisk",
-    "test": "ng test",
-    "lint": "ng lint",
-    "lint-fix": "ng lint --fix",
-    "e2e": "ng e2e",
-    "start:debug": "ng serve --port 4200",
+    "start": "./node_modules/.bin/ng serve",
+    "start-prod": "./node_modules/.bin/ng serve --prod",
+    "build": "./node_modules/.bin/ng build",
+    "build:prod": "./node_modules/.bin/ng build --prod",
+    "build:uat": "./node_modules/.bin/ng build --configuration=stage --prod --no-progress",
+    "build:bazel": "./node_modules/.bin/ng build --prod --leaveBazelFilesOnDisk",
+    "test": "./node_modules/.bin/ng test",
+    "lint": "./node_modules/.bin/ng lint",
+    "lint-fix": "./node_modules/.bin/ng lint --fix",
+    "e2e": "./node_modules/.bin/ng e2e",
+    "start:debug": "./node_modules/.bin/ng serve --port 4200",
     "start:acer": "ng serve --port 4200 --configuration=acer",
     "start:hp": "ng serve --port 4200 --configuration=hp"
   },
@@ -108,5 +109,11 @@
   },
   "resolutions": {
     "graphql": "14.5.8"
+  },
+  "workspaces": {
+    "nohoist": [
+      "@angular",
+      "@angular/**"
+    ]
   }
 }
