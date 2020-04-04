@@ -15,3 +15,11 @@ export const SIGN_IN_MUTATION = gql`
     }
   }
 `;
+
+export const SIGN_IN_CACHE_QUERY = gql`
+  query SignedIn ($input: UsersPermissionsLoginInput!) {
+    login(input: $input) {
+      jwt
+    }
+  }
+`;

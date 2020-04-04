@@ -9,14 +9,14 @@ import {
   CanActivateChild
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  @Select(SignInState.getToken) token$;
-  constructor(private router: Router) {}
+  @Select(SignInState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+  constructor(private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -33,8 +33,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkForToken(): Observable<boolean> {
-    return this.token$.pipe(
-      map(value => {
+    return this.isAuthenticated$.pipe(
+      tap(value => {
         if (value === true) {
           return true;
         }

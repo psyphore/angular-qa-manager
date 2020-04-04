@@ -10,8 +10,8 @@ export class SignInService {
 
   public SignIn(values: SignInCredentials): void {
     this.service$.signIn(values).subscribe(
-      (payload: SignIn) => {
-        this.service$.setAuthorizationHeader(payload.login.jwt);
+      ({ data }) => {
+        this.service$.setAuthorizationHeader(data.login.jwt);
         this.router.navigate(['security/me']);
       },
       err => console.error('X failed to auth', err)

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
 import { SIGN_IN_MUTATION, GET_PROFILE_QUERY } from '@shared/graphql';
 import {
@@ -13,8 +13,11 @@ import {
   providedIn: 'root'
 })
 export class AuthService {
+
   isAuthenticated = new BehaviorSubject(false);
   profile = new BehaviorSubject<any>(null);
+
+  private apolloAuthenticated = new BehaviorSubject<SignInResponse>(null);
 
   private auth0Client: any; // Auth0Client;
 
@@ -106,13 +109,31 @@ export class AuthService {
     this.addSessionItem('expires_at', expiresAt);
   }
 
-  public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
+  public signIn(credentials: SignInCredentials) { /**: Observable<SignInResponse> */
     return this.apollo
       .mutate<SignInResponse>({
         mutation: SIGN_IN_MUTATION,
         variables: { creds: credentials.creds }
-      })
-      .pipe(map(({ data }) => data));
+      });
+  }
+
+  public signInReactStyle(credentials: SignInCredentials) { /**: Observable<SignInResponse> */
+    this.apollo
+      .mutate<SignInResponse, SignInCredentials>({
+        mutation: SIGN_IN_MUTATION,
+        variables: { creds: credentials.creds },
+        update: (proxy, { data }) => {
+          const jwt = data.login.jwt;
+          this.addSessionItem('token', jwt);
+          this.apolloAuthenticated.next(data);
+        }
+      }).subscribe();
+
+    return this.apolloAuthenticated.asObservable();
+  }
+
+  getApollo() {
+    return this.apollo.getClient();
   }
 
   public me(): Observable<MeResponse> {

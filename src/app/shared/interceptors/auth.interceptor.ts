@@ -12,8 +12,8 @@ import { SignInState } from '@root-store/sign-in-store/state';
 
 @Injectable({ providedIn: 'root' })
 export class HeaderInterceptor implements HttpInterceptor {
-  @Select(SignInState.getToken) token$;
-  constructor() {}
+  @Select(SignInState.getToken) token$: Observable<string>;
+  constructor() { }
 
   intercept(
     req: HttpRequest<any>,
@@ -22,8 +22,8 @@ export class HeaderInterceptor implements HttpInterceptor {
     return this.token$.pipe(
       switchMap(value => {
         const header =
-          value && (<string>value).length !== 0
-            ? req.clone({ setHeaders: { Authorization: `Bearer ${value}` } })
+          value && value.length !== 0 ?
+            req.clone({ setHeaders: { Authorization: `Bearer ${value}` } })
             : req;
         return next.handle(header);
       })

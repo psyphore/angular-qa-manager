@@ -15,11 +15,11 @@ import { SignInState } from '@root-store/sign-in-store/state';
 export class SigninComponent implements OnInit {
   signInFormGroup: FormGroup;
 
-  @Select(SignInState.getToken) authenticated$;
+  @Select(SignInState.isAuthenticated) authenticated$;
   @Select(SignInState.getErrors) errorMessage$;
   @Select(SignInState.isLoading) isLoading$;
 
-  constructor(private fb: FormBuilder, private store$: Store) {}
+  constructor(private fb: FormBuilder, private store$: Store) { }
 
   ngOnInit() {
     this.initializeForm();
