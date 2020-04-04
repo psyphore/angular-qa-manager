@@ -19,7 +19,7 @@ import {
 } from './services';
 import { AuthGuard } from './guards';
 
-const COMPONENTS = [EmojiDirective];
+const COMPONENTS = [EmojiDirective, StatusIconTranslatorPipe];
 const SERVICES = [
   AuthService,
   AuthGuard,
@@ -32,8 +32,7 @@ const SERVICES = [
     useClass: HeaderInterceptor,
     multi: true,
     deps: [AuthService]
-  },
-  StatusIconTranslatorPipe
+  }
 ];
 
 @NgModule({
