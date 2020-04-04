@@ -8,7 +8,7 @@ import { HeaderInterceptor } from './interceptors/auth.interceptor';
 
 import { EmojiDirective } from './directives';
 import {
-  StatusTranslatorPipe
+  StatusIconTranslatorPipe
 } from './pipes';
 import {
   ProjectsService,
@@ -33,7 +33,7 @@ const SERVICES = [
     multi: true,
     deps: [AuthService]
   },
-  StatusTranslatorPipe
+  StatusIconTranslatorPipe
 ];
 
 @NgModule({
