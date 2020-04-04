@@ -8,9 +8,17 @@ import gql from 'graphql-tag';
   }
 }
  */
-export const SignIn = gql`
+export const SIGN_IN_MUTATION = gql`
   mutation signin($creds: UsersPermissionsLoginInput!) {
     login(input: $creds) {
+      jwt
+    }
+  }
+`;
+
+export const SIGN_IN_CACHE_QUERY = gql`
+  query SignedIn ($input: UsersPermissionsLoginInput!) {
+    login(input: $input) {
       jwt
     }
   }

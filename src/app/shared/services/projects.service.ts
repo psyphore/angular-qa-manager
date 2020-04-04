@@ -7,49 +7,47 @@ import {
   ReleaseResponse,
   ReleaseUpdateResponse,
   Release
-} from '@models/project.interface';
+} from '@models/release.interface';
 import {
-  GetReleases,
-  GetReleaseById,
-  AddRelease,
-  DeleteRelease,
-  UpdateRelease
+  GET_RELEASE_QUERY,
+  GET_RELEASE_BY_ID_QUERY,
+  ADD_RELEASE_MUTATION,
+  DELETE_RELEASE_MUTATION,
+  UPDATE_RELEASE_MUTATION,
+  GET_PROJECTS_PAGE_QUERY
 } from '@shared/graphql';
-
-import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
-  baseUrl = environment.baseUrl;
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
-  public addRelase(release: Release): Observable<ReleaseUpdateResponse> {
+  public addRelease(release: Release): Observable<ReleaseUpdateResponse> {
     return this.apollo
-      .mutate<ReleaseUpdateResponse, any>({
-        mutation: AddRelease,
+      .mutate<ReleaseUpdateResponse>({
+        mutation: ADD_RELEASE_MUTATION,
         variables: { release }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
-  public deleteRelase(release: Release): Observable<ReleaseUpdateResponse> {
+  public deleteRelease(release: Release): Observable<ReleaseUpdateResponse> {
     return this.apollo
-      .mutate<ReleaseUpdateResponse, any>({
-        mutation: DeleteRelease,
+      .mutate<ReleaseUpdateResponse>({
+        mutation: DELETE_RELEASE_MUTATION,
         variables: { release }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
-  public updateRelase(release: Release): Observable<ReleaseUpdateResponse> {
+  public updateRelease(release: Release): Observable<ReleaseUpdateResponse> {
     return this.apollo
-      .mutate<ReleaseUpdateResponse, any>({
-        mutation: UpdateRelease,
+      .mutate<ReleaseUpdateResponse>({
+        mutation: UPDATE_RELEASE_MUTATION,
         variables: { release }
       })
-      .pipe(map(result => result.data));
+      .pipe(map(({ data }) => data));
   }
 
   public getAllReleases(
@@ -57,19 +55,28 @@ export class ProjectsService {
     start: number
   ): Observable<ReleasesResponse> {
     return this.apollo
-      .watchQuery<ReleasesResponse, any>({
-        query: GetReleases,
+      .watchQuery<ReleasesResponse>({
+        query: GET_RELEASE_QUERY,
         variables: { limit, start }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 
   public getReleaseById(projectId: number): Observable<ReleaseResponse> {
     return this.apollo
-      .watchQuery<ReleaseResponse, any>({
-        query: GetReleaseById,
+      .watchQuery<ReleaseResponse>({
+        query: GET_RELEASE_BY_ID_QUERY,
         variables: { releaseId: projectId }
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
+  }
+
+  public getReleaseListing(limit: number, start: number): Observable<any> {
+    return this.apollo
+      .watchQuery<any>({
+        query: GET_PROJECTS_PAGE_QUERY,
+        variables: { limit, start }
+      })
+      .valueChanges.pipe(map(({ data }) => data));
   }
 }

@@ -1,15 +1,12 @@
 export * from './basic.graphql';
-export * from './project.queries';
+
+export * from './release.queries';
+export * from './release.mutations';
+
+export * from './issue.queries';
+export * from './issue.mutations';
+
 export * from './person.queries';
 
-export { SignIn } from './security.mutations';
-export { GetProfileQuery, basicUserFields } from './security.queries';
-
-export {
-  AddIssue,
-  DeleteIssue,
-  UpdateIssue,
-  AddRelease,
-  DeleteRelease,
-  UpdateRelease
-} from './project.mutations';
+export * from './security.mutations';
+export * from './security.queries';

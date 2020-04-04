@@ -15,7 +15,7 @@ export interface BasicQueryResponse {
   posts: Post[];
 }
 
-export const BasicQuery = gql`
+export const BASIC_QUERY = gql`
   query allPosts {
     releases {
       id
@@ -30,7 +30,7 @@ export const BasicQuery = gql`
   }
 `;
 
-export const GetAllEnums = gql`
+export const GET_ALL_ENUMS_QUERY = gql`
   query getOptions {
     statuses {
       id
@@ -47,7 +47,7 @@ export const GetAllEnums = gql`
   }
 `;
 
-export const GetEnvironments = gql`
+export const GET_ENVIRONMENTS_QUERY = gql`
   query getEnvironmentEnums {
     environments {
       id
@@ -56,7 +56,7 @@ export const GetEnvironments = gql`
   }
 `;
 
-export const GetStatuses = gql`
+export const GET_STATUSES_QUERY = gql`
   query getStatusEnums {
     statuses {
       id
@@ -65,7 +65,7 @@ export const GetStatuses = gql`
   }
 `;
 
-export const GetSystems = gql`
+export const GET_SYSTEMS_QUERY = gql`
   query getSystemEnums {
     systems {
       id

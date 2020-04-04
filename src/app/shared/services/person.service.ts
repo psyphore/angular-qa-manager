@@ -7,29 +7,28 @@ import {
   PeopleResponse,
   PersonResponse
 } from '@models/person.interface';
-import { GetProfileQuery, GetAllPeople } from '@graphql/person.queries';
+import { GET_PERSON_QUERY, GET_ALL_PEOPLE_QUERY } from '@graphql/person.queries';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   getUsers(): Observable<Person[]> {
     return this.apollo
-      .query<PeopleResponse, null>({
-        query: GetAllPeople
+      .watchQuery<PeopleResponse>({
+        query: GET_ALL_PEOPLE_QUERY
       })
-      .pipe(map(res => res.data.people));
+      .valueChanges.pipe(map(({ data }) => data.people));
   }
 
-  getUser(userId: number): Observable<Person> {
-    console.log(userId);
+  getUser(personId: number): Observable<Person> {
     return this.apollo
-      .query<PersonResponse, any>({
-        query: GetProfileQuery,
-        variables: { userId }
+      .watchQuery<PersonResponse>({
+        query: GET_PERSON_QUERY,
+        variables: { userId: personId }
       })
-      .pipe(map(res => res.data.person));
+      .valueChanges.pipe(map(({ data }) => data.person));
   }
 }

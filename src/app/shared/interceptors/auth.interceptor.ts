@@ -1,4 +1,3 @@
-import { AuthService } from '@services/security.service';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -8,20 +7,23 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Select } from '@ngxs/store';
+import { SignInState } from '@root-store/sign-in-store/state';
 
 @Injectable({ providedIn: 'root' })
 export class HeaderInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
+  @Select(SignInState.getToken) token$: Observable<string>;
+  constructor() { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.auth.getAuthorizationHeaderAsync().pipe(
+    return this.token$.pipe(
       switchMap(value => {
         const header =
-          value && value.length !== 0
-            ? req.clone({ setHeaders: { Authorization: value } })
+          value && value.length !== 0 ?
+            req.clone({ setHeaders: { Authorization: `Bearer ${value}` } })
             : req;
         return next.handle(header);
       })

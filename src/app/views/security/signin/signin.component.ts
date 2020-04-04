@@ -1,9 +1,10 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, Select } from '@ngxs/store';
 
-import * as SignInActions from '@states/security/security.actions';
-import { AppStore } from '@models/store.interface';
+import { SignInCredentials } from '@models/security.interface';
+import { SigningIn } from '@root-store/sign-in-store/actions';
+import { SignInState } from '@root-store/sign-in-store/state';
 
 @Component({
   selector: 'app-signin',
@@ -12,27 +13,32 @@ import { AppStore } from '@models/store.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SigninComponent implements OnInit {
-  public signInFormGroup: FormGroup;
-  public errorMessage: string = null;
+  signInFormGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private store$: Store<AppStore>) {}
+  @Select(SignInState.isAuthenticated) authenticated$;
+  @Select(SignInState.getErrors) errorMessage$;
+  @Select(SignInState.isLoading) isLoading$;
+
+  constructor(private fb: FormBuilder, private store$: Store) { }
 
   ngOnInit() {
     this.initializeForm();
   }
 
-  public signIn() {
+  signIn() {
     if (this.signInFormGroup.invalid) {
       return;
     }
 
     try {
-      this.errorMessage = null;
-      const values = { creds: { ...this.signInFormGroup.value } };
-      this.store$.dispatch(new SignInActions.LogIn(values));
+      const values = <SignInCredentials>{
+        creds: { ...this.signInFormGroup.value }
+      };
+
+      this.store$.dispatch(new SigningIn(values));
       this.initializeForm();
     } catch (error) {
-      this.errorMessage = error.message;
+      console.error(error);
     }
   }
 

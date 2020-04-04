@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { LandingComponent } from '@views/landing/landing.component';
 import { CallbackComponent } from '@views/callback/callback.component';
 import { environment } from '@environments/environment';
@@ -12,7 +12,12 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { enableTracing: environment.production })
+    RouterModule.forRoot(routes, {
+      enableTracing: environment.production,
+      useHash: true,
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules
+    })
   ],
   exports: [RouterModule]
 })

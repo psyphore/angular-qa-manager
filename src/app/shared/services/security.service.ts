@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { Apollo } from 'apollo-angular';
-
-import { selectEntities } from '@states/security/security.selector';
-import { AppStore } from '@models/store.interface';
-import { SignIn, GetProfileQuery } from '@shared/graphql';
+import { SIGN_IN_MUTATION, GET_PROFILE_QUERY } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
   Me as MeResponse,
@@ -17,12 +13,15 @@ import {
   providedIn: 'root'
 })
 export class AuthService {
+
   isAuthenticated = new BehaviorSubject(false);
   profile = new BehaviorSubject<any>(null);
 
+  private apolloAuthenticated = new BehaviorSubject<SignInResponse>(null);
+
   private auth0Client: any; // Auth0Client;
 
-  constructor(private store$: Store<AppStore>, private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   /**
    * Gets the Auth0Client instance.
@@ -57,31 +56,21 @@ export class AuthService {
     return this.auth0Client;
   }
 
+  logout() {
+    this.auth0Client.logout();
+    this.removeSessionItem('access_token');
+    this.removeSessionItem('id_token');
+    this.removeSessionItem('expires_at');
+  }
+
+  setAuthorizationHeader(value): void {
+    this.addSessionItem('id_token', value);
+  }
+
   getAuthorizationHeader(): string {
     const token = this.getSession('id_token');
     const authHeader = token ? `Bearer ${token}` : '';
     return authHeader;
-  }
-
-  getAuthorizationHeaderAsync(): Observable<string> {
-    const header = this.store$.select(selectEntities).pipe(
-      map(res => {
-        if (!res || res === undefined || Object.entries(res).length === 0) {
-          return '';
-        }
-        const token = res.undefined.login.jwt ? res.undefined.login.jwt : '';
-        return token.length !== 0 ? `Bearer ${token}` : token;
-      })
-    );
-
-    return header;
-  }
-
-  logout() {
-    this.auth0Client.logout();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
   }
 
   setSessionToken() {
@@ -98,25 +87,16 @@ export class AuthService {
     return localStorage.getItem('id_token');
   }
 
-  hasToken(): boolean {
-    const hasHeader = this.getAuthorizationHeader();
-    return hasHeader && hasHeader.indexOf('Bearer ') !== -1;
-  }
-
-  hasTokenAsync(): Observable<boolean> {
-    return this.getAuthorizationHeaderAsync().pipe(
-      map(header => {
-        return header && header.indexOf('Bearer ') !== -1 ? true : false;
-      })
-    );
-  }
-
   addSessionItem(key: string, value: any): void {
     localStorage.setItem(key, value);
   }
 
   removeSessionItem(key: string): void {
     localStorage.removeItem(key);
+  }
+
+  getSession(key: string): any {
+    return localStorage.getItem(key);
   }
 
   setSession(authResult: any): void {
@@ -129,24 +109,38 @@ export class AuthService {
     this.addSessionItem('expires_at', expiresAt);
   }
 
-  getSession(key: string): any {
-    return localStorage.getItem(key);
+  public signIn(credentials: SignInCredentials) { /**: Observable<SignInResponse> */
+    return this.apollo
+      .mutate<SignInResponse>({
+        mutation: SIGN_IN_MUTATION,
+        variables: { creds: credentials.creds }
+      });
   }
 
-  public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
-    return this.apollo
+  public signInReactStyle(credentials: SignInCredentials) { /**: Observable<SignInResponse> */
+    this.apollo
       .mutate<SignInResponse, SignInCredentials>({
-        mutation: SignIn,
-        variables: { creds: credentials.creds }
-      })
-      .pipe(map(result => result.data));
+        mutation: SIGN_IN_MUTATION,
+        variables: { creds: credentials.creds },
+        update: (proxy, { data }) => {
+          const jwt = data.login.jwt;
+          this.addSessionItem('token', jwt);
+          this.apolloAuthenticated.next(data);
+        }
+      }).subscribe();
+
+    return this.apolloAuthenticated.asObservable();
+  }
+
+  getApollo() {
+    return this.apollo.getClient();
   }
 
   public me(): Observable<MeResponse> {
     return this.apollo
-      .watchQuery<null, MeResponse>({
-        query: GetProfileQuery
+      .watchQuery<MeResponse>({
+        query: GET_PROFILE_QUERY
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(({ data }) => data));
   }
 }
