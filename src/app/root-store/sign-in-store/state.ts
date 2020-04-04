@@ -2,9 +2,9 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, tap, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AuthService } from '../../shared/services';
+import { AuthService } from '@shared/services';
 
 import {
   SigningIn,
@@ -38,7 +38,7 @@ export class SignInState {
     private dataService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   @Selector()
   static getToken(state: SignInStateModel) {

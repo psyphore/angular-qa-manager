@@ -13,7 +13,7 @@ import { SharedModule } from './shared/shared.module';
 import { ViewsModule } from './views/views.module';
 import { LayoutModule } from './views/layout/layout.module';
 import { GraphQLModule } from './graphql.module';
-import { RootStoreModule } from './root-store/root-store.module';
+import { RootStoreModule } from '@root-store/root-store.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,4 +34,4 @@ import { RootStoreModule } from './root-store/root-store.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

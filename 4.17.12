@@ -1,9 +1,0 @@
-+ minimist@1.2.5
-+ lodash@4.17.15
-updated 2 packages and audited 27790 packages in 14.668s
-
-43 packages are looking for funding
-  run `npm fund` for details
-
-found 6 vulnerabilities (4 low, 2 high)
-  run `npm audit fix` to fix them, or `npm audit` for details

@@ -9,23 +9,23 @@ import {
   Issue
 } from '@models/issue.interface';
 import {
-  AddIssue,
-  DeleteIssue,
-  GetIssueById,
-  GetIssues,
-  UpdateIssue
+  ADD_ISSUE_MUTATION,
+  DELETE_ISSUE_MUTATION,
+  GET_ISSUE_BY_ID_QUERY,
+  GET_ISSUE_QUERY,
+  UPDATE_ISSUE_MUTATION
 } from '@shared/graphql';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssuesService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   public addIssue(issue: Issue): Observable<IssueUpdateResponse> {
     return this.apollo
       .mutate<IssueUpdateResponse>({
-        mutation: AddIssue,
+        mutation: ADD_ISSUE_MUTATION,
         variables: { issue }
       })
       .pipe(map(({ data }) => data));
@@ -34,7 +34,7 @@ export class IssuesService {
   public deleteIssue(issue: Issue): Observable<IssueUpdateResponse> {
     return this.apollo
       .mutate<IssueUpdateResponse>({
-        mutation: DeleteIssue,
+        mutation: DELETE_ISSUE_MUTATION,
         variables: { issue }
       })
       .pipe(map(({ data }) => data));
@@ -43,7 +43,7 @@ export class IssuesService {
   public updateIssue(issue: Issue): Observable<IssueUpdateResponse> {
     return this.apollo
       .mutate<IssueUpdateResponse>({
-        mutation: UpdateIssue,
+        mutation: UPDATE_ISSUE_MUTATION,
         variables: { issue }
       })
       .pipe(map(({ data }) => data));
@@ -55,7 +55,7 @@ export class IssuesService {
   ): Observable<IssuesResponse> {
     return this.apollo
       .watchQuery<IssuesResponse>({
-        query: GetIssues,
+        query: GET_ISSUE_QUERY,
         variables: { limit, start }
       })
       .valueChanges.pipe(map(({ data }) => data));
@@ -64,7 +64,7 @@ export class IssuesService {
   public getIssueById(issueId: number): Observable<IssueResponse> {
     return this.apollo
       .watchQuery<IssueResponse>({
-        query: GetIssueById,
+        query: GET_ISSUE_BY_ID_QUERY,
         variables: { issueId }
       })
       .valueChanges.pipe(map(({ data }) => data));

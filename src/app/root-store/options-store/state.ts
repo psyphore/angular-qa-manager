@@ -1,9 +1,9 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { EnumsResponse } from '../../shared/interfaces/enums.interface';
+import { EnumsResponse } from '@shared/interfaces/enums.interface';
 
 import { LoadOptions, LoadOptionsFailure, LoadOptionsSuccess } from './actions';
 import { GeneralServices } from '@shared/services';
@@ -29,7 +29,7 @@ export class OptionsState {
   constructor(
     private dataService: GeneralServices,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   @Selector()
   static getOptions(state: OptionsStateModel) {

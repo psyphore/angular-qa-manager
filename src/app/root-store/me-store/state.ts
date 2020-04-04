@@ -2,13 +2,13 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AuthService } from '../../shared/services/security.service';
+import { AuthService } from '@shared/services/security.service';
 
 import { LoadProfile, ProfileFailure, ProfileSuccess } from './actions';
 
-import { Me } from '../../shared/interfaces/security.interface';
+import { Me } from '@shared/interfaces/security.interface';
 
 export interface ProfileStateModel {
   profile: Me;
@@ -32,7 +32,7 @@ export class ProfileState {
     private dataService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   @Selector()
   static getProfile(state: ProfileStateModel) {

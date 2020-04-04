@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const AddRelease = gql`
+export const ADD_RELEASE_MUTATION = gql`
   mutation addRelease($release: createReleaseInput!) {
     createRelease(input: $release) {
       release {
@@ -12,7 +12,7 @@ export const AddRelease = gql`
   }
 `;
 
-export const UpdateRelease = gql`
+export const UPDATE_RELEASE_MUTATION = gql`
   mutation UpdateRelease($release: updateReleaseInput!) {
     updateRelease(input: $release) {
       release {
@@ -24,7 +24,7 @@ export const UpdateRelease = gql`
   }
 `;
 
-export const DeleteRelease = gql`
+export const DELETE_RELEASE_MUTATION = gql`
   mutation deleteRelease($release: deleteReleaseInput!) {
     deleteRelease(input: $release) {
       release {

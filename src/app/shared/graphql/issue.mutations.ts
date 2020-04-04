@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const AddIssue = gql`
+export const ADD_ISSUE_MUTATION = gql`
   mutation addIssue($issue: createIssueInput!) {
     createIssue(input: $issue) {
       issue {
@@ -12,7 +12,7 @@ export const AddIssue = gql`
   }
 `;
 
-export const UpdateIssue = gql`
+export const UPDATE_ISSUE_MUTATION = gql`
   mutation updateIssue($issue: updateIssueInput!) {
     updateIssue(input: $issue) {
       issue {
@@ -24,7 +24,7 @@ export const UpdateIssue = gql`
   }
 `;
 
-export const DeleteIssue = gql`
+export const DELETE_ISSUE_MUTATION = gql`
   mutation deleteIssue($issue: deleteIssueInput!) {
     deleteIssue(input: $issue) {
       issue {

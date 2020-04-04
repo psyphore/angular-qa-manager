@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
-import { SignIn, GetProfileQuery } from '@shared/graphql';
+import { SIGN_IN_MUTATION, GET_PROFILE_QUERY } from '@shared/graphql';
 import {
   SignIn as SignInResponse,
   Me as MeResponse,
@@ -18,7 +18,7 @@ export class AuthService {
 
   private auth0Client: any; // Auth0Client;
 
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   /**
    * Gets the Auth0Client instance.
@@ -109,7 +109,7 @@ export class AuthService {
   public signIn(credentials: SignInCredentials): Observable<SignInResponse> {
     return this.apollo
       .mutate<SignInResponse>({
-        mutation: SignIn,
+        mutation: SIGN_IN_MUTATION,
         variables: { creds: credentials.creds }
       })
       .pipe(map(({ data }) => data));
@@ -118,7 +118,7 @@ export class AuthService {
   public me(): Observable<MeResponse> {
     return this.apollo
       .watchQuery<MeResponse>({
-        query: GetProfileQuery
+        query: GET_PROFILE_QUERY
       })
       .valueChanges.pipe(map(({ data }) => data));
   }

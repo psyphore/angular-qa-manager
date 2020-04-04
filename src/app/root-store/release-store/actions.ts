@@ -4,14 +4,14 @@ import {
   ReleaseUpdate,
   ReleaseUpdateResponse,
   ReleasesResponse
-} from '../../shared/interfaces/release.interface';
+} from '@shared/interfaces/release.interface';
 import {
   Issue,
   IssueResponse,
   IssueUpdate,
   IssueUpdateResponse,
   IssuesResponse
-} from '../../shared/interfaces/issue.interface';
+} from '@shared/interfaces/issue.interface';
 
 export enum ActionTypes {
   RELEASE_REQUEST = '[Release] Request',
@@ -33,47 +33,47 @@ export enum ActionTypes {
 
 export class ReleaseItem {
   static readonly type = ActionTypes.RELEASE_REQUEST;
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class ReleaseItemSuccess {
   static readonly type = ActionTypes.RELEASE_SUCCESS;
-  constructor(public payload: Release) {}
+  constructor(public payload: Release) { }
 }
 
 export class ReleaseItemFailure {
   static readonly type = ActionTypes.RELEASE_FAILURE;
-  constructor(public message: string) {}
+  constructor(public message: string) { }
 }
 
 export class ReleaseItems {
   static readonly type = ActionTypes.RELEASES_REQUEST;
   constructor(
     public payload: { limit: number; start: number } = { limit: 10, start: 1 }
-  ) {}
+  ) { }
 }
 
 export class ReleaseItemsSuccess {
   static readonly type = ActionTypes.RELEASES_SUCCESS;
-  constructor(public payload: Release[]) {}
+  constructor(public payload: Release[]) { }
 }
 
 export class ReleaseItemsFailure {
   static readonly type = ActionTypes.RELEASES_FAILURE;
-  constructor(public message: string) {}
+  constructor(public message: string) { }
 }
 
 export class IssueItem {
   static readonly type = ActionTypes.ISSUE_REQUEST;
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class IssueItemSuccess {
   static readonly type = ActionTypes.ISSUE_SUCCESS;
-  constructor(public payload: Issue) {}
+  constructor(public payload: Issue) { }
 }
 
 export class IssueItemFailure {
   static readonly type = ActionTypes.ISSUE_FAILURE;
-  constructor(public message: string) {}
+  constructor(public message: string) { }
 }

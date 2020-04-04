@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
-import { personFields } from './person.queries';
-export const IssueFields = gql`
+import { PERSON_FIELDS } from './person.queries';
+
+export const ISSUE_FIELDS = gql`
   fragment basicIssueFields on Issue {
     id
     summary
@@ -11,20 +12,20 @@ export const IssueFields = gql`
     }
   }
 
-  ${personFields}
+  ${PERSON_FIELDS}
 `;
 
-export const GetIssues = gql`
+export const GET_ISSUE_QUERY = gql`
   query getIssues($limit: Int, $start: Int) {
     issues(limit: $limit, start: $start) {
       ...basicIssueFields
     }
   }
 
-  ${IssueFields}
+  ${ISSUE_FIELDS}
 `;
 
-export const GetIssueById = gql`
+export const GET_ISSUE_BY_ID_QUERY = gql`
   query getIssueById($issueId: ID!) {
     issue(id: $issueId) {
       id
@@ -35,5 +36,5 @@ export const GetIssueById = gql`
     }
   }
 
-  ${personFields}
+  ${PERSON_FIELDS}
 `;

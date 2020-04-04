@@ -7,7 +7,9 @@ import { SharedMaterialModule } from './shared-material.module';
 import { HeaderInterceptor } from './interceptors/auth.interceptor';
 
 import { EmojiDirective } from './directives';
-import {} from './pipes';
+import {
+  StatusTranslatorPipe
+} from './pipes';
 import {
   ProjectsService,
   PersonService,
@@ -30,7 +32,8 @@ const SERVICES = [
     useClass: HeaderInterceptor,
     multi: true,
     deps: [AuthService]
-  }
+  },
+  StatusTranslatorPipe
 ];
 
 @NgModule({
@@ -39,4 +42,4 @@ const SERVICES = [
   providers: SERVICES,
   exports: COMPONENTS
 })
-export class SharedModule {}
+export class SharedModule { }

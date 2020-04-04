@@ -2,10 +2,10 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { ProjectsService } from '../../shared/services/projects.service';
-import { IssuesService } from '../../shared/services/issues.service';
+import { ProjectsService } from '@shared/services/projects.service';
+import { IssuesService } from '@shared/services/issues.service';
 
 import {
   ReleaseItem,
@@ -51,7 +51,7 @@ export class ProjectState {
     // private issueServicec: IssuesService,
     // private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   @Selector()
   static getProject(state: ProjectStateModel) {

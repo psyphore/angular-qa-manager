@@ -38,7 +38,7 @@
   "emmet.excludeLanguages": ["typescript", "typescriptreact", "javascript"],
   "workbench.editor.showTabs": true,
   "breadcrumbs.enabled": true,
-  "editor.fontFamily": "'FiraCode','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
-  "terminal.integrated.fontFamily": "'FiraCode','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+  "editor.fontFamily": "'Fira Code','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+  "terminal.integrated.fontFamily": "'Fira Code','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
   "terminal.integrated.fontWeightBold": "normal"
 }

@@ -1,4 +1,4 @@
-import { Me } from '../../shared/interfaces/security.interface';
+import { Me } from '@shared/interfaces/security.interface';
 
 export enum ActionTypes {
   LOAD_ME_REQUEST = '[Me] Load Request',
@@ -12,10 +12,10 @@ export class LoadProfile {
 
 export class ProfileSuccess {
   static readonly type = ActionTypes.LOAD_ME_SUCCESS;
-  constructor(public payload: Me) {}
+  constructor(public payload: Me) { }
 }
 
 export class ProfileFailure {
   static readonly type = ActionTypes.LOAD_ME_FAILURE;
-  constructor(public message: string) {}
+  constructor(public message: string) { }
 }

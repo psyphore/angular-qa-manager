@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { SignInService } from './signin.service';
 import { SignInCredentials } from '../../../shared/interfaces/security.interface';
@@ -10,12 +10,12 @@ describe('SignInService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    service$ = TestBed.get(SignInService);
+    service$ = TestBed.inject(SignInService);
     expect(service$).toBeTruthy();
   });
 
   it('should have a signIn function', () => {
-    service$ = TestBed.get(SignInService);
+    service$ = TestBed.inject(SignInService);
 
     testData = <SignInCredentials>{
       creds: {

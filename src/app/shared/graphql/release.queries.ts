@@ -1,8 +1,8 @@
-import { personFields } from './person.queries';
-import { IssueFields } from './issue.queries';
+import { PERSON_FIELDS } from './person.queries';
+import { ISSUE_FIELDS } from './issue.queries';
 import gql from 'graphql-tag';
 
-export const ReleaseFields = gql`
+export const RELEASE_FIELDS = gql`
   fragment basicReleaseFields on Release {
     id
     projectName
@@ -26,21 +26,21 @@ export const ReleaseFields = gql`
       ...basicIssueFields
     }
   }
-  ${personFields}
-  ${IssueFields}
+  ${PERSON_FIELDS}
+  ${ISSUE_FIELDS}
 `;
 
-export const GetReleases = gql`
+export const GET_RELEASE_QUERY = gql`
   query getReleases($limit: Int, $start: Int) {
     releases(limit: $limit, start: $start) {
       ...basicReleaseFields
     }
   }
 
-  ${ReleaseFields}
+  ${RELEASE_FIELDS}
 `;
 
-export const GetReleaseById = gql`
+export const GET_RELEASE_BY_ID_QUERY = gql`
   query getProjectById($releaseId: ID!) {
     release(id: $releaseId) {
       id
@@ -55,11 +55,11 @@ export const GetReleaseById = gql`
     }
   }
 
-  ${personFields}
-  ${IssueFields}
+  ${PERSON_FIELDS}
+  ${ISSUE_FIELDS}
 `;
 
-export const ProjectsPageQuery = gql`
+export const GET_PROJECTS_PAGE_QUERY = gql`
   query projectListing($limit: Int = 10, $start: Int = 0) {
     releases(limit: $limit, start: $start) {
       ...basicReleaseFields
@@ -83,5 +83,5 @@ export const ProjectsPageQuery = gql`
       name
     }
   }
-  ${ReleaseFields}
+  ${RELEASE_FIELDS}
 `;
