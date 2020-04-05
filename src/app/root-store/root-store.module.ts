@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxsModule } from '@ngxs/store';
+import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 import { environment } from '@environments/environment';
@@ -21,10 +22,13 @@ import { OptionsStoreModule } from './options-store/options-store.module';
     NgxsModule.forRoot([], {
       developmentMode: !environment.production
     }),
+    NgxsStoragePluginModule.forRoot({
+      storage: StorageOption.SessionStorage,
+    }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       name: environment.appName,
       disabled: environment.production
     })
   ]
 })
-export class RootStoreModule {}
+export class RootStoreModule { }

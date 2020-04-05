@@ -6,6 +6,7 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Person } from '@models/person.interface';
 import { Release } from '@models/release.interface';
 import { EnumsResponse } from '@models/enums.interface';
+import { OptionsState } from '@root-store/options-store/state';
 import { ProjectState } from '@root-store/release-store/state';
 import { ReleaseItem, ReleaseItems } from '@root-store/release-store/actions';
 
@@ -16,16 +17,14 @@ import { ReleaseItem, ReleaseItems } from '@root-store/release-store/actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectComponent implements OnInit {
-  @Select(ProjectState.getProject) project$;
-  @Select(ProjectState.getProjects) projects$;
+  @Select(ProjectState.getProject) project$: Observable<Release>;
+  @Select(ProjectState.getProjects) projects$: Observable<Release[]>;
+  @Select(ProjectState.getErrors) errorMessage$: Observable<string>;
+  @Select(ProjectState.isLoading) isLoading$: Observable<boolean>;
+  qaPeople$: Observable<Person[]>;
+  @Select(OptionsState.getOptions) projectOptions$: Observable<EnumsResponse>;
 
-  @Select(ProjectState.getErrors) errorMessage$;
-  @Select(ProjectState.isLoading) isLoading$;
-
-  public qaPeople$: Observable<Person[]>;
-  public projectOptions$: Observable<EnumsResponse>;
-
-  constructor(private store$: Store) {}
+  constructor(private store$: Store) { }
 
   ngOnInit(): void {
     this.initialize();
