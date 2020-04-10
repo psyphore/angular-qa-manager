@@ -1,6 +1,6 @@
-import { AppPage } from './app.po';
+import { AppPage } from '../page-objects/app.po';
 
-describe('cardinal-qa-poc App', () => {
+describe('QA Manager App', () => {
   let page: AppPage;
 
   beforeEach(() => {
