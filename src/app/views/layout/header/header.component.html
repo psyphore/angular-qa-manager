@@ -66,12 +66,27 @@
       Me
     </a> -->
 
-    <a
-      class="py-2 d-none d-md-inline-block"
-      routerLink="/security/me"
-      routerLinkActive="router-link-active"
-    >
-      is Auth: {{ token$ | async }}
-    </a>
+    <div class="py-2 d-none d-md-inline-block has-dropdown">
+      <span>Profile</span>
+      <ul class="dropdown">
+        <li class="dropdown-item">
+          <a id="light" href="#">light</a>
+        </li>
+        <li class="dropdown-item">
+          <a id="dark" href="#">dark</a>
+        </li>
+        <li class="dropdown-item">
+          <a id="solar" href="#">solarize</a>
+        </li>
+        <li>
+          <a routerLink="/security/me" routerLinkActive="router-link-active">
+            is Auth: {{ token$ | async }}
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
+  <!-- <div class="container d-flex flex-column flex-md-row">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </div> -->
 </nav>

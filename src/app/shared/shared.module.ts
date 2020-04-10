@@ -37,7 +37,7 @@ const SERVICES = [
 
 @NgModule({
   declarations: COMPONENTS,
-  imports: [CommonModule, HttpClientModule, RouterModule, SharedMaterialModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, SharedMaterialModule.forRoot()],
   providers: SERVICES,
   exports: COMPONENTS
 })

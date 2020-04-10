@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -54,7 +54,6 @@ import {
   faInstagram,
   faYoutube
 } from '@fortawesome/free-brands-svg-icons';
-
 
 library.add(
   faBars,
@@ -108,9 +107,6 @@ const MaterialModules = [
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
-  providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { float: 'always' } }
-  ],
   exports: [
     CommonModule,
     FormsModule,
@@ -121,4 +117,19 @@ const MaterialModules = [
     FontAwesomeModule
   ]
 })
-export class SharedMaterialModule { }
+export class SharedMaterialModule {
+  constructor(@Optional() @SkipSelf() parentModule?: SharedMaterialModule) {
+    if (parentModule) {
+      throw new Error('SharedMaterialModule is already loaded. Import it in the AppModule only');
+    }
+  }
+
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedMaterialModule,
+      providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { float: 'always' } }
+      ],
+    };
+  }
+}
