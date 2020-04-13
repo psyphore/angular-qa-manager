@@ -31,11 +31,11 @@ export class IssuesService {
       .pipe(map(({ data }) => data));
   }
 
-  public deleteIssue(issue: Issue): Observable<IssueUpdateResponse> {
+  public deleteIssue(issueId: number): Observable<IssueUpdateResponse> {
     return this.apollo
       .mutate<IssueUpdateResponse>({
         mutation: DELETE_ISSUE_MUTATION,
-        variables: { issue }
+        variables: { issueId }
       })
       .pipe(map(({ data }) => data));
   }
