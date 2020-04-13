@@ -1,108 +1,127 @@
 <mat-card>
   <form
-    class="example-container"
     (ngSubmit)="onSubmit()"
     [formGroup]="projectFormGroup"
+    class="example-container"
   >
     <mat-form-field hidden>
       <mat-label>Number</mat-label>
-      <input required formControlName="id" type="text" matInput readonly />
+      <input id="id" formControlName="id" type="text" matInput readonly />
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Project Name</mat-label>
-      <input
-        required
-        formControlName="projectName"
-        placeholder="Proposal UX updates"
-        type="text"
-        matInput
-      />
-    </mat-form-field>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
+        <div class="project-form">
+          <mat-form-field class="project-form-item">
+            <mat-label>Project Name</mat-label>
+            <input
+              required
+              name="projectName"
+              formControlName="projectName"
+              placeholder="Proposal UX updates"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Release Name</mat-label>
-      <input
-        required
-        formControlName="releaseName"
-        placeholder="Sprint 15"
-        type="text"
-        matInput
-      />
-    </mat-form-field>
+          <mat-form-field class="project-form-item">
+            <mat-label>Release Name</mat-label>
+            <input
+              required
+              name="releaseName"
+              formControlName="releaseName"
+              placeholder="Sprint 15"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>QA Lead</mat-label>
-      <mat-select required formControlName="lead">
-        <mat-option *ngFor="let qa of qaPeople" [value]="qa.id">{{
-          qa.firstname + ' ' + qa.lastname
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+          <mat-form-field class="project-form-item">
+            <mat-label>QA Lead</mat-label>
+            <mat-select required formControlName="lead" id="leadQA">
+              <mat-option *ngFor="let qa of qaPeople" [value]="qa.id">{{
+                qa.firstname + ' ' + qa.lastname
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Customer Name</mat-label>
-      <input
-        required
-        formControlName="customerName"
-        placeholder="Customer X"
-        type="text"
-        matInput
-      />
-    </mat-form-field>
+          <mat-form-field class="project-form-item">
+            <mat-label>Customer Name</mat-label>
+            <input
+              required
+              name="customerName"
+              formControlName="customerName"
+              placeholder="Customer X"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="project-form">
+          <mat-form-field class="project-form-item">
+            <mat-label>System</mat-label>
+            <mat-select required formControlName="system" id="system">
+              <mat-option
+                *ngFor="let sysn of releaseOptions.systems"
+                [value]="sysn.id"
+                >{{ sysn.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>System</mat-label>
-      <mat-select required formControlName="system">
-        <mat-option
-          *ngFor="let sysn of releaseOptions.systems"
-          [value]="sysn.id"
-          >{{ sysn.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+          <mat-form-field class="project-form-item">
+            <mat-label>Status</mat-label>
+            <mat-select required formControlName="status" id="status">
+              <mat-option
+                *ngFor="let sysn of releaseOptions.statuses"
+                [value]="sysn.id"
+                >{{ sysn.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Status</mat-label>
-      <mat-select required formControlName="status">
-        <mat-option
-          *ngFor="let sysn of releaseOptions.statuses"
-          [value]="sysn.id"
-          >{{ sysn.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+          <mat-form-field class="project-form-item">
+            <mat-label>Environment</mat-label>
+            <mat-select required formControlName="environment" id="environment">
+              <mat-option
+                *ngFor="let env of releaseOptions.environments"
+                [value]="env.id"
+                >{{ env.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="project-form">
+          <button
+            mat-fab
+            class="project-form-item"
+            name="addBtn"
+            type="button"
+            color="primary"
+            (click)="addProject()"
+            [disabled]="!isValidForm()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <button
+            *ngIf="isUpdatable()"
+            mat-fab
+            class="project-form-item"
+            name="updateBtn"
+            type="button"
+            color="accent"
+            (click)="updateProject()"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
 
-    <mat-form-field>
-      <mat-label>Environment</mat-label>
-      <mat-select required formControlName="environment">
-        <mat-option
-          *ngFor="let env of releaseOptions.environments"
-          [value]="env.id"
-          >{{ env.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-
-    <div class="example-button-row">
-      <button
-        type="button"
-        mat-raised-button
-        color="primary"
-        (click)="addProject()"
-        [disabled]="!projectFormGroup.valid"
-      >
-        Add Project!
-      </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="accent"
-        (click)="updateProject()"
-        [disabled]="!projectFormGroup.valid"
-      >
-        Update Project!
-      </button>
-    </div>
+    <div class="example-button-row"></div>
   </form>
 </mat-card>

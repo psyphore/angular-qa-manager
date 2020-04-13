@@ -7,8 +7,9 @@ import { Person } from '@models/person.interface';
 import { Release } from '@models/release.interface';
 import { EnumsResponse } from '@models/enums.interface';
 import { OptionsState } from '@root-store/options-store/state';
-import { ProjectState } from '@root-store/release-store/state';
-import { ReleaseItem, ReleaseItems } from '@root-store/release-store/actions';
+import { PeopleState } from '@root-store/people-store/state';
+import { ReleaseItems, ReleaseItem, ReleaseItemAdd, ReleaseUpdateItem, ReleaseDeleteItem } from '@root-store/release-store/release.actions';
+import { ReleaseState } from '@root-store/release-store/release.state';
 
 @Component({
   selector: 'app-project',
@@ -17,11 +18,11 @@ import { ReleaseItem, ReleaseItems } from '@root-store/release-store/actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectComponent implements OnInit {
-  @Select(ProjectState.getProject) project$: Observable<Release>;
-  @Select(ProjectState.getProjects) projects$: Observable<Release[]>;
-  @Select(ProjectState.getErrors) errorMessage$: Observable<string>;
-  @Select(ProjectState.isLoading) isLoading$: Observable<boolean>;
-  qaPeople$: Observable<Person[]>;
+  @Select(ReleaseState.getProject) project$: Observable<Release>;
+  @Select(ReleaseState.getProjects) projects$: Observable<Release[]>;
+  @Select(ReleaseState.getErrors) errorMessage$: Observable<string>;
+  @Select(ReleaseState.isLoading) isLoading$: Observable<boolean>;
+  @Select(PeopleState.getPeople) qaPeople$: Observable<Person[]>;
   @Select(OptionsState.getOptions) projectOptions$: Observable<EnumsResponse>;
 
   constructor(private store$: Store) { }
@@ -39,14 +40,14 @@ export class ProjectComponent implements OnInit {
   }
 
   public onAdd(project: Release) {
-    this.store$.dispatch(new ReleaseItem(+project.id));
+    this.store$.dispatch(new ReleaseItemAdd(project));
   }
 
   public onUpdate(project: Release) {
-    this.store$.dispatch(new ReleaseItem(+project.id));
+    this.store$.dispatch(new ReleaseUpdateItem(project));
   }
 
   public onDelete(project: Release) {
-    this.store$.dispatch(new ReleaseItem(+project.id));
+    this.store$.dispatch(new ReleaseDeleteItem(project));
   }
 }

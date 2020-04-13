@@ -16,11 +16,14 @@ import {
   UPDATE_RELEASE_MUTATION,
   GET_PROJECTS_PAGE_QUERY
 } from '@shared/graphql';
+import { IssueUpdateResponse, Issue, IssueResponse, IssuesResponse } from '@shared/interfaces/issue.interface';
+import gql from 'graphql-tag';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
+
   constructor(private apollo: Apollo) { }
 
   public addRelease(release: Release): Observable<ReleaseUpdateResponse> {

@@ -31,7 +31,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   public submitted = false;
   public success = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.initForm(this.project);
@@ -65,16 +65,18 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       customerName: [project.customer, Validators.required],
       environment: [project.environment, Validators.required],
       status: [project.status, Validators.required],
-      issues: [project.issues, Validators.required],
+      issues: [project.issues],
       system: [project.system, Validators.required],
       attachments: [project.attachments]
     });
+    console.log(this.projectFormGroup);
+    console.log(this.project);
   }
 
   onSubmit() {
     this.submitted = true;
 
-    if (this.projectFormGroup.invalid) {
+    if (!this.isValidForm()) {
       return;
     }
 
@@ -94,5 +96,18 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       // Web Workers are not supported in this environment.
       // You should add a fallback so that your program still executes correctly.
     }
+  }
+
+  isValidForm() {
+    return this.projectFormGroup.valid &&
+      this.projectFormGroup.touched &&
+      !this.projectFormGroup.pristine;
+  }
+
+  isUpdatable() {
+    return this.isValidForm() &&
+      this.project &&
+      this.project.id &&
+      this.project.id !== '0';
   }
 }

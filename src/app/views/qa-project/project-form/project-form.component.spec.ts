@@ -8,9 +8,9 @@ describe('ProjectFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectFormComponent ]
+      declarations: [ProjectFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,4 +22,5 @@ describe('ProjectFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
