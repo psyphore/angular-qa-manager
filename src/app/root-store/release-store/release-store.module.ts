@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxsModule } from '@ngxs/store';
-import { ProjectState } from './state';
+import { ReleaseState } from './release.state';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, NgxsModule.forFeature([ProjectState])]
+  imports: [CommonModule, NgxsModule.forFeature([ReleaseState])]
 })
-export class ReleaseStoreModule {}
+export class ReleaseStoreModule { }
