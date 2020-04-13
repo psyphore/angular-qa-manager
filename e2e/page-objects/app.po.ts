@@ -6,6 +6,10 @@ export class AppPage {
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('lead p')).getText();
+  }
+
+  getHeadingText() {
+    return element(by.css('display-4 h1')).getText();
   }
 }

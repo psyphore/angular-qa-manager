@@ -21,9 +21,15 @@ describe('SignIn', () => {
   });
 
   it('should load page', () => {
-    page.navigateTo();
-    page.captureCredentials('siphoh', '.c2h7GX3UMQ@FuV');
     browser.waitForAngularEnabled(false);
+    page.navigateTo();
+    browser.waitForAngular('wait for login page to load');
+    expect(browser.getCurrentUrl()).toContain(page.loginPath);
+  });
+
+  it('should signin', () => {
+    browser.waitForAngularEnabled(false);
+    page.captureCredentials('siphoh', '.c2h7GX3UMQ@FuV');
     browser.waitForAngular('wait for login page to load');
     expect(browser.getCurrentUrl()).toContain(page.loginPath);
   });
