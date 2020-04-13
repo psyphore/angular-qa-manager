@@ -45,7 +45,7 @@ export class ListingFormComponent implements OnInit {
 
   initializeGrid() {
     this.dataSource = new MatTableDataSource<Release>(this.releases);
-    if (this.dataSource) {
+    if (this.dataSource && this.releases && this.releases.length !== 0) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
