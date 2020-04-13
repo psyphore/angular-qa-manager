@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { SignInState } from '@root-store/sign-in-store/state';
 import { LoadOptions } from '@root-store/options-store/actions';
+import { LoadPeople } from '@root-store/people-store/actions';
 
 @Component({
   selector: 'app-header',
@@ -21,5 +22,6 @@ export class HeaderComponent implements OnInit {
       (_: NavigationEnd) => (this.currentPath = _.url)
     );
     this.store$.dispatch(new LoadOptions());
+    this.store$.dispatch(new LoadPeople());
   }
 }

@@ -49,8 +49,8 @@
       Archives
     </a>
 
-    <!-- <a
-      *ngIf="!hasToken$ | async"
+    <a
+      *ngIf="(!token$ | async)"
       class="py-2 d-none d-md-inline-block"
       routerLink="/security/signin"
       routerLinkActive="router-link-active"
@@ -58,15 +58,15 @@
       Sign In
     </a>
     <a
-      *ngIf="hasToken$ | async"
+      *ngIf="(token$ | async)"
       class="py-2 d-none d-md-inline-block"
       routerLink="/security/me"
       routerLinkActive="router-link-active"
     >
       Me
-    </a> -->
+    </a>
 
-    <div class="py-2 d-none d-md-inline-block has-dropdown">
+    <!-- <div class="py-2 d-none d-md-inline-block has-dropdown">
       <span>Profile</span>
       <ul class="dropdown">
         <li class="dropdown-item">
@@ -84,9 +84,9 @@
           </a>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
-  <!-- <div class="container d-flex flex-column flex-md-row">
+  <!--   <div class="container d-flex flex-column flex-md-row">
     <mat-progress-bar mode="buffer"></mat-progress-bar>
   </div> -->
 </nav>

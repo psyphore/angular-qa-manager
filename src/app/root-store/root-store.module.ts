@@ -9,6 +9,7 @@ import { SignInStoreModule } from './sign-in-store/sign-in-store.module';
 import { MeStoreModule } from './me-store/me-store.module';
 import { ReleaseStoreModule } from './release-store/release-store.module';
 import { OptionsStoreModule } from './options-store/options-store.module';
+import { PeopleStoreModule } from './people-store/people-store.module';
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { OptionsStoreModule } from './options-store/options-store.module';
     MeStoreModule,
     ReleaseStoreModule,
     OptionsStoreModule,
+    PeopleStoreModule,
 
     NgxsModule.forRoot([], {
       developmentMode: !environment.production
