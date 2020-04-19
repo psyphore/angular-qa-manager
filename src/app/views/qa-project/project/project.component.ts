@@ -40,6 +40,7 @@ export class ProjectComponent implements OnInit {
   }
 
   public onAdd(project: Release) {
+    console.log({ project });
     this.store$.dispatch(new ReleaseItemAdd(project));
   }
 

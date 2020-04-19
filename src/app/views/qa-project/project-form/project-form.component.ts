@@ -69,8 +69,6 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       system: [project.system, Validators.required],
       attachments: [project.attachments]
     });
-    console.log(this.projectFormGroup);
-    console.log(this.project);
   }
 
   onSubmit() {
