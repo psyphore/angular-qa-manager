@@ -1,12 +1,29 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { ApolloTestingModule } from 'apollo-angular/testing';
+import { Apollo } from 'apollo-angular';
 
 import { ProjectsService } from './projects.service';
 
 describe('ProjectsService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let httpClientSpy: { post: jasmine.Spy };
+  let apolloSpy: { watchQuery: jasmine.Spy, mutate: jasmine.Spy, create: jasmine.Spy, valueChanges: jasmine.Spy };
+  let service: ProjectsService;
+  beforeEach(() => {
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['post']);
+    apolloSpy = jasmine.createSpyObj('Apollo', ['watchQuery', 'mutate', 'create', 'valueChanges']);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, ApolloTestingModule],
+      providers: [
+        { provide: HttpClient, useValue: httpClientSpy },
+        { provide: Apollo, useValue: apolloSpy },
+      ]
+    });
+    service = TestBed.inject(ProjectsService);
+  });
 
   it('should be created', () => {
-    const service: ProjectsService = TestBed.inject(ProjectsService);
     expect(service).toBeTruthy();
   });
 });

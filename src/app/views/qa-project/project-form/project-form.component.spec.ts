@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 
 import { ProjectFormComponent } from './project-form.component';
 
@@ -8,7 +9,8 @@ describe('ProjectFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProjectFormComponent]
+      declarations: [ProjectFormComponent],
+      providers: [FormBuilder]
     })
       .compileComponents();
   }));

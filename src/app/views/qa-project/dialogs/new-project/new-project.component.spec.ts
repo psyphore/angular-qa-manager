@@ -1,4 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogHarness } from '@angular/material/dialog/testing';
+
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDataComponent } from './dialog-data.component';
 
 import { NewProjectComponent } from './new-project.component';
 
@@ -8,9 +12,12 @@ describe('NewProjectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewProjectComponent ]
+      declarations: [NewProjectComponent],
+      providers: [
+        { provide: MatDialog, useValue: MatDialogHarness }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
