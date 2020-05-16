@@ -67,7 +67,7 @@ export class SignInState {
     patchState({ isLoading: true });
     return this.dataService.signInReactStyle(payload)
       .pipe(
-        tap((data) => data ? dispatch(new SignInSuccess(data)) : null),
+        tap((data) => dispatch(new SignInSuccess(data))),
         catchError((error) => of(dispatch(new SignInFailure(error.message))))
       );
   }

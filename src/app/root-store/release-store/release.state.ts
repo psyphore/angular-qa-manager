@@ -77,8 +77,7 @@ export class ReleaseState {
   ) {
     patchState({ isLoading: true });
     this.projectService.getAllReleases(payload.limit, payload.start).pipe(
-      tap(response => dispatch(new ReleaseItemsSuccess(response.releases))
-      ),
+      tap(response => dispatch(new ReleaseItemsSuccess(response.releases))),
       catchError(error => of(new ReleaseItemsFailure(error.message)))
     );
   }
@@ -106,10 +105,7 @@ export class ReleaseState {
   ) {
     patchState({ isLoading: true });
     this.projectService.addRelease(payload).pipe(
-      tap(response =>
-        response.release
-          ? dispatch(new ReleaseItemAddSuccess(response.release))
-          : dispatch(new ReleaseItemAddFailure('failed'))
+      tap(response => dispatch(new ReleaseItemAddSuccess(response.release))
       ),
       catchError(error => of(new ReleaseItemAddFailure(error.message)))
     );

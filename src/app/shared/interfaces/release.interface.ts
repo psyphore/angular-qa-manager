@@ -1,6 +1,18 @@
 import { Person } from './person.interface';
 import { Issue } from './issue.interface';
 
+export interface MutateRelease {
+  projectName: string;
+  releaseName: string;
+  customer: string;
+  issues: any[];
+  system: string;
+  environment: string;
+  status: string;
+  attachments: any[];
+  person: any;
+}
+
 export interface Release {
   id: string;
   projectName: string;

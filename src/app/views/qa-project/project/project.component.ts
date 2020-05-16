@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 import { Person } from '@models/person.interface';
-import { Release } from '@models/release.interface';
+import { Release, MutateRelease } from '@models/release.interface';
 import { EnumsResponse } from '@models/enums.interface';
 import { OptionsState } from '@root-store/options-store/state';
 import { PeopleState } from '@root-store/people-store/state';
@@ -39,7 +39,7 @@ export class ProjectComponent implements OnInit {
     this.store$.dispatch(new ReleaseItem(+project.id));
   }
 
-  public onAdd(project: Release) {
+  public onAdd(project: MutateRelease) {
     console.log({ project });
     this.store$.dispatch(new ReleaseItemAdd(project));
   }

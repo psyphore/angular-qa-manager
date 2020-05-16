@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import {
   ReleasesResponse,
   ReleaseResponse,
   ReleaseUpdateResponse,
-  Release
+  Release,
+  MutateRelease
 } from '@models/release.interface';
 import {
   GET_RELEASE_QUERY,
@@ -16,41 +17,53 @@ import {
   UPDATE_RELEASE_MUTATION,
   GET_PROJECTS_PAGE_QUERY
 } from '@shared/graphql';
-import { IssueUpdateResponse, Issue, IssueResponse, IssuesResponse } from '@shared/interfaces/issue.interface';
-import gql from 'graphql-tag';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
 
+  private _release = new BehaviorSubject<ReleaseUpdateResponse>(null);
   constructor(private apollo: Apollo) { }
 
-  public addRelease(release: Release): Observable<ReleaseUpdateResponse> {
-    return this.apollo
+  public addRelease(release: MutateRelease) {
+    this.apollo
       .mutate<ReleaseUpdateResponse>({
         mutation: ADD_RELEASE_MUTATION,
-        variables: { release }
-      })
-      .pipe(map(({ data }) => data));
+        variables: { release },
+        update: (proxy, { data }) => {
+          this._release.next(data);
+        }
+      }).subscribe();
+
+    return this._release.asObservable();
   }
 
-  public deleteRelease(release: Release): Observable<ReleaseUpdateResponse> {
-    return this.apollo
+  public deleteRelease(release: MutateRelease): Observable<ReleaseUpdateResponse> {
+    this.apollo
       .mutate<ReleaseUpdateResponse>({
         mutation: DELETE_RELEASE_MUTATION,
-        variables: { release }
-      })
-      .pipe(map(({ data }) => data));
+        variables: { release },
+        update: (proxy, { data }) => {
+          this._release.next(data);
+        }
+      }).subscribe();
+
+    return this._release.asObservable();
   }
 
   public updateRelease(release: Release): Observable<ReleaseUpdateResponse> {
-    return this.apollo
+    this.apollo
       .mutate<ReleaseUpdateResponse>({
         mutation: UPDATE_RELEASE_MUTATION,
-        variables: { release }
-      })
-      .pipe(map(({ data }) => data));
+        variables: { release },
+        update: (proxy, { data }) => {
+          this._release.next(data);
+        }
+      }).subscribe();
+
+    return this._release.asObservable();
   }
 
   public getAllReleases(

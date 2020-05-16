@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import {
   IssuesResponse,
   IssueResponse,
@@ -20,33 +20,47 @@ import {
   providedIn: 'root'
 })
 export class IssuesService {
+  private _issue = new BehaviorSubject<IssueUpdateResponse>(null);
+
   constructor(private apollo: Apollo) { }
 
   public addIssue(issue: Issue): Observable<IssueUpdateResponse> {
-    return this.apollo
+    this.apollo
       .mutate<IssueUpdateResponse>({
         mutation: ADD_ISSUE_MUTATION,
-        variables: { issue }
-      })
-      .pipe(map(({ data }) => data));
+        variables: { issue },
+        update: (proxy, { data }) => {
+          this._issue.next(data);
+        }
+      }).subscribe();
+
+    return this._issue.asObservable();
   }
 
   public deleteIssue(issueId: number): Observable<IssueUpdateResponse> {
-    return this.apollo
+    this.apollo
       .mutate<IssueUpdateResponse>({
         mutation: DELETE_ISSUE_MUTATION,
-        variables: { issueId }
-      })
-      .pipe(map(({ data }) => data));
+        variables: { issueId },
+        update: (proxy, { data }) => {
+          this._issue.next(data);
+        }
+      }).subscribe();
+
+    return this._issue.asObservable();
   }
 
   public updateIssue(issue: Issue): Observable<IssueUpdateResponse> {
-    return this.apollo
+    this.apollo
       .mutate<IssueUpdateResponse>({
         mutation: UPDATE_ISSUE_MUTATION,
-        variables: { issue }
-      })
-      .pipe(map(({ data }) => data));
+        variables: { issue },
+        update: (proxy, { data }) => {
+          this._issue.next(data);
+        }
+      }).subscribe();
+
+    return this._issue.asObservable();
   }
 
   public getAllIssues(

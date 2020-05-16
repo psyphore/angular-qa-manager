@@ -10,6 +10,7 @@ import { MeStoreModule } from './me-store/me-store.module';
 import { ReleaseStoreModule } from './release-store/release-store.module';
 import { OptionsStoreModule } from './options-store/options-store.module';
 import { PeopleStoreModule } from './people-store/people-store.module';
+import { IssueStoreModule } from './issue-store/issue-store.module';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { PeopleStoreModule } from './people-store/people-store.module';
     ReleaseStoreModule,
     OptionsStoreModule,
     PeopleStoreModule,
+    IssueStoreModule,
 
     NgxsModule.forRoot([], {
       developmentMode: !environment.production

@@ -50,11 +50,7 @@ export class OptionsState {
   loadOptions({ patchState, dispatch }: StateContext<OptionsStateModel>) {
     patchState({ isLoading: true });
     return this.dataService.getAllOptions().pipe(
-      tap(response =>
-        response
-          ? dispatch(new LoadOptionsSuccess(response))
-          : dispatch(new LoadOptionsFailure('eish...'))
-      ),
+      tap(response => dispatch(new LoadOptionsSuccess(response))),
       catchError(error => of(dispatch(new LoadOptionsFailure(error.message))))
     );
   }

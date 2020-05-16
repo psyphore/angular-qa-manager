@@ -50,11 +50,7 @@ export class PeopleState {
   loadPeople({ patchState, dispatch }: StateContext<PeopleStateModel>) {
     patchState({ isLoading: true });
     return this.dataService.getUsers().pipe(
-      tap(response =>
-        response
-          ? dispatch(new LoadPeopleSuccess(response))
-          : dispatch(new LoadPeopleFailure('eish...'))
-      ),
+      tap(response => dispatch(new LoadPeopleSuccess(response))),
       catchError(error => of(dispatch(new LoadPeopleFailure(error.message))))
     );
   }

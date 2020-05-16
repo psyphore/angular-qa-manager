@@ -1,6 +1,7 @@
 import {
   Release,
-  ReleaseUpdate
+  ReleaseUpdate,
+  MutateRelease
 } from '@shared/interfaces/release.interface';
 
 export enum ReleaseActionTypes {
@@ -27,7 +28,7 @@ export enum ReleaseActionTypes {
 
 export class ReleaseItemAdd {
   static readonly type = ReleaseActionTypes.RELEASE_ADD;
-  constructor(public payload: Release) { }
+  constructor(public payload: MutateRelease) { }
 }
 
 export class ReleaseItemAddSuccess {
