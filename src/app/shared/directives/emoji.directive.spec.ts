@@ -1,30 +1,44 @@
+import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { Component, DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+
 import { EmojiDirective } from './emoji.directive';
-import { TestBed } from '@angular/core/testing';
-import { ElementRef } from '@angular/core';
-import { Component } from '@angular/core';
 
 @Component({
   template: `<h2 appEmoji="😁">Smiley emoji</h2>`
 })
-class TestComponent { }
+export class TestComponent { }
 
 describe('EmojiDirective', () => {
-  let elRefSpy: { nativeElement: jasmine.Spy };
-  beforeEach(() => {
-    elRefSpy = jasmine.createSpyObj('ElementRef', ['nativeElement']);
+  let fixture: ComponentFixture<TestComponent>;
+  let component: TestComponent;
+  let debugElement: DebugElement;
+  let element: HTMLElement;
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EmojiDirective, TestComponent],
-      providers: [
-        { provide: ElementRef, useValue: elRefSpy }
-      ]
-    }).createComponent(TestComponent);
+    });
+  }));
 
-    elRefSpy.nativeElement.and.returnValue({ textContent: '' });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
+    element = debugElement.nativeElement;
   });
 
   it('should create an instance', () => {
-    let directive: EmojiDirective;
-    directive = TestBed.inject(EmojiDirective);
-    expect(directive).toBeTruthy();
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
   });
+
+
+  it(`should have a 😁 emoji`, () => {
+    fixture.detectChanges();
+    const directive = debugElement.query(By.directive(EmojiDirective));
+    fixture.detectChanges();
+    expect(directive.nativeElement.textContent).toContain('😁');
+  });
+
 });

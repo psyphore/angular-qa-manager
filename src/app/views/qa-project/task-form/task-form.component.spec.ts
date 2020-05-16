@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
 
 import { TaskFormComponent } from './task-form.component';
 import { Issue } from '../../../shared/interfaces';
@@ -13,11 +12,8 @@ describe('TaskFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, SharedMaterialModule, SharedModule],
+      imports: [RouterTestingModule, SharedMaterialModule, SharedModule],
       declarations: [TaskFormComponent],
-      providers: [
-        FormBuilder
-      ]
     })
       .compileComponents();
   }));
