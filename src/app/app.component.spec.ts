@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 
@@ -20,12 +21,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual(environment.appName);
   }));
 
-  xit('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('#content').textContent).toContain(
-      environment.appName
-    );
-  }));
 });
