@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const avatarFields = gql`
+export const AVATAR_FIELDS = gql`
   fragment basicAvatarFields on UploadFile {
     sha256
     url
@@ -9,7 +9,7 @@ export const avatarFields = gql`
   }
 `;
 
-export const personFields = gql`
+export const PERSON_FIELDS = gql`
   fragment basicPersonFields on Person {
     id
     title
@@ -24,28 +24,27 @@ export const personFields = gql`
     bio
   }
 
-  ${avatarFields}
+  ${AVATAR_FIELDS}
 `;
 
-export const GetProfileQuery = gql`
+export const GET_PERSON_QUERY = gql`
   query getPerson($id: ID!) {
     person(id: $id) {
       ...basicPersonFields
     }
   }
 
-  ${personFields}
+  ${PERSON_FIELDS}
 `;
 
-export const GetAllPeople = gql`
+export const GET_ALL_PEOPLE_QUERY = gql`
   query getPeeps {
     people {
-      id
-      firstname
-      lastname
+      ...basicPersonFields
       avatar {
         url
       }
     }
   }
+  ${PERSON_FIELDS}
 `;

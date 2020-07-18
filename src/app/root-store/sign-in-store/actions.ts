@@ -1,7 +1,7 @@
 import {
   SignIn as RequestPaylod,
   SignInCredentials
-} from '../../shared/interfaces/security.interface';
+} from '@shared/interfaces/security.interface';
 
 export enum ActionTypes {
   SIGNIN_REQUEST = '[Sign In] Request',
@@ -19,7 +19,7 @@ export class SigningIn {
 
 export class SignInSuccess {
   static readonly type = ActionTypes.SIGNIN_SUCCESS;
-  constructor(public payload: RequestPaylod | null) {}
+  constructor(public payload: RequestPaylod) {}
 }
 
 export class SignInFailure {

@@ -3,6 +3,7 @@
     <mat-form-field class="signin-full-width">
       <input
         matInput
+        name="username"
         formControlName="identifier"
         placeholder="Username or email address"
         type="text"
@@ -11,15 +12,23 @@
     <mat-form-field class="signin-full-width">
       <input
         matInput
+        name="password"
         formControlName="password"
         placeholder="Password"
         type="password"
       />
     </mat-form-field>
 
+    <p *ngIf="(isLoading$ | async)">Loading: {{ isLoading$ | async }}</p>
+
+    <p *ngIf="(errorMessage$ | async)">Errors: {{ errorMessage$ | async }}</p>
+
+    <p *ngIf="(authenticated$ | async)">Auth: {{ authenticated$ | async }}</p>
+
     <div class="signin-full-width">
       <button
         type="button"
+        name="signInBtn"
         mat-raised-button
         color="primary"
         (click)="signIn()"

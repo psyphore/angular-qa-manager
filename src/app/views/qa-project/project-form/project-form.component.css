@@ -18,3 +18,12 @@
 .example-container .mat-radio-button {
   margin: 0 12px;
 }
+
+.project-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-form-item {
+  flex: content;
+}

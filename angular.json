@@ -47,6 +47,30 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "acer": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.acer.ts"
+                }
+              ]
+            },
+            "hp": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hp.ts"
+                }
+              ]
+            },
+            "e2e": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.e2e.ts"
+                }
+              ]
             }
           }
         },
@@ -54,16 +78,21 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "qa-poc:build",
-            "host": "0.0.0.0",
-            "port": 4200,
-            "disableHostCheck": true,
-            "publicHost": "localhost",
             "aot": true,
             "liveReload": true
           },
           "configurations": {
             "production": {
               "browserTarget": "qa-poc:build:production"
+            },
+            "acer": {
+              "browserTarget": "qa-poc:build:acer"
+            },
+            "hp": {
+              "browserTarget": "qa-poc:build:hp"
+            },
+            "e2e": {
+              "browserTarget": "qa-poc:build:e2e"
             }
           }
         },
@@ -114,6 +143,13 @@
             "devServerTarget": "qa-poc:serve"
           }
         },
+        "e2e-signin": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./e2e/config/signin.conf.js",
+            "devServerTarget": "qa-poc:serve:e2e"
+          }
+        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
@@ -133,5 +169,8 @@
     "@schematics/angular:directive": {
       "prefix": "app"
     }
+  },
+  "cli": {
+    "defaultCollection": "@ngxs/schematics"
   }
 }

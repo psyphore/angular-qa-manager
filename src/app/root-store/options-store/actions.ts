@@ -1,4 +1,4 @@
-import { EnumsResponse } from '../../shared/interfaces/enums.interface';
+import { EnumsResponse } from '@shared/interfaces/enums.interface';
 
 export enum ActionTypes {
   LOAD_OPTIONS_REQUEST = '[Options] Load Request',

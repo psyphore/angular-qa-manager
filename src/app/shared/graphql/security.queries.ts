@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const basicUserFields = gql`
+export const BASIC_USER_FIELDS = gql`
   fragment basicUserFields on UsersPermissionsMe {
     id
     username
@@ -14,11 +14,11 @@ export const basicUserFields = gql`
   }
 `;
 
-export const GetProfileQuery = gql`
+export const GET_PROFILE_QUERY = gql`
   query getProfile {
     me {
       ...basicUserFields
     }
   }
-  ${basicUserFields}
+  ${BASIC_USER_FIELDS}
 `;

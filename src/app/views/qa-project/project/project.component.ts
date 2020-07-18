@@ -1,26 +1,15 @@
-import { Store } from '@ngrx/store';
+import { Store, Select } from '@ngxs/store';
 
 import { Observable } from 'rxjs';
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
-import {
-  LoadProject,
-  LoadOptions,
-  Delete,
-  Update,
-  Add
-} from '@states/project/project.actions';
-import { selectAll as selectProjects } from '@states/project/project.selector';
-import { selectAll as selectOptions } from '@states/project/enum.selector';
-
-import { LoadPeople } from '@states/person/person.actions';
-import { selectAll as selectPeople } from '@states/person/person.selector';
-
-import { AppStore } from '@models/store.interface';
 import { Person } from '@models/person.interface';
-import { EnumsReponse } from '@models/enums.interface';
-import { Release } from '@models/project.interface';
-import { first, flatMap } from 'rxjs/operators';
+import { Release } from '@models/release.interface';
+import { EnumsResponse } from '@models/enums.interface';
+import { OptionsState } from '@root-store/options-store/state';
+import { PeopleState } from '@root-store/people-store/state';
+import { ReleaseItems, ReleaseItem, ReleaseItemAdd, ReleaseUpdateItem, ReleaseDeleteItem } from '@root-store/release-store/release.actions';
+import { ReleaseState } from '@root-store/release-store/release.state';
 
 @Component({
   selector: 'app-project',
@@ -29,43 +18,37 @@ import { first, flatMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectComponent implements OnInit {
-  public project: Release = {} as Release;
-  public projects$: Observable<Release[]>;
-  public qaPeople$: Observable<Person[]>;
-  public projectOptions$: Observable<EnumsReponse>;
+  @Select(ReleaseState.getProject) project$: Observable<Release>;
+  @Select(ReleaseState.getProjects) projects$: Observable<Release[]>;
+  @Select(ReleaseState.getErrors) errorMessage$: Observable<string>;
+  @Select(ReleaseState.isLoading) isLoading$: Observable<boolean>;
+  @Select(PeopleState.getPeople) qaPeople$: Observable<Person[]>;
+  @Select(OptionsState.getOptions) projectOptions$: Observable<EnumsResponse>;
 
-  constructor(private store$: Store<AppStore>) {}
+  constructor(private store$: Store) { }
 
   ngOnInit(): void {
     this.initialize();
   }
 
   initialize(): void {
-    this.store$.dispatch(new LoadOptions());
-    this.store$.dispatch(new LoadProject());
-    this.store$.dispatch(new LoadPeople());
-
-    this.projects$ = this.store$.select(selectProjects);
-    this.qaPeople$ = this.store$.select(selectPeople);
-    this.projectOptions$ = this.store$.select(selectOptions).pipe(
-      first(),
-      flatMap(p => p)
-    );
-  }
-
-  public onDelete(project: Release) {
-    this.store$.dispatch(new Delete(project));
+    this.store$.dispatch(new ReleaseItems());
   }
 
   public onSelect(project: Release) {
-    this.project = project;
-  }
-
-  public onUpdate(project: Release) {
-    this.store$.dispatch(new Update(project));
+    this.store$.dispatch(new ReleaseItem(+project.id));
   }
 
   public onAdd(project: Release) {
-    this.store$.dispatch(new Add(project));
+    console.log({ project });
+    this.store$.dispatch(new ReleaseItemAdd(project));
+  }
+
+  public onUpdate(project: Release) {
+    this.store$.dispatch(new ReleaseUpdateItem(project));
+  }
+
+  public onDelete(project: Release) {
+    this.store$.dispatch(new ReleaseDeleteItem(project));
   }
 }

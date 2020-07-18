@@ -9,12 +9,10 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import {
-  Release,
-  systemNames,
-  environmentNames
-} from '@models/project.interface';
+  Release
+} from '@models/release.interface';
 import { Person } from '@models/person.interface';
-import { EnumsReponse } from '@models/enums.interface';
+import { EnumsResponse } from '@models/enums.interface';
 
 @Component({
   selector: 'app-project-form',
@@ -25,18 +23,15 @@ import { EnumsReponse } from '@models/enums.interface';
 export class ProjectFormComponent implements OnInit, OnChanges {
   @Input() project: Release = {} as Release;
   @Input() qaPeople: Person[] = [] as Person[];
-  @Input() releaseOptions: EnumsReponse = {} as EnumsReponse;
+  @Input() releaseOptions: EnumsResponse = {} as EnumsResponse;
   @Output() add: EventEmitter<Release> = new EventEmitter<Release>();
   @Output() update: EventEmitter<Release> = new EventEmitter<Release>();
-
-  sysnames = systemNames;
-  envnames = environmentNames;
 
   public projectFormGroup: FormGroup;
   public submitted = false;
   public success = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.initForm(this.project);
@@ -70,7 +65,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       customerName: [project.customer, Validators.required],
       environment: [project.environment, Validators.required],
       status: [project.status, Validators.required],
-      issues: [project.issues, Validators.required],
+      issues: [project.issues],
       system: [project.system, Validators.required],
       attachments: [project.attachments]
     });
@@ -79,7 +74,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   onSubmit() {
     this.submitted = true;
 
-    if (this.projectFormGroup.invalid) {
+    if (!this.isValidForm()) {
       return;
     }
 
@@ -99,5 +94,18 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       // Web Workers are not supported in this environment.
       // You should add a fallback so that your program still executes correctly.
     }
+  }
+
+  isValidForm() {
+    return this.projectFormGroup.valid &&
+      this.projectFormGroup.touched &&
+      !this.projectFormGroup.pristine;
+  }
+
+  isUpdatable() {
+    return this.isValidForm() &&
+      this.project &&
+      this.project.id &&
+      this.project.id !== '0';
   }
 }

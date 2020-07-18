@@ -1,27 +1,25 @@
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MatSnackBarModule,
-  MatToolbarModule,
-  MatDialogModule,
-  MatTableModule,
-  MatPaginatorModule,
-  MatSortModule,
-  MatGridListModule,
-  MAT_LABEL_GLOBAL_OPTIONS
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -102,23 +100,36 @@ const MaterialModules = [
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatGridListModule
+  MatGridListModule,
+  MatTooltipModule,
+  MatProgressBarModule
 ];
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
-  providers: [
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } }
-  ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule,
     FlexLayoutModule,
     ...MaterialModules,
     BrowserAnimationsModule,
     FontAwesomeModule
   ]
 })
-export class SharedMaterialModule {}
+export class SharedMaterialModule {
+  constructor(@Optional() @SkipSelf() parentModule?: SharedMaterialModule) {
+    if (parentModule) {
+      throw new Error('SharedMaterialModule is already loaded. Import it in the AppModule only');
+    }
+  }
+
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedMaterialModule,
+      providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { float: 'always' } }
+      ],
+    };
+  }
+}

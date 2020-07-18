@@ -11,6 +11,8 @@ import { SharedModule } from '@shared/shared.module';
 
 import { PersonModule } from './../person/person.module';
 
+import { SignInService } from './signin/signin.service';
+
 const COMPONENTS = [HostComponent, SigninComponent, MeComponent];
 
 @NgModule({
@@ -22,6 +24,7 @@ const COMPONENTS = [HostComponent, SigninComponent, MeComponent];
     PersonModule
   ],
   declarations: COMPONENTS,
-  exports: COMPONENTS
+  exports: COMPONENTS,
+  providers: [SignInService]
 })
-export class SecurityModule {}
+export class SecurityModule { }

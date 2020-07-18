@@ -1,9 +1,9 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { EnumsResponse } from '../../shared/interfaces/enums.interface';
+import { EnumsResponse } from '@shared/interfaces/enums.interface';
 
 import { LoadOptions, LoadOptionsFailure, LoadOptionsSuccess } from './actions';
 import { GeneralServices } from '@shared/services';
@@ -49,30 +49,30 @@ export class OptionsState {
   @Action(LoadOptions, { cancelUncompleted: true })
   loadOptions({ patchState, dispatch }: StateContext<OptionsStateModel>) {
     patchState({ isLoading: true });
-
-    this.dataService.getAllOptions().pipe(
+    return this.dataService.getAllOptions().pipe(
       tap(response =>
         response
           ? dispatch(new LoadOptionsSuccess(response))
           : dispatch(new LoadOptionsFailure('eish...'))
       ),
-      catchError(error => of(new LoadOptionsFailure(error.message)))
+      catchError(error => of(dispatch(new LoadOptionsFailure(error.message))))
     );
   }
 
   @Action(LoadOptionsSuccess)
-  signedIn(
-    { patchState }: StateContext<OptionsStateModel>,
+  optionsLoaded(
+    { setState }: StateContext<OptionsStateModel>,
     { payload }: LoadOptionsSuccess
   ) {
-    patchState({ values: payload, isLoading: false });
+    setState({ values: payload, isLoading: false, error: null });
     this.snackBar.open('SUCCESS', 'Options operation is a success', {
-      duration: this.snackBarDuration
+      duration: this.snackBarDuration,
+      politeness: 'polite'
     });
   }
 
   @Action(LoadOptionsFailure)
-  signInFailed(
+  optionsFailed(
     { patchState }: StateContext<OptionsStateModel>,
     { message }: LoadOptionsFailure
   ) {

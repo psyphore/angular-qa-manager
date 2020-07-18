@@ -1,4 +1,4 @@
-import { Me } from '../../shared/interfaces/security.interface';
+import { Me } from '@shared/interfaces/security.interface';
 
 export enum ActionTypes {
   LOAD_ME_REQUEST = '[Me] Load Request',

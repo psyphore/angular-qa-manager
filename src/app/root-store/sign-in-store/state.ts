@@ -1,10 +1,9 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { of } from 'rxjs';
-import { catchError, tap, switchMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AuthService } from '../../shared/services';
+import { AuthService } from '@shared/services';
 
 import {
   SigningIn,
@@ -14,7 +13,7 @@ import {
   SignOutSuccess,
   SignOutFailure
 } from './actions';
-import { SignIn } from '@shared/interfaces/security.interface';
+import { of } from 'rxjs';
 
 export interface SignInStateModel {
   token: string;
@@ -46,6 +45,11 @@ export class SignInState {
   }
 
   @Selector()
+  static isAuthenticated(state: SignInStateModel) {
+    return state.token && state.token.length !== 0;
+  }
+
+  @Selector()
   static getErrors(state: SignInStateModel) {
     return state.error;
   }
@@ -55,30 +59,31 @@ export class SignInState {
     return state.isLoading;
   }
 
-  @Action(SigningIn)
-  signIn(
+  @Action(SigningIn, { cancelUncompleted: true })
+  signingIn(
     { patchState, dispatch }: StateContext<SignInStateModel>,
     { payload }: SigningIn
   ) {
     patchState({ isLoading: true });
-    this.dataService.signIn(payload).pipe(
-      tap(response => {
-        patchState({
-          token: response.login.jwt,
-          isLoading: false,
-          error: null
-        });
-      }),
-      catchError(error => dispatch(new SignInFailure(error.message))),
-      mergeMap(() => dispatch(new SignInSuccess(null)))
+    return this.dataService.signInReactStyle(payload).pipe(
+      tap(data => (data ? dispatch(new SignInSuccess(data)) : null)),
+      catchError(error => of(dispatch(new SignInFailure(error.message))))
     );
   }
 
   @Action(SignInSuccess)
-  signedIn({ patchState }: StateContext<SignInStateModel>) {
-    patchState({ isLoading: false, error: null });
+  signedIn(
+    { setState }: StateContext<SignInStateModel>,
+    { payload }: SignInSuccess
+  ) {
+    setState({
+      token: payload.login.jwt,
+      isLoading: false,
+      error: null
+    });
     this.snackBar.open('SUCCESS', 'SignIn operation is a success', {
-      duration: this.snackBarDuration
+      duration: this.snackBarDuration,
+      politeness: 'polite'
     });
     this.router.navigate(['security/me']);
   }
@@ -98,6 +103,8 @@ export class SignInState {
   @Action(SigningOut)
   signOut({ patchState, dispatch }: StateContext<SignInStateModel>) {
     patchState({ isLoading: true });
+    const apollo = this.dataService.getApollo();
+    apollo.resetStore();
     return dispatch(new SignOutSuccess());
   }
 
