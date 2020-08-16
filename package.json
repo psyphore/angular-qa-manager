@@ -13,7 +13,7 @@
   },
   "scripts": {
     "ng": "./node_modules/.bin/ng",
-    "postinstallx": "ngc -p ./angular-metadata.tsconfig.json",
+    "postinstall": "ngcc",
     "start": "./node_modules/.bin/ng serve",
     "start-prod": "./node_modules/.bin/ng serve --prod",
     "build": "./node_modules/.bin/ng build",
