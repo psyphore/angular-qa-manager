@@ -1,12 +1,12 @@
 export * from './basic.graphql';
 
-export * from './release.queries';
-export * from './release.mutations';
+export * from './releases/release.queries';
+export * from './releases/release.mutations';
 
-export * from './issue.queries';
-export * from './issue.mutations';
+export * from './stories/issue.queries';
+export * from './stories/issue.mutations';
 
 export * from './person.queries';
 
-export * from './security.mutations';
-export * from './security.queries';
+export * from './securities/security.mutations';
+export * from './securities/security.queries';

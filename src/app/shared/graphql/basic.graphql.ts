@@ -16,59 +16,36 @@ export interface BasicQueryResponse {
 }
 
 export const BASIC_QUERY = gql`
-  query allPosts {
-    releases {
-      id
-      projectName
-      releaseName
-      issues {
-        summary
-        description
-        points
-      }
+  query AllReleased {
+  Release(first: 10) {
+    id
+    name
+    description
+    version
+    storys(first: 5) {
+      summary
+      points
+      type
     }
   }
+}
 `;
 
 export const GET_ALL_ENUMS_QUERY = gql`
   query getOptions {
-    statuses {
-      id
-      name
-    }
-    systems {
-      id
-      name
-    }
-    environments {
-      id
-      name
-    }
-  }
-`;
-
-export const GET_ENVIRONMENTS_QUERY = gql`
-  query getEnvironmentEnums {
-    environments {
-      id
-      name
-    }
-  }
-`;
-
-export const GET_STATUSES_QUERY = gql`
-  query getStatusEnums {
-    statuses {
-      id
-      name
-    }
-  }
-`;
-
-export const GET_SYSTEMS_QUERY = gql`
-  query getSystemEnums {
-    systems {
-      id
+    # statuses {
+    #   id
+    #   name
+    # }
+    # systems {
+    #   id
+    #   name
+    # }
+    # environments {
+    #   id
+    #   name
+    # }
+    User {
       name
     }
   }
