@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 
 export const ISSUE_FIELDS = gql`
   fragment basicIssueFields on Story {

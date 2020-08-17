@@ -1,4 +1,4 @@
-import { EnumsResponse } from '@models/enums.interface';
+// import { EnumsResponse } from '@models/enums.interface';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { GET_ALL_ENUMS_QUERY } from '@shared/graphql';
@@ -9,9 +9,9 @@ import { map } from 'rxjs/operators';
 export class GeneralServices {
   constructor(private apollo: Apollo) { }
 
-  public getAllOptions(): Observable<EnumsResponse> {
+  public getAllOptions(): Observable<any> {
     return this.apollo
-      .watchQuery<EnumsResponse>({
+      .watchQuery<any>({
         query: GET_ALL_ENUMS_QUERY
       })
       .valueChanges.pipe(map(({ data }) => data));

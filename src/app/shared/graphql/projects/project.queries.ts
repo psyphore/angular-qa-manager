@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 
 export const PROJECT_FIELDS = gql`
   fragment basicProjectFields on Project {

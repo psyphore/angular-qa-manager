@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 import { PROJECT_FIELDS } from './project.queries';
 
 export const CREATE_PROJECT = gql`
