@@ -1,22 +1,22 @@
 import gql from 'graphql-tag';
+import { PERSON_FIELDS } from '../person.queries';
 
 export const BASIC_USER_FIELDS = gql`
-  fragment basicUserFields on UsersPermissionsMe {
+  fragment basicUserFields on Security {
     id
-    username
-    email
+    created
+    user {
+      ...basicPersonFields
+    }
     confirmed
     blocked
-    role {
-      id
-      name
-    }
   }
+  ${PERSON_FIELDS}
 `;
 
 export const GET_PROFILE_QUERY = gql`
   query getProfile {
-    me {
+    Security {
       ...basicUserFields
     }
   }

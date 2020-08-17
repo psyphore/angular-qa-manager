@@ -1,35 +1,16 @@
 import gql from 'graphql-tag';
 
-export const AVATAR_FIELDS = gql`
-  fragment basicAvatarFields on UploadFile {
-    sha256
-    url
-    mime
-    ext
-  }
-`;
-
 export const PERSON_FIELDS = gql`
-  fragment basicPersonFields on Person {
+  fragment basicPersonFields on User {
     id
-    title
-    firstname
-    lastname
+    name
     email
-    mobile
-    avatar {
-      ...basicAvatarFields
-    }
-    knownAs
-    bio
   }
-
-  ${AVATAR_FIELDS}
 `;
 
 export const GET_PERSON_QUERY = gql`
-  query getPerson($id: ID!) {
-    person(id: $id) {
+  query getPerson($id: String!) {
+    User(id: $id) {
       ...basicPersonFields
     }
   }
@@ -39,11 +20,8 @@ export const GET_PERSON_QUERY = gql`
 
 export const GET_ALL_PEOPLE_QUERY = gql`
   query getPeeps {
-    people {
+    User {
       ...basicPersonFields
-      avatar {
-        url
-      }
     }
   }
   ${PERSON_FIELDS}

@@ -9,8 +9,8 @@ import gql from 'graphql-tag';
 }
  */
 export const SIGN_IN_MUTATION = gql`
-  mutation signin($creds: UsersPermissionsLoginInput!) {
-    login(input: $creds) {
+  mutation signin($username: String!, $password: String!) {
+    Security(username: $username, password: $password) {
       jwt
     }
   }
