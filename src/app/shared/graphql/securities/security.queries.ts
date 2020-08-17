@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 import { PERSON_FIELDS } from '../person.queries';
 
 export const BASIC_USER_FIELDS = gql`

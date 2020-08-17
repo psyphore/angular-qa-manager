@@ -8,7 +8,8 @@ import { HeaderInterceptor } from './interceptors/auth.interceptor';
 
 import { EmojiDirective } from './directives';
 import {
-  StatusIconTranslatorPipe
+  StatusIconTranslatorPipe,
+  SelectPipe
 } from './pipes';
 import {
   ProjectsService,
@@ -19,7 +20,7 @@ import {
 } from './services';
 import { AuthGuard } from './guards';
 
-const COMPONENTS = [EmojiDirective, StatusIconTranslatorPipe];
+const COMPONENTS = [EmojiDirective, StatusIconTranslatorPipe, SelectPipe];
 const SERVICES = [
   AuthService,
   AuthGuard,

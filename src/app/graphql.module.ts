@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
-import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { from } from 'apollo-link';
-import { onError } from 'apollo-link-error';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/cache';
+import { from } from '@apollo/client/core';
+import { onError } from '@apollo/client/link/error';
 
 import { environment } from '@environments/environment';
 
@@ -40,7 +40,7 @@ export function provideApollo(httpLink: HttpLink) {
 }
 
 @NgModule({
-  exports: [HttpClientModule, ApolloModule, HttpLinkModule],
+  exports: [HttpClientModule],
   providers: [
     {
       provide: APOLLO_OPTIONS,
@@ -49,4 +49,4 @@ export function provideApollo(httpLink: HttpLink) {
     }
   ]
 })
-export class GraphQLModule {}
+export class GraphQLModule { }

@@ -124,7 +124,7 @@ export class SharedMaterialModule {
     }
   }
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedMaterialModule> {
     return {
       ngModule: SharedMaterialModule,
       providers: [

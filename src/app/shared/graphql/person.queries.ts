@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 
 export const PERSON_FIELDS = gql`
   fragment basicPersonFields on User {

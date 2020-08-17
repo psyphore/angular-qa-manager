@@ -1,5 +1,5 @@
 import { RELEASE_FIELDS } from './release.queries';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 
 export const ADD_RELEASE_MUTATION = gql`
   mutation addRelease(
