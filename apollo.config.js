@@ -1,4 +1,4 @@
-const url = 'http://localhost:4001/graphql';
+const url = 'http://localhost:5000/playground';
 module.exports = {
   client: {
     service: {
